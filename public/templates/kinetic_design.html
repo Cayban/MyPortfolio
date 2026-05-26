@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KINETIC Fitness — Premium Luxury</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Barlow:wght@300;400;600;700&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&amp;family=Space+Mono:wght@400;700&amp;family=Rajdhani:wght@400;600;700&amp;family=Lexend:wght@200;400;700&amp;display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--switcher-h:56px}
+  body{font-family:sans-serif;background:#111;min-height:100vh}
+
+  /* ─── Switcher Bar ─── */
+  #switcher{
+    position:fixed;top:0;left:0;right:0;z-index:9999;
+    height:var(--switcher-h);
+    background:#0a0a0a;
+    border-bottom:1px solid #222;
+    display:flex;align-items:center;gap:8px;padding:0 20px;
+  }
+  #switcher span{color:#555;font-size:11px;text-transform:uppercase;letter-spacing:2px;margin-right:8px}
+  .sw-btn{
+    padding:7px 18px;border:1px solid #333;background:transparent;color:#666;
+    border-radius:4px;cursor:pointer;font-size:12px;letter-spacing:1px;
+    text-transform:uppercase;transition:all .2s;white-space:nowrap;
+  }
+  .sw-btn:hover{border-color:#666;color:#aaa}
+  .sw-btn.active{background:#fff;border-color:#fff;color:#000}
+
+  /* ─── Design containers ─── */
+  .design{display:none;margin-top:var(--switcher-h)}
+  .design.active{display:block}
+
+  /* ══════════════════════════════════════════
+     DESIGN 1 — FORGE (Industrial Brutalist)
+     Black + raw orange + concrete texture
+  ══════════════════════════════════════════ */
+  #d1{background:#0d0d0d;color:#f0ece4;font-family:'Barlow',sans-serif;overflow-x:hidden}
+
+  /* Noise texture overlay */
+  #d1::before{
+    content:'';position:fixed;top:0;left:0;right:0;bottom:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;z-index:0;opacity:.5;
+  }
+
+  #d1 .hero{
+    min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+    position:relative;overflow:hidden;
+  }
+  #d1 .hero-left{
+    background:#0d0d0d;
+    padding:80px 60px 80px 80px;
+    display:flex;flex-direction:column;justify-content:center;
+    position:relative;z-index:1;
+  }
+  #d1 .hero-left::after{
+    content:'';position:absolute;right:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(to bottom,transparent,#ff4500,transparent);
+  }
+  #d1 .hero-right{
+    background:#111;
+    position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #d1 .hero-right::before{
+    content:'FORGE';
+    font-family:'Bebas Neue',sans-serif;
+    font-size:320px;color:#ff4500;opacity:.06;
+    position:absolute;letter-spacing:-10px;
+    white-space:nowrap;
+  }
+  #d1 .hero-right svg{position:relative;z-index:1}
+  #d1 .tag{
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:#ff4500;margin-bottom:24px;display:flex;align-items:center;gap:12px;
+  }
+  #d1 .tag::before{content:'';display:block;width:40px;height:1px;background:#ff4500}
+  #d1 h1{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(80px,10vw,130px);
+    line-height:.9;color:#f0ece4;
+    letter-spacing:2px;margin-bottom:32px;
+  }
+  #d1 h1 em{color:#ff4500;font-style:normal;display:block}
+  #d1 .hero-desc{
+    font-size:16px;font-weight:300;line-height:1.7;
+    color:#888;max-width:380px;margin-bottom:48px;
+  }
+  #d1 .cta-row{display:flex;gap:16px;align-items:center}
+  #d1 .btn-primary{
+    background:#ff4500;color:#fff;
+    padding:16px 40px;font-family:'Barlow',sans-serif;
+    font-size:13px;font-weight:700;letter-spacing:2px;
+    text-transform:uppercase;border:none;cursor:pointer;
+    clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+    transition:all .2s;
+  }
+  #d1 .btn-primary:hover{background:#ff6020}
+  #d1 .btn-ghost{
+    color:#f0ece4;font-size:13px;font-weight:600;letter-spacing:2px;
+    text-transform:uppercase;background:none;border:none;cursor:pointer;
+    display:flex;align-items:center;gap:8px;opacity:.6;transition:.2s;
+  }
+  #d1 .btn-ghost:hover{opacity:1}
+  #d1 .btn-ghost span{
+    width:32px;height:32px;border:1px solid #444;
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+  }
+  #d1 .stats-bar{
+    background:#111;border-top:1px solid #1e1e1e;
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  #d1 .stat{
+    padding:32px 40px;border-right:1px solid #1e1e1e;
+    position:relative;
+  }
+  #d1 .stat:last-child{border-right:none}
+  #d1 .stat-n{
+    font-family:'Bebas Neue',sans-serif;font-size:52px;
+    color:#ff4500;line-height:1;
+  }
+  #d1 .stat-l{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:4px}
+
+  #d1 section{padding:100px 80px;position:relative;z-index:1}
+  #d1 .section-label{
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:#ff4500;margin-bottom:16px;
+  }
+  #d1 .section-title{
+    font-family:'Bebas Neue',sans-serif;font-size:72px;
+    line-height:.95;margin-bottom:60px;
+  }
+  #d1 .section-title span{-webkit-text-stroke:1px #333;color:transparent}
+
+  #d1 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+  #d1 .plan{
+    background:#111;padding:50px 40px;
+    border-top:3px solid #1e1e1e;
+    transition:border-color .3s;cursor:pointer;
+  }
+  #d1 .plan:hover{border-top-color:#ff4500}
+  #d1 .plan.featured{border-top-color:#ff4500;background:#161616}
+  #d1 .plan-name{
+    font-family:'Bebas Neue',sans-serif;font-size:36px;
+    margin-bottom:8px;letter-spacing:2px;
+  }
+  #d1 .plan-tier{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:32px}
+  #d1 .plan-price{
+    font-family:'Bebas Neue',sans-serif;font-size:72px;
+    color:#ff4500;line-height:1;
+    display:flex;align-items:flex-start;gap:4px;
+  }
+  #d1 .plan-price sup{font-size:28px;margin-top:12px}
+  #d1 .plan-sub{font-size:12px;color:#555;letter-spacing:1px;margin-bottom:32px}
+  #d1 .plan-divider{height:1px;background:#1e1e1e;margin-bottom:32px}
+  #d1 .plan-features{list-style:none}
+  #d1 .plan-features li{
+    font-size:14px;color:#888;padding:8px 0;
+    border-bottom:1px solid #1a1a1a;
+    display:flex;align-items:center;gap:10px;
+  }
+  #d1 .plan-features li::before{content:'—';color:#ff4500;font-size:16px}
+
+  #d1 .schedule-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:40px}
+  #d1 .sched-day{background:#111}
+  #d1 .sched-header{
+    background:#ff4500;padding:12px;
+    font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+    text-align:center;color:#fff;
+  }
+  #d1 .sched-class{
+    padding:12px 16px;border-bottom:1px solid #1a1a1a;
+  }
+  #d1 .sched-time{font-size:11px;color:#555;letter-spacing:1px}
+  #d1 .sched-name{font-size:13px;font-weight:600;margin-top:2px}
+  #d1 .sched-trainer{font-size:11px;color:#666;margin-top:2px}
+
+  #d1 .trainers{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+  #d1 .trainer{background:#111;position:relative;overflow:hidden;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:flex-end}
+  #d1 .trainer-bg{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  #d1 .trainer-icon{
+    font-size:180px;opacity:.07;
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  }
+  #d1 .trainer-gradient{
+    position:absolute;bottom:0;left:0;right:0;height:70%;
+    background:linear-gradient(to top,#111 0%,transparent 100%);
+  }
+  #d1 .trainer-info{position:relative;z-index:1;padding:32px}
+  #d1 .trainer-name{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px}
+  #d1 .trainer-spec{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#ff4500;margin-top:4px}
+
+  #d1 .contact-section{
+    background:#111;
+    display:grid;grid-template-columns:1fr 1fr;gap:0;
+    border-top:1px solid #1e1e1e;
+  }
+  #d1 .contact-left{
+    padding:80px;border-right:1px solid #1e1e1e;
+  }
+  #d1 .contact-right{
+    padding:80px;background:#0d0d0d;
+  }
+  #d1 .form-group{margin-bottom:24px}
+  #d1 .form-group label{
+    display:block;font-size:11px;letter-spacing:3px;
+    text-transform:uppercase;color:#555;margin-bottom:8px;
+  }
+  #d1 .form-group input, #d1 .form-group select{
+    width:100%;background:transparent;border:none;
+    border-bottom:1px solid #2a2a2a;padding:12px 0;
+    color:#f0ece4;font-family:'Barlow',sans-serif;font-size:16px;
+    outline:none;transition:border-color .2s;
+  }
+  #d1 .form-group input:focus, #d1 .form-group select:focus{border-bottom-color:#ff4500}
+  #d1 .form-group select option{background:#111}
+  #d1 .contact-info-item{
+    display:flex;gap:24px;margin-bottom:40px;align-items:flex-start;
+  }
+  #d1 .ci-icon{
+    width:48px;height:48px;border:1px solid #2a2a2a;
+    display:flex;align-items:center;justify-content:center;
+    color:#ff4500;font-size:20px;flex-shrink:0;
+  }
+  #d1 .ci-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:4px}
+  #d1 .ci-value{font-size:15px;color:#f0ece4;line-height:1.5}
+  #d1 .footer-bar{
+    background:#0a0a0a;padding:24px 80px;
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid #1a1a1a;
+  }
+  #d1 .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:#ff4500}
+  #d1 .footer-copy{font-size:12px;color:#333;letter-spacing:1px}
+
+  /* ══════════════════════════════════════════
+     DESIGN 2 — KINETIC (Premium Luxury)
+     Cream + deep forest green + gold accents
+  ══════════════════════════════════════════ */
+  #d2{background:#f5f2eb;color:#1a2418;font-family:'Cormorant Garamond',serif;overflow-x:hidden}
+
+  #d2 nav{
+    padding:0 60px;height:80px;
+    display:flex;align-items:center;justify-content:space-between;
+    background:#f5f2eb;border-bottom:1px solid rgba(26,36,24,.1);
+    position:sticky;top:0;z-index:100;
+  }
+  #d2 .nav-logo{
+    font-family:'Playfair Display',serif;
+    font-size:22px;letter-spacing:4px;text-transform:uppercase;
+    color:#1a2418;
+  }
+  #d2 .nav-links{display:flex;gap:40px;list-style:none}
+  #d2 .nav-links a{
+    font-family:'Barlow',sans-serif;font-size:12px;
+    letter-spacing:2px;text-transform:uppercase;
+    text-decoration:none;color:#1a2418;opacity:.6;transition:.2s;
+  }
+  #d2 .nav-links a:hover{opacity:1}
+  #d2 .nav-cta{
+    background:#1a2418;color:#f5f2eb;
+    padding:12px 28px;font-family:'Barlow',sans-serif;
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    border:none;cursor:pointer;transition:.2s;
+  }
+  #d2 .nav-cta:hover{background:#2d3e2a}
+
+  #d2 .hero{
+    display:grid;grid-template-columns:1.2fr .8fr;
+    min-height:calc(100vh - 80px);
+  }
+  #d2 .hero-left{
+    padding:100px 80px;
+    display:flex;flex-direction:column;justify-content:center;
+    position:relative;
+  }
+  #d2 .hero-ornament{
+    font-family:'Playfair Display',serif;
+    font-size:320px;color:#1a2418;opacity:.04;
+    position:absolute;top:-40px;left:-20px;line-height:1;
+    pointer-events:none;font-style:italic;
+  }
+  #d2 .hero-tag{
+    font-family:'Barlow',sans-serif;
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:#8a7e52;margin-bottom:40px;
+    display:flex;align-items:center;gap:16px;
+  }
+  #d2 .hero-tag::before{content:'';width:60px;height:1px;background:#8a7e52}
+  #d2 h1{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(64px,8vw,100px);
+    line-height:1.0;font-weight:700;
+    color:#1a2418;margin-bottom:12px;
+  }
+  #d2 h1 em{
+    font-style:italic;color:#8a7e52;display:block;
+    font-weight:400;font-size:.7em;
+  }
+  #d2 .hero-sub{
+    font-family:'Barlow',sans-serif;
+    font-size:15px;line-height:1.8;
+    color:rgba(26,36,24,.5);max-width:420px;
+    margin-bottom:60px;margin-top:32px;font-weight:300;
+  }
+  #d2 .cta-pair{display:flex;gap:20px;align-items:center}
+  #d2 .btn-gold{
+    background:#8a7e52;color:#f5f2eb;
+    padding:16px 48px;font-family:'Barlow',sans-serif;
+    font-size:12px;letter-spacing:3px;text-transform:uppercase;
+    border:none;cursor:pointer;transition:.2s;
+  }
+  #d2 .btn-gold:hover{background:#9e9065}
+  #d2 .btn-outline-dark{
+    background:transparent;color:#1a2418;
+    padding:15px 48px;font-family:'Barlow',sans-serif;
+    font-size:12px;letter-spacing:3px;text-transform:uppercase;
+    border:1px solid rgba(26,36,24,.3);cursor:pointer;transition:.2s;
+  }
+  #d2 .btn-outline-dark:hover{border-color:#1a2418}
+  #d2 .hero-right{
+    background:#1a2418;position:relative;overflow:hidden;
+  }
+  #d2 .hero-right-inner{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  #d2 .hero-accent-word{
+    font-family:'Playfair Display',serif;
+    font-size:200px;color:#f5f2eb;opacity:.03;
+    position:absolute;
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    letter-spacing:20px;
+    font-style:italic;
+  }
+  #d2 .hero-stats{
+    position:relative;z-index:1;
+    padding:60px;display:flex;flex-direction:column;gap:40px;
+  }
+  #d2 .hs{border-left:2px solid #8a7e52;padding-left:24px}
+  #d2 .hs-n{
+    font-family:'Playfair Display',serif;
+    font-size:56px;color:#f5f2eb;line-height:1;
+  }
+  #d2 .hs-n span{font-size:32px;color:#8a7e52}
+  #d2 .hs-l{
+    font-family:'Barlow',sans-serif;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:rgba(245,242,235,.4);margin-top:4px;
+  }
+
+  #d2 section{padding:120px 80px;position:relative}
+  #d2 .sec-eyebrow{
+    font-family:'Barlow',sans-serif;
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:#8a7e52;margin-bottom:20px;
+  }
+  #d2 .sec-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(48px,5vw,72px);
+    line-height:1.1;margin-bottom:16px;
+    color:#1a2418;
+  }
+  #d2 .sec-title em{font-style:italic;color:#8a7e52}
+  #d2 .sec-body{
+    font-family:'Barlow',sans-serif;
+    font-size:16px;line-height:1.8;color:rgba(26,36,24,.55);font-weight:300;
+    max-width:520px;margin-bottom:60px;
+  }
+
+  #d2 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  #d2 .plan{
+    border:1px solid rgba(26,36,24,.1);
+    padding:48px 40px;
+    position:relative;transition:.3s;
+    background:#f5f2eb;
+  }
+  #d2 .plan.featured{
+    background:#1a2418;color:#f5f2eb;
+    border-color:#1a2418;
+  }
+  #d2 .plan:hover{transform:translateY(-4px)}
+  #d2 .plan-crown{
+    position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+    background:#8a7e52;color:#fff;
+    font-family:'Barlow',sans-serif;
+    font-size:10px;letter-spacing:2px;text-transform:uppercase;
+    padding:6px 20px;
+  }
+  #d2 .plan-name{
+    font-family:'Playfair Display',serif;
+    font-size:32px;margin-bottom:6px;
+  }
+  #d2 .plan.featured .plan-name{color:#f5f2eb}
+  #d2 .plan-tier{
+    font-family:'Barlow',sans-serif;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:#8a7e52;margin-bottom:40px;
+  }
+  #d2 .plan-price{
+    font-family:'Playfair Display',serif;
+    font-size:64px;line-height:1;margin-bottom:8px;
+    color:#1a2418;
+  }
+  #d2 .plan.featured .plan-price{color:#f5f2eb}
+  #d2 .plan-sub{
+    font-family:'Barlow',sans-serif;
+    font-size:12px;color:rgba(26,36,24,.4);
+    margin-bottom:32px;
+  }
+  #d2 .plan.featured .plan-sub{color:rgba(245,242,235,.4)}
+  #d2 .plan-line{height:1px;background:rgba(26,36,24,.1);margin-bottom:32px}
+  #d2 .plan.featured .plan-line{background:rgba(245,242,235,.1)}
+  #d2 .plan-features{list-style:none}
+  #d2 .plan-features li{
+    font-family:'Barlow',sans-serif;
+    font-size:14px;color:rgba(26,36,24,.6);
+    padding:8px 0;display:flex;gap:12px;align-items:flex-start;
+    border-bottom:1px solid rgba(26,36,24,.06);
+  }
+  #d2 .plan.featured .plan-features li{color:rgba(245,242,235,.6);border-bottom-color:rgba(245,242,235,.06)}
+  #d2 .plan-features li::before{content:'✦';color:#8a7e52;font-size:10px;margin-top:2px}
+  #d2 .plan-btn{
+    margin-top:32px;width:100%;padding:14px;
+    background:transparent;border:1px solid rgba(26,36,24,.2);
+    font-family:'Barlow',sans-serif;font-size:12px;
+    letter-spacing:2px;text-transform:uppercase;
+    cursor:pointer;transition:.2s;color:#1a2418;
+  }
+  #d2 .plan.featured .plan-btn{
+    background:#8a7e52;border-color:#8a7e52;color:#fff;
+  }
+  #d2 .plan-btn:hover{border-color:#1a2418}
+  #d2 .plan.featured .plan-btn:hover{background:#9e9065}
+
+  #d2 .schedule-layout{display:grid;grid-template-columns:1fr 2fr;gap:60px;align-items:start}
+  #d2 .schedule-intro p{
+    font-family:'Barlow',sans-serif;
+    font-size:14px;line-height:1.8;color:rgba(26,36,24,.55);
+    font-weight:300;margin-top:24px;
+  }
+  #d2 .schedule-table{border:1px solid rgba(26,36,24,.1)}
+  #d2 .schedule-row{
+    display:grid;grid-template-columns:120px 1fr auto auto;
+    padding:20px 32px;border-bottom:1px solid rgba(26,36,24,.06);
+    align-items:center;gap:24px;
+  }
+  #d2 .schedule-row:last-child{border-bottom:none}
+  #d2 .schedule-row.header{
+    background:rgba(26,36,24,.04);
+    font-family:'Barlow',sans-serif;
+    font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:rgba(26,36,24,.4);padding:14px 32px;
+  }
+  #d2 .sr-time{font-family:'Barlow',sans-serif;font-size:13px;color:#8a7e52;font-weight:600}
+  #d2 .sr-name{font-family:'Playfair Display',serif;font-size:20px}
+  #d2 .sr-trainer{font-family:'Barlow',sans-serif;font-size:13px;color:rgba(26,36,24,.4)}
+  #d2 .sr-badge{
+    font-family:'Barlow',sans-serif;
+    font-size:10px;letter-spacing:2px;text-transform:uppercase;
+    padding:4px 12px;background:rgba(138,126,82,.12);color:#8a7e52;
+    border:1px solid rgba(138,126,82,.3);white-space:nowrap;
+  }
+
+  #d2 .trainers{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+  #d2 .trainer{background:#1a2418;padding:48px 40px;position:relative;overflow:hidden}
+  #d2 .trainer-ornament{
+    font-family:'Playfair Display',serif;
+    font-size:120px;color:#f5f2eb;opacity:.04;
+    position:absolute;bottom:-20px;right:-10px;font-style:italic;
+  }
+  #d2 .trainer-num{
+    font-family:'Playfair Display',serif;
+    font-size:13px;color:#8a7e52;margin-bottom:40px;font-style:italic;
+  }
+  #d2 .trainer-name{
+    font-family:'Playfair Display',serif;
+    font-size:32px;color:#f5f2eb;margin-bottom:8px;
+  }
+  #d2 .trainer-spec{
+    font-family:'Barlow',sans-serif;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:#8a7e52;
+  }
+  #d2 .trainer-bio{
+    font-family:'Barlow',sans-serif;
+    font-size:13px;line-height:1.7;
+    color:rgba(245,242,235,.4);margin-top:24px;font-weight:300;
+  }
+
+  #d2 .gallery-section{background:#1a2418;padding:120px 80px}
+  #d2 .gallery-section .sec-title{color:#f5f2eb}
+  #d2 .gallery-section .sec-eyebrow{color:#8a7e52}
+  #d2 .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:300px 300px;
+    gap:2px;
+  }
+  #d2 .gallery-item{
+    position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    background:#0e1a0c;
+  }
+  #d2 .gallery-item:first-child{grid-row:span 2}
+  #d2 .gallery-placeholder{
+    font-family:'Playfair Display',serif;
+    font-size:80px;color:#f5f2eb;opacity:.04;
+    font-style:italic;
+  }
+  #d2 .gallery-caption{
+    position:absolute;bottom:0;left:0;right:0;
+    padding:20px 24px;
+    background:linear-gradient(to top,rgba(14,26,12,.9),transparent);
+    font-family:'Barlow',sans-serif;
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    color:rgba(245,242,235,.6);
+  }
+
+  #d2 .contact-section{padding:120px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px}
+  #d2 .contact-form-wrap{}
+  #d2 .d2-input{
+    width:100%;background:transparent;
+    border:none;border-bottom:1px solid rgba(26,36,24,.2);
+    padding:16px 0;font-family:'Cormorant Garamond',serif;
+    font-size:18px;color:#1a2418;outline:none;
+    transition:border-color .2s;margin-bottom:32px;display:block;
+  }
+  #d2 .d2-input:focus{border-bottom-color:#8a7e52}
+  #d2 .d2-input::placeholder{color:rgba(26,36,24,.3)}
+  #d2 .contact-aside{}
+  #d2 .ca-item{margin-bottom:48px}
+  #d2 .ca-label{
+    font-family:'Barlow',sans-serif;
+    font-size:10px;letter-spacing:4px;text-transform:uppercase;
+    color:#8a7e52;margin-bottom:8px;
+  }
+  #d2 .ca-val{
+    font-family:'Playfair Display',serif;
+    font-size:22px;line-height:1.4;color:#1a2418;
+  }
+  #d2 footer{
+    background:#1a2418;padding:40px 80px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  #d2 .foot-logo{
+    font-family:'Playfair Display',serif;
+    font-size:24px;color:#f5f2eb;letter-spacing:3px;
+    text-transform:uppercase;font-style:italic;
+  }
+  #d2 .foot-copy{
+    font-family:'Barlow',sans-serif;
+    font-size:12px;color:rgba(245,242,235,.3);letter-spacing:1px;
+  }
+
+  /* ══════════════════════════════════════════
+     DESIGN 3 — PUMP (Starter · Neon Cyber)
+     Near-black + electric cyan + magenta
+  ══════════════════════════════════════════ */
+  #d3{background:#06060f;color:#e8e8f8;font-family:'Rajdhani',sans-serif;overflow-x:hidden}
+
+  #d3 nav{
+    height:64px;padding:0 40px;
+    display:flex;align-items:center;justify-content:space-between;
+    background:rgba(6,6,15,.8);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(0,230,255,.1);
+    position:sticky;top:0;z-index:100;
+  }
+  #d3 .nav-logo{
+    font-family:'Space Mono',monospace;
+    font-size:18px;letter-spacing:3px;
+    color:#00e6ff;text-transform:uppercase;
+  }
+  #d3 .nav-links{display:flex;gap:32px;list-style:none}
+  #d3 .nav-links a{
+    font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    text-decoration:none;color:rgba(232,232,248,.5);transition:.2s;
+  }
+  #d3 .nav-links a:hover{color:#00e6ff}
+  #d3 .nav-cta{
+    background:transparent;color:#00e6ff;
+    padding:8px 24px;font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    border:1px solid #00e6ff;cursor:pointer;transition:.2s;
+    clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  }
+  #d3 .nav-cta:hover{background:rgba(0,230,255,.1)}
+
+  #d3 .hero{
+    min-height:calc(100vh - 64px);
+    display:flex;flex-direction:column;justify-content:center;
+    align-items:center;text-align:center;
+    position:relative;overflow:hidden;
+    padding:80px 40px;
+  }
+  #d3 .hero-grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(0,230,255,.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,230,255,.04) 1px,transparent 1px);
+    background-size:60px 60px;
+  }
+  #d3 .hero-glow{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:600px;height:600px;
+    background:radial-gradient(circle,rgba(0,230,255,.06) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  #d3 .hero-tag{
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:3px;
+    color:#00e6ff;margin-bottom:32px;
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid rgba(0,230,255,.2);
+    padding:8px 20px;position:relative;
+  }
+  #d3 .hero-tag::before{
+    content:'';width:6px;height:6px;
+    background:#00e6ff;border-radius:50%;
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+  #d3 h1{
+    font-family:'Space Mono',monospace;
+    font-size:clamp(40px,7vw,90px);
+    line-height:1;letter-spacing:-2px;
+    position:relative;margin-bottom:8px;
+  }
+  #d3 h1 .line1{color:#e8e8f8;display:block}
+  #d3 h1 .line2{
+    color:transparent;
+    -webkit-text-stroke:1px rgba(0,230,255,.6);
+    display:block;
+  }
+  #d3 .hero-desc{
+    font-family:'Lexend',sans-serif;
+    font-size:16px;line-height:1.7;
+    color:rgba(232,232,248,.4);max-width:480px;
+    margin:24px auto 48px;font-weight:200;
+  }
+  #d3 .cta-cluster{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  #d3 .btn-neon{
+    background:rgba(0,230,255,.08);color:#00e6ff;
+    padding:16px 40px;font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    border:1px solid rgba(0,230,255,.4);cursor:pointer;
+    transition:.2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  }
+  #d3 .btn-neon:hover{background:rgba(0,230,255,.15);border-color:#00e6ff}
+  #d3 .btn-outline{
+    background:transparent;color:rgba(232,232,248,.6);
+    padding:15px 40px;font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    border:1px solid rgba(232,232,248,.15);cursor:pointer;transition:.2s;
+  }
+  #d3 .btn-outline:hover{border-color:rgba(232,232,248,.4);color:#e8e8f8}
+  #d3 .hero-ticker{
+    position:absolute;bottom:0;left:0;right:0;
+    background:rgba(0,230,255,.05);
+    border-top:1px solid rgba(0,230,255,.1);
+    padding:12px 0;overflow:hidden;
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:rgba(0,230,255,.5);white-space:nowrap;
+  }
+  #d3 .ticker-inner{
+    display:inline-block;
+    animation:marquee 30s linear infinite;
+  }
+  @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  #d3 section{padding:80px 60px;position:relative}
+  #d3 .sec-eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:10px;letter-spacing:4px;text-transform:uppercase;
+    color:#00e6ff;margin-bottom:16px;
+  }
+  #d3 .sec-title{
+    font-family:'Space Mono',monospace;
+    font-size:clamp(32px,4vw,52px);
+    line-height:1.1;margin-bottom:48px;color:#e8e8f8;
+  }
+  #d3 .sec-title .accent{color:#00e6ff}
+
+  #d3 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,230,255,.1)}
+  #d3 .plan{
+    background:#06060f;padding:48px 36px;position:relative;overflow:hidden;
+    transition:.3s;
+  }
+  #d3 .plan::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:rgba(0,230,255,.2);
+  }
+  #d3 .plan.featured::before{background:#00e6ff;height:2px}
+  #d3 .plan.featured{background:#080814}
+  #d3 .plan:hover{background:#0a0a18}
+  #d3 .plan-corner{
+    position:absolute;bottom:0;right:0;
+    width:60px;height:60px;
+    border-left:1px solid rgba(0,230,255,.1);
+    border-top:1px solid rgba(0,230,255,.1);
+  }
+  #d3 .plan-featured-badge{
+    font-family:'Space Mono',monospace;
+    font-size:9px;letter-spacing:3px;text-transform:uppercase;
+    color:#00e6ff;margin-bottom:24px;
+    display:flex;align-items:center;gap:6px;
+  }
+  #d3 .plan-featured-badge::before{content:'◆';font-size:8px}
+  #d3 .plan-name{
+    font-family:'Space Mono',monospace;
+    font-size:24px;color:#e8e8f8;margin-bottom:6px;letter-spacing:2px;
+  }
+  #d3 .plan-tier{
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:rgba(232,232,248,.3);margin-bottom:40px;
+  }
+  #d3 .plan-price-row{margin-bottom:8px}
+  #d3 .plan-currency{
+    font-family:'Space Mono',monospace;
+    font-size:16px;color:#00e6ff;vertical-align:top;margin-top:8px;display:inline-block;
+  }
+  #d3 .plan-amount{
+    font-family:'Space Mono',monospace;
+    font-size:56px;color:#e8e8f8;line-height:1;
+  }
+  #d3 .plan-period{font-size:12px;color:rgba(232,232,248,.3);margin-bottom:32px}
+  #d3 .plan-divider{height:1px;background:rgba(0,230,255,.08);margin-bottom:32px}
+  #d3 .plan-features{list-style:none}
+  #d3 .plan-features li{
+    font-size:14px;color:rgba(232,232,248,.5);
+    padding:8px 0;display:flex;gap:10px;align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.03);
+  }
+  #d3 .plan-features li::before{content:'>';color:#00e6ff;font-family:'Space Mono',monospace}
+  #d3 .plan-cta{
+    margin-top:32px;width:100%;padding:12px;
+    background:transparent;color:#00e6ff;
+    font-family:'Space Mono',monospace;font-size:11px;
+    letter-spacing:2px;text-transform:uppercase;
+    border:1px solid rgba(0,230,255,.25);cursor:pointer;transition:.2s;
+  }
+  #d3 .plan.featured .plan-cta{
+    background:rgba(0,230,255,.1);border-color:rgba(0,230,255,.5);
+  }
+  #d3 .plan-cta:hover{background:rgba(0,230,255,.08);border-color:#00e6ff}
+
+  #d3 .schedule-wrap{background:#080814;border:1px solid rgba(0,230,255,.08);overflow:hidden}
+  #d3 .sched-tabs{
+    display:flex;border-bottom:1px solid rgba(0,230,255,.08);
+  }
+  #d3 .sched-tab{
+    padding:14px 28px;font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    color:rgba(232,232,248,.3);background:transparent;
+    border:none;border-right:1px solid rgba(0,230,255,.08);
+    cursor:pointer;transition:.2s;flex:1;text-align:center;
+  }
+  #d3 .sched-tab.active,#d3 .sched-tab:hover{color:#00e6ff;background:rgba(0,230,255,.04)}
+  #d3 .sched-item{
+    display:grid;grid-template-columns:100px 1fr auto;
+    padding:20px 32px;border-bottom:1px solid rgba(0,230,255,.05);
+    align-items:center;gap:24px;
+    transition:.2s;
+  }
+  #d3 .sched-item:hover{background:rgba(0,230,255,.03)}
+  #d3 .sched-time{
+    font-family:'Space Mono',monospace;
+    font-size:13px;color:#00e6ff;
+  }
+  #d3 .sched-info{}
+  #d3 .sched-cname{font-size:18px;font-weight:700;color:#e8e8f8;letter-spacing:1px}
+  #d3 .sched-trainer{font-size:13px;color:rgba(232,232,248,.4);margin-top:2px}
+  #d3 .sched-spots{
+    font-family:'Space Mono',monospace;
+    font-size:11px;color:rgba(0,230,255,.5);text-align:right;
+  }
+
+  #d3 .trainers{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,230,255,.08)}
+  #d3 .trainer{
+    background:#06060f;padding:40px 32px;
+    position:relative;overflow:hidden;
+  }
+  #d3 .trainer::after{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+    background:linear-gradient(to right,transparent,rgba(0,230,255,.3),transparent);
+  }
+  #d3 .trainer-num{
+    font-family:'Space Mono',monospace;
+    font-size:11px;color:rgba(0,230,255,.3);
+    margin-bottom:24px;letter-spacing:2px;
+  }
+  #d3 .trainer-avatar{
+    width:64px;height:64px;
+    border:1px solid rgba(0,230,255,.2);
+    margin-bottom:24px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Mono',monospace;font-size:22px;
+    color:#00e6ff;background:rgba(0,230,255,.05);
+  }
+  #d3 .trainer-name{
+    font-family:'Space Mono',monospace;
+    font-size:20px;color:#e8e8f8;margin-bottom:6px;letter-spacing:1px;
+  }
+  #d3 .trainer-spec{
+    font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:#00e6ff;margin-bottom:16px;
+  }
+  #d3 .trainer-tags{display:flex;flex-wrap:wrap;gap:6px}
+  #d3 .ttag{
+    font-family:'Space Mono',monospace;
+    font-size:10px;padding:3px 8px;
+    border:1px solid rgba(0,230,255,.15);
+    color:rgba(0,230,255,.5);letter-spacing:1px;
+  }
+
+  #d3 .cta-banner{
+    background:#080814;
+    border:1px solid rgba(0,230,255,.1);
+    margin:0 60px 80px;
+    padding:64px;
+    display:flex;align-items:center;justify-content:space-between;
+    position:relative;overflow:hidden;
+  }
+  #d3 .cta-banner::before{
+    content:'FREE TRIAL';
+    font-family:'Space Mono',monospace;
+    font-size:200px;color:#00e6ff;opacity:.02;
+    position:absolute;left:0;top:50%;transform:translateY(-50%);
+    letter-spacing:-10px;white-space:nowrap;
+    pointer-events:none;
+  }
+  #d3 .cta-left h2{
+    font-family:'Space Mono',monospace;
+    font-size:32px;color:#e8e8f8;margin-bottom:12px;
+  }
+  #d3 .cta-left p{
+    font-family:'Lexend',sans-serif;
+    font-size:15px;color:rgba(232,232,248,.4);font-weight:200;
+  }
+  #d3 .cta-right{display:flex;gap:16px;flex-shrink:0}
+
+  #d3 .contact-section{
+    padding:80px 60px;
+    display:grid;grid-template-columns:1fr 1fr;gap:80px;
+    background:#080814;border-top:1px solid rgba(0,230,255,.08);
+  }
+  #d3 .d3-input{
+    width:100%;background:rgba(0,230,255,.04);
+    border:1px solid rgba(0,230,255,.12);
+    padding:14px 16px;
+    font-family:'Space Mono',monospace;
+    font-size:13px;color:#e8e8f8;outline:none;
+    transition:border-color .2s;margin-bottom:16px;display:block;
+  }
+  #d3 .d3-input:focus{border-color:rgba(0,230,255,.4)}
+  #d3 .d3-input::placeholder{color:rgba(232,232,248,.2)}
+  #d3 .contact-info{}
+  #d3 .ci-item{
+    padding:24px 0;border-bottom:1px solid rgba(0,230,255,.06);
+    display:flex;gap:20px;align-items:flex-start;
+  }
+  #d3 .ci-icon{
+    width:40px;height:40px;
+    border:1px solid rgba(0,230,255,.15);
+    display:flex;align-items:center;justify-content:center;
+    color:#00e6ff;font-size:16px;flex-shrink:0;
+    font-family:'Space Mono',monospace;
+  }
+  #d3 .ci-label{
+    font-family:'Space Mono',monospace;
+    font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:rgba(0,230,255,.4);margin-bottom:4px;
+  }
+  #d3 .ci-val{font-size:15px;color:rgba(232,232,248,.7)}
+  #d3 footer{
+    background:#04040a;padding:24px 60px;
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid rgba(0,230,255,.06);
+  }
+  #d3 .foot-logo{
+    font-family:'Space Mono',monospace;
+    font-size:16px;color:#00e6ff;letter-spacing:3px;text-transform:uppercase;
+  }
+  #d3 .foot-copy{
+    font-family:'Space Mono',monospace;
+    font-size:10px;color:rgba(232,232,248,.2);letter-spacing:1px;
+  }
+</style>
+
+<style>
+  body{margin:0;}
+  #switcher{display:none!important;}
+  .design{display:block!important;margin-top:0!important;}
+</style>
+</head>
+<body>
+<div class="design active" id="d2">
+<nav>
+<div class="nav-logo">Kinetic</div>
+<ul class="nav-links">
+<li><a href="#">Membership</a></li>
+<li><a href="#">Schedule</a></li>
+<li><a href="#">Trainers</a></li>
+<li><a href="#">Gallery</a></li>
+<li><a href="#">Journal</a></li>
+</ul>
+<button class="nav-cta">Begin Journey</button>
+</nav>
+<!-- Hero -->
+<div class="hero">
+<div class="hero-left">
+<div class="hero-ornament">K</div>
+<div class="hero-tag">Est. 2018 — Premium Fitness</div>
+<h1>The Art<em>of Strength</em></h1>
+<p class="hero-sub">Kinetic is where refined ambition meets elite performance. A curated fitness experience designed for those who demand excellence in every dimension of their life.</p>
+<div class="cta-pair">
+<button class="btn-gold">Begin Your Journey</button>
+<button class="btn-outline-dark">View Membership</button>
+</div>
+</div>
+<div class="hero-right">
+<div class="hero-right-inner">
+<div class="hero-accent-word">K</div>
+<div class="hero-stats">
+<div class="hs">
+<div class="hs-n">2,400<span>+</span></div>
+<div class="hs-l">Cultivated Members</div>
+</div>
+<div class="hs">
+<div class="hs-n">38</div>
+<div class="hs-l">Weekly Sessions</div>
+</div>
+<div class="hs">
+<div class="hs-n">12</div>
+<div class="hs-l">Elite Coaches</div>
+</div>
+<div class="hs">
+<div class="hs-n">98<span>%</span></div>
+<div class="hs-l">Member Retention</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Plans -->
+<section>
+<div class="sec-eyebrow">Membership</div>
+<div class="sec-title">Choose your <em>tier</em></div>
+<p class="sec-body">Each membership is crafted to deliver a complete, tailored experience. Upgrade at any time as your ambitions grow.</p>
+<div class="plans">
+<div class="plan">
+<div class="plan-name">Pump</div>
+<div class="plan-tier">Starter</div>
+<div class="plan-price">₱2,800</div>
+<div class="plan-sub">per month</div>
+<div class="plan-line"></div>
+<ul class="plan-features">
+<li>Full Gym Access</li>
+<li>Class Schedule</li>
+<li>Membership Card</li>
+<li>Locker Use</li>
+</ul>
+<button class="plan-btn">Select Pump</button>
+</div>
+<div class="plan featured">
+<div class="plan-crown">Most Popular</div>
+<div class="plan-name">Forge</div>
+<div class="plan-tier">Standard</div>
+<div class="plan-price">₱5,000</div>
+<div class="plan-sub">per month</div>
+<div class="plan-line"></div>
+<ul class="plan-features">
+<li>Everything in Pump</li>
+<li>Trainer Profiles Access</li>
+<li>Class Booking System</li>
+<li>Transformation Stories</li>
+<li>Free Trial Offer</li>
+<li>Merch &amp; Supplement Shop</li>
+</ul>
+<button class="plan-btn">Select Forge</button>
+</div>
+<div class="plan">
+<div class="plan-name">Kinetic</div>
+<div class="plan-tier">Premium</div>
+<div class="plan-price">₱7,500</div>
+<div class="plan-sub">per month</div>
+<div class="plan-line"></div>
+<ul class="plan-features">
+<li>Everything in Forge</li>
+<li>Gym Gallery Access</li>
+<li>Fitness Blog</li>
+<li>Live Chat Support</li>
+<li>Priority Booking</li>
+<li>VIP Facilities</li>
+</ul>
+<button class="plan-btn">Select Kinetic</button>
+</div>
+</div>
+</section>
+<!-- Schedule -->
+<section style="background:#eeeae0;padding:120px 80px">
+<div class="schedule-layout">
+<div class="schedule-intro">
+<div class="sec-eyebrow">Schedule</div>
+<div class="sec-title" style="font-size:52px">This week's <em>sessions</em></div>
+<p>Each class is led by a certified specialist. Booking is available to Forge and Kinetic members.</p>
+</div>
+<div>
+<div class="schedule-table">
+<div class="schedule-row header">
+<span>Time</span><span>Class</span><span>Trainer</span><span>Level</span>
+</div>
+<div class="schedule-row">
+<span class="sr-time">06:00</span>
+<span class="sr-name">HIIT Blast</span>
+<span class="sr-trainer">Coach Reyes</span>
+<span class="sr-badge">Advanced</span>
+</div>
+<div class="schedule-row">
+<span class="sr-time">07:30</span>
+<span class="sr-name">Yoga Flow</span>
+<span class="sr-trainer">Coach Lim</span>
+<span class="sr-badge">All Levels</span>
+</div>
+<div class="schedule-row">
+<span class="sr-time">09:00</span>
+<span class="sr-name">Pilates Reform</span>
+<span class="sr-trainer">Coach Santos</span>
+<span class="sr-badge">Intermediate</span>
+</div>
+<div class="schedule-row">
+<span class="sr-time">11:00</span>
+<span class="sr-name">Boxing Fundamentals</span>
+<span class="sr-trainer">Coach Cruz</span>
+<span class="sr-badge">Beginner</span>
+</div>
+<div class="schedule-row">
+<span class="sr-time">18:00</span>
+<span class="sr-name">Powerlifting</span>
+<span class="sr-trainer">Coach Santos</span>
+<span class="sr-badge">Advanced</span>
+</div>
+<div class="schedule-row">
+<span class="sr-time">19:30</span>
+<span class="sr-name">Evening Stretch</span>
+<span class="sr-trainer">Coach Lim</span>
+<span class="sr-badge">All Levels</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trainers -->
+<section>
+<div class="sec-eyebrow">Our Coaches</div>
+<div class="sec-title">The <em>finest</em> minds<br/>in fitness</div>
+<div class="trainers">
+<div class="trainer">
+<div class="trainer-ornament">C</div>
+<div class="trainer-num">No. 001</div>
+<div class="trainer-name">Carlo Reyes</div>
+<div class="trainer-spec">HIIT · Strength · Conditioning</div>
+<div class="trainer-bio">Former national-level athlete with 12 years of coaching experience. Specializes in metabolic conditioning and strength periodization.</div>
+</div>
+<div class="trainer">
+<div class="trainer-ornament">J</div>
+<div class="trainer-num">No. 002</div>
+<div class="trainer-name">Jake Cruz</div>
+<div class="trainer-spec">Boxing · MMA · Combat Sports</div>
+<div class="trainer-bio">Professional boxer turned trainer. Brings authentic technique and mental toughness coaching to every session.</div>
+</div>
+<div class="trainer">
+<div class="trainer-ornament">M</div>
+<div class="trainer-num">No. 003</div>
+<div class="trainer-name">Maya Lim</div>
+<div class="trainer-spec">Yoga · Pilates · Mindfulness</div>
+<div class="trainer-bio">RYT-500 certified with deep knowledge of movement science. Bridges the gap between physical performance and mental clarity.</div>
+</div>
+</div>
+</section>
+<!-- Gallery -->
+<div class="gallery-section">
+<div class="sec-eyebrow">Gallery</div>
+<div class="sec-title" style="color:#f5f2eb;margin-bottom:48px">Inside <em>Kinetic</em></div>
+<div class="gallery-grid">
+<div class="gallery-item"><div class="gallery-placeholder">K</div><div class="gallery-caption">The Weight Floor</div></div>
+<div class="gallery-item"><div class="gallery-placeholder">✦</div><div class="gallery-caption">Boxing Suite</div></div>
+<div class="gallery-item"><div class="gallery-placeholder">~</div><div class="gallery-caption">Recovery Lounge</div></div>
+<div class="gallery-item"><div class="gallery-placeholder">▲</div><div class="gallery-caption">Cardio Deck</div></div>
+<div class="gallery-item"><div class="gallery-placeholder">◆</div><div class="gallery-caption">Group Studio</div></div>
+</div>
+</div>
+<!-- Contact -->
+<div class="contact-section">
+<div class="contact-form-wrap">
+<div class="sec-eyebrow">Start Today</div>
+<div class="sec-title" style="font-size:48px;margin-bottom:40px">Begin your<br/><em>journey</em></div>
+<input class="d2-input" placeholder="Your full name" type="text"/>
+<input class="d2-input" placeholder="Email address" type="email"/>
+<input class="d2-input" placeholder="Preferred membership tier" type="text"/>
+<button class="btn-gold" style="width:100%;padding:18px;font-size:13px">Send Inquiry →</button>
+</div>
+<div class="contact-aside">
+<div style="margin-bottom:60px">
+<div class="sec-eyebrow">Visit Us</div>
+<div class="sec-title" style="font-size:40px"><em>Find us</em><br/>in the city</div>
+</div>
+<div class="ca-item"><div class="ca-label">Address</div><div class="ca-val">4F Iron Tower<br/>Quezon Ave, QC</div></div>
+<div class="ca-item"><div class="ca-label">Hours</div><div class="ca-val">Mon–Fri 5AM–11PM<br/>Sat–Sun 6AM–9PM</div></div>
+<div class="ca-item"><div class="ca-label">Contact</div><div class="ca-val">+63 2 8XXX XXXX<br/>hello@kineticph.com</div></div>
+</div>
+</div>
+<footer>
+<div class="foot-logo">Kinetic</div>
+<div class="foot-copy">© 2025 Kinetic Premium Fitness. All rights reserved.</div>
+</footer>
+</div>
+<script>
+  function showDesign(n) {
+    document.querySelectorAll('.design').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.sw-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('d'+n).classList.add('active');
+    document.querySelectorAll('.sw-btn')[n-1].classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  // D3 schedule tabs
+  const scheduleData = {
+    Monday:[
+      {time:'06:00',name:'HIIT BLAST',trainer:'Coach Reyes · 45 min',spots:'12 spots left'},
+      {time:'08:00',name:'POWERLIFTING',trainer:'Coach Santos · 60 min',spots:'8 spots left'},
+      {time:'10:00',name:'YOGA FLOW',trainer:'Coach Lim · 60 min',spots:'20 spots left'},
+      {time:'18:00',name:'BOXING',trainer:'Coach Cruz · 45 min',spots:'4 spots left'},
+      {time:'19:30',name:'CALISTHENICS',trainer:'Coach Vega · 50 min',spots:'15 spots left'},
+    ],
+    Tuesday:[
+      {time:'07:00',name:'SPIN CYCLE',trainer:'Coach Reyes · 45 min',spots:'10 spots left'},
+      {time:'09:00',name:'PILATES',trainer:'Coach Santos · 60 min',spots:'16 spots left'},
+      {time:'18:30',name:'MMA BASICS',trainer:'Coach Cruz · 60 min',spots:'6 spots left'},
+      {time:'20:00',name:'EVENING STRETCH',trainer:'Coach Lim · 30 min',spots:'25 spots left'},
+    ],
+    Wednesday:[
+      {time:'06:00',name:'HIIT BLAST',trainer:'Coach Reyes · 45 min',spots:'12 spots left'},
+      {time:'10:00',name:'ZUMBA',trainer:'Coach Lim · 50 min',spots:'18 spots left'},
+      {time:'18:00',name:'STRENGTH TRAINING',trainer:'Coach Santos · 60 min',spots:'10 spots left'},
+    ],
+    Thursday:[
+      {time:'07:00',name:'CALISTHENICS',trainer:'Coach Vega · 50 min',spots:'14 spots left'},
+      {time:'09:00',name:'YOGA FLOW',trainer:'Coach Lim · 60 min',spots:'20 spots left'},
+      {time:'19:00',name:'BOXING',trainer:'Coach Cruz · 45 min',spots:'7 spots left'},
+    ],
+    Friday:[
+      {time:'06:00',name:'HIIT BLAST',trainer:'Coach Reyes · 45 min',spots:'12 spots left'},
+      {time:'08:00',name:'POWERLIFTING',trainer:'Coach Santos · 60 min',spots:'9 spots left'},
+      {time:'18:00',name:'ZUMBA',trainer:'Coach Lim · 50 min',spots:'22 spots left'},
+      {time:'19:30',name:'MMA',trainer:'Coach Cruz · 60 min',spots:'5 spots left'},
+    ],
+    Saturday:[
+      {time:'08:00',name:'OPEN GYM',trainer:'All Trainers · Unlimited',spots:'Open'},
+      {time:'10:00',name:'BOOTCAMP',trainer:'Coach Vega · 60 min',spots:'15 spots left'},
+      {time:'14:00',name:'YOGA FLOW',trainer:'Coach Lim · 60 min',spots:'20 spots left'},
+    ]
+  };
+  const days = Object.keys(scheduleData);
+  document.querySelectorAll('#d3 .sched-tab').forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('#d3 .sched-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const day = days[i];
+      const body = document.getElementById('sched-body');
+      body.innerHTML = scheduleData[day].map(c => `
+        <div class="sched-item">
+          <div class="sched-time">${c.time}</div>
+          <div class="sched-info"><div class="sched-cname">${c.name}</div><div class="sched-trainer">${c.trainer}</div></div>
+          <div class="sched-spots">${c.spots}</div>
+        </div>
+      `).join('');
+    });
+  });
+</script>
+</body>
+</html>

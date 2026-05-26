@@ -1388,26 +1388,41 @@ const TEMPLATE_HTML = {
 function TemplatePreview({ tmpl }) {
   // Map template id to an array of HTML files (for multi-page preview)
   const htmlFileMap = {
-    'rest-1': [
-      { label: 'Home', file: '/templates/ember_restaurant_design.html' },
-      // Add more pages if available, e.g. { label: 'Menu', file: '/templates/ember_menu.html' }
-    ],
-    'rest-2': [
-      { label: 'Home', file: '/templates/bloom_cafe_design.html' },
-    ],
-    'rest-3': [
-      { label: 'Home', file: '/templates/spot_restaurant_design.html' },
-    ],
-     // ✅ ADD THESE TWO:
+  'rest-1': [
+    { label: 'Home', file: '/templates/ember_restaurant_design.html' },
+  ],
+
+  'rest-2': [
+    { label: 'Home', file: '/templates/bloom_cafe_design.html' },
+  ],
+
+  'rest-3': [
+    { label: 'Home', file: '/templates/spot_restaurant_design.html' },
+  ],
+
   're-1': [
     { label: 'Home', file: '/templates/apex_realestate_design.html' },
   ],
+
   're-2': [
     { label: 'Home', file: '/templates/terrain_realestate_design.html' },
   ],
 
   're-3': [
     { label: 'Home', file: '/templates/scout_realestate_design.html' },
+  ],
+
+  // ── GYM TEMPLATES ──
+  'gym-1': [
+    { label: 'Home', file: '/templates/forge_design.html' },
+  ],
+
+  'gym-2': [
+    { label: 'Home', file: '/templates/kinetic_design.html' },
+  ],
+
+  'gym-3': [
+    { label: 'Home', file: '/templates/pump_design.html' },
   ],
 };
 
@@ -1768,6 +1783,9 @@ function TemplateExplorer({ tmpl, allTemplates, onClose, onPick }) {
     're-1':   [{ label: 'Home', file: '/templates/apex_realestate_design.html' }],
     're-2':   [{ label: 'Home', file: '/templates/terrain_realestate_design.html' }],
     're-3':   [{ label: 'Home', file: '/templates/scout_realestate_design.html' }],
+    'gym-1':  [{ label: 'Home', file: '/templates/forge_design.html' }],
+    'gym-2':  [{ label: 'Home', file: '/templates/kinetic_design.html' }],
+    'gym-3':  [{ label: 'Home', file: '/templates/pump_design.html' }],
   };
 
   // Which template index are we on in the allTemplates list
