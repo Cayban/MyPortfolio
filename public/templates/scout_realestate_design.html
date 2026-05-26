@@ -1,0 +1,600 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --teal: #0d4f5c;
+    --teal2: #0a3d47;
+    --teal3: #0f6275;
+    --teal-light: #e8f4f6;
+    --teal-pale: rgba(13,79,92,0.08);
+    --coral: #e85d3a;
+    --coral2: #ff6e4a;
+    --white: #ffffff;
+    --off: #f6f8f9;
+    --ink: #0d1f24;
+    --muted: rgba(13,31,36,0.45);
+    --border: rgba(13,79,92,0.12);
+    --border2: rgba(13,79,92,0.18);
+  }
+
+  .scout-wrap * { box-sizing: border-box; margin: 0; padding: 0; }
+  .scout-wrap {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  /* ── NAV ── */
+  .scout-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 56px;
+    background: var(--white); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .scout-logo {
+    font-family: 'IBM Plex Mono', monospace; font-size: 16px; font-weight: 500;
+    color: var(--teal); letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px;
+  }
+  .scout-logo-icon {
+    width: 26px; height: 26px; background: var(--teal);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: white;
+  }
+  .scout-nav-links { display: flex; gap: 28px; }
+  .scout-nav-links span {
+    font-size: 13px; font-weight: 400; color: var(--muted);
+    cursor: pointer; transition: color 0.2s;
+  }
+  .scout-nav-links span:hover { color: var(--teal); }
+  .scout-nav-right { display: flex; align-items: center; gap: 10px; }
+  .scout-nav-ghost {
+    font-size: 12px; font-weight: 500; color: var(--teal);
+    border: 1.5px solid var(--teal); padding: 7px 16px; border-radius: 6px; cursor: pointer;
+  }
+  .scout-nav-cta {
+    font-size: 12px; font-weight: 600;
+    background: var(--coral); color: var(--white);
+    padding: 8px 18px; border-radius: 6px; cursor: pointer;
+  }
+
+  /* ── HERO ── */
+  .scout-hero {
+    background: var(--teal); position: relative; overflow: hidden;
+    padding: 56px 32px 0;
+    display: grid; grid-template-columns: 1fr 380px;
+    align-items: end; gap: 32px;
+  }
+  .scout-hero-dots {
+    position: absolute; inset: 0; opacity: 0.06;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .scout-hero-glow {
+    position: absolute; bottom: -100px; right: 60px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,93,58,0.2) 0%, transparent 65%);
+  }
+  .scout-hero-left { position: relative; z-index: 2; padding-bottom: 52px; }
+  .scout-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px; padding: 5px 14px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    letter-spacing: 1px; color: rgba(255,255,255,0.7); margin-bottom: 24px;
+  }
+  .scout-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--coral2); }
+  .scout-hero-title {
+    font-size: 50px; font-weight: 700; line-height: 1.05;
+    color: var(--white); letter-spacing: -1.5px; margin-bottom: 20px;
+  }
+  .scout-hero-title span { color: var(--coral2); }
+  .scout-hero-sub {
+    font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.55);
+    line-height: 1.8; max-width: 360px; margin-bottom: 32px;
+  }
+  .scout-hero-btns { display: flex; gap: 12px; margin-bottom: 40px; }
+  .scout-btn-coral {
+    font-size: 13px; font-weight: 600; background: var(--coral);
+    color: var(--white); padding: 13px 28px; border-radius: 7px; cursor: pointer;
+  }
+  .scout-btn-white {
+    font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7);
+    border: 1.5px solid rgba(255,255,255,0.2); padding: 13px 24px;
+    border-radius: 7px; cursor: pointer;
+  }
+  .scout-hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .scout-pill {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.5); padding: 5px 12px; border-radius: 4px;
+  }
+  .scout-hero-right { position: relative; z-index: 2; align-self: flex-end; }
+  .scout-search-box {
+    background: var(--white); border-radius: 12px 12px 0 0;
+    padding: 24px; box-shadow: 0 -20px 60px rgba(0,0,0,0.2);
+  }
+  .scout-search-title {
+    font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .scout-search-title::before { content: '🔍'; font-size: 15px; }
+  .scout-search-fields { display: flex; flex-direction: column; gap: 8px; }
+  .scout-search-field {
+    background: var(--off); border: 1.5px solid var(--border);
+    border-radius: 7px; padding: 10px 14px;
+    font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px;
+  }
+  .scout-search-field.accent { border-color: var(--teal); background: var(--teal-light); color: var(--teal); }
+  .scout-search-go {
+    width: 100%; background: var(--teal); color: white;
+    font-size: 13px; font-weight: 600; padding: 12px;
+    border-radius: 7px; text-align: center; cursor: pointer; margin-top: 4px;
+  }
+
+  /* ── SECTION SHARED ── */
+  .scout-section { padding: 52px 32px; }
+  .scout-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--teal3); margin-bottom: 8px;
+  }
+  .scout-title {
+    font-size: 30px; font-weight: 700; color: var(--ink);
+    letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 6px;
+  }
+  .scout-sub { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.8; }
+  .scout-divider { height: 1px; background: var(--border); }
+
+  /* ── LISTINGS ── */
+  .scout-listings { background: var(--off); }
+  .scout-listings-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
+  .scout-filter-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .scout-filter-chip {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px;
+    padding: 6px 14px; border-radius: 20px; cursor: pointer; border: 1.5px solid var(--border);
+    color: var(--muted); transition: all 0.15s;
+  }
+  .scout-filter-chip.active { background: var(--teal); color: white; border-color: var(--teal); }
+  .scout-see-all {
+    font-size: 12px; font-weight: 600; color: var(--teal);
+    display: flex; align-items: center; gap: 5px; cursor: pointer;
+    border-bottom: 1.5px solid var(--teal); padding-bottom: 1px;
+  }
+  .scout-listings-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .scout-card {
+    background: var(--white); border: 1.5px solid var(--border);
+    border-radius: 10px; overflow: hidden; cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .scout-card:hover { box-shadow: 0 8px 28px rgba(13,79,92,0.14); transform: translateY(-2px); }
+  .scout-card-img {
+    height: 130px; background: var(--teal-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px; position: relative;
+  }
+  .scout-card-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(13,79,92,0.08) 100%);
+  }
+  .scout-card-tag {
+    position: absolute; top: 10px; left: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px;
+    font-weight: 500; padding: 4px 10px; border-radius: 4px;
+  }
+  .scout-card-tag.sale { background: var(--coral); color: white; }
+  .scout-card-tag.lease { background: var(--teal); color: white; }
+  .scout-card-tag.new { background: #10b981; color: white; }
+  .scout-card-save {
+    position: absolute; top: 10px; right: 10px;
+    width: 28px; height: 28px; border-radius: 6px;
+    background: rgba(255,255,255,0.9); display: flex; align-items: center;
+    justify-content: center; font-size: 13px; cursor: pointer;
+  }
+  .scout-card-body { padding: 16px; }
+  .scout-card-type {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--teal3); margin-bottom: 5px;
+  }
+  .scout-card-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.3; }
+  .scout-card-loc { font-size: 11px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 4px; }
+  .scout-card-specs { display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .scout-spec { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+  .scout-card-price-row { display: flex; align-items: center; justify-content: space-between; }
+  .scout-card-price { font-size: 18px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; }
+  .scout-card-btn {
+    font-size: 11px; font-weight: 600; color: var(--coral);
+    border: 1.5px solid var(--coral); padding: 5px 12px; border-radius: 5px; cursor: pointer;
+  }
+
+  /* ── INQUIRY ── */
+  .scout-inquiry { background: var(--white); }
+  .scout-inquiry-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .scout-form-wrap {
+    background: var(--teal); border-radius: 12px; padding: 30px; position: relative; overflow: hidden;
+  }
+  .scout-form-deco {
+    position: absolute; top: -40px; right: -40px; width: 160px; height: 160px;
+    border-radius: 50%; background: rgba(255,255,255,0.04);
+  }
+  .scout-form-deco2 {
+    position: absolute; bottom: -60px; left: -30px; width: 200px; height: 200px;
+    border-radius: 50%; background: rgba(232,93,58,0.1);
+  }
+  .scout-form-title {
+    font-size: 22px; font-weight: 700; color: white;
+    letter-spacing: -0.5px; margin-bottom: 6px; position: relative; z-index: 2;
+  }
+  .scout-form-sub {
+    font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.5);
+    line-height: 1.7; margin-bottom: 22px; position: relative; z-index: 2;
+  }
+  .scout-form-fields { display: flex; flex-direction: column; gap: 9px; position: relative; z-index: 2; }
+  .scout-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .scout-field {
+    background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 7px; padding: 11px 14px;
+    font-size: 12px; color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 8px;
+  }
+  .scout-field.tall { align-items: flex-start; padding-top: 12px; height: 68px; }
+  .scout-submit {
+    background: var(--coral); color: white;
+    font-size: 13px; font-weight: 600; padding: 13px;
+    border-radius: 7px; text-align: center; cursor: pointer; margin-top: 4px;
+  }
+  .scout-inquiry-right { }
+  .scout-inquiry-title { font-size: 28px; font-weight: 700; color: var(--ink); letter-spacing: -0.8px; margin-bottom: 14px; line-height: 1.2; }
+  .scout-inquiry-body { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.9; margin-bottom: 28px; }
+  .scout-info-cards { display: flex; flex-direction: column; gap: 10px; }
+  .scout-info-card {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--off); border: 1.5px solid var(--border);
+    border-radius: 8px; padding: 14px 16px;
+  }
+  .scout-info-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: var(--teal-light); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .scout-info-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal3); margin-bottom: 3px;
+  }
+  .scout-info-val { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+  /* ── CTA BAND ── */
+  .scout-cta-band {
+    background: var(--coral); padding: 40px 32px;
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px;
+  }
+  .scout-cta-title { font-size: 28px; font-weight: 700; color: white; letter-spacing: -0.8px; line-height: 1.2; }
+  .scout-cta-sub { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.65); margin-top: 8px; }
+  .scout-cta-btns { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+  .scout-cta-btn-main {
+    font-size: 12px; font-weight: 600; background: white; color: var(--coral);
+    padding: 13px 24px; border-radius: 7px; text-align: center; cursor: pointer; white-space: nowrap;
+  }
+  .scout-cta-btn-sec {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    color: rgba(255,255,255,0.65); text-align: center; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  /* ── FOOTER ── */
+  .scout-footer {
+    background: var(--ink); padding: 22px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .scout-footer-logo {
+    font-family: 'IBM Plex Mono', monospace; font-size: 14px;
+    color: var(--teal-light); letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .scout-footer-logo-icon {
+    width: 22px; height: 22px; background: var(--teal);
+    border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px;
+  }
+  .scout-footer-links { display: flex; gap: 20px; }
+  .scout-footer-links span { font-size: 11px; color: rgba(255,255,255,0.2); cursor: pointer; }
+  .scout-footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.15); }
+</style>
+
+<div class="scout-wrap">
+
+  <!-- NAV -->
+  <nav class="scout-nav">
+    <div class="scout-logo">
+      <div class="scout-logo-icon">📍</div>
+      scout.ph
+    </div>
+    <div class="scout-nav-links">
+      <span>Listings</span>
+      <span>Map View</span>
+      <span>Agents</span>
+      <span>About</span>
+    </div>
+    <div class="scout-nav-right">
+      <div class="scout-nav-ghost">List a Property</div>
+      <div class="scout-nav-cta">Get in Touch</div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="scout-hero">
+    <div class="scout-hero-dots"></div>
+    <div class="scout-hero-glow"></div>
+    <div class="scout-hero-left">
+      <div class="scout-badge"><span class="scout-badge-dot"></span> Real estate made simple</div>
+      <h1 class="scout-hero-title">
+        Find Your Next<br><span>Property.</span><br>Without the Hassle.
+      </h1>
+      <p class="scout-hero-sub">Browse curated listings across Metro Manila — residential, commercial, and for-lease. No fluff, no middleman runaround.</p>
+      <div class="scout-hero-btns">
+        <div class="scout-btn-coral">Browse Listings</div>
+        <div class="scout-btn-white">How It Works</div>
+      </div>
+      <div class="scout-hero-pills">
+        <div class="scout-pill">Condo</div>
+        <div class="scout-pill">House & Lot</div>
+        <div class="scout-pill">Commercial</div>
+        <div class="scout-pill">For Lease</div>
+        <div class="scout-pill">Pre-Selling</div>
+      </div>
+    </div>
+    <div class="scout-hero-right">
+      <div class="scout-search-box">
+        <div class="scout-search-title">Quick Search</div>
+        <div class="scout-search-fields">
+          <div class="scout-search-field accent">📍 Location or Project Name</div>
+          <div class="scout-search-field">🏠 Property Type</div>
+          <div class="scout-search-field">💰 Budget Range</div>
+          <div class="scout-search-go">Find Properties →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="scout-divider"></div>
+
+  <!-- LISTINGS -->
+  <section class="scout-section scout-listings">
+    <div class="scout-listings-top">
+      <div>
+        <div class="scout-label">Available Now</div>
+        <div class="scout-title">Property Listings</div>
+      </div>
+      <div class="scout-see-all">View All 40+ Listings →</div>
+    </div>
+    <div class="scout-filter-row">
+      <div class="scout-filter-chip active">All</div>
+      <div class="scout-filter-chip">For Sale</div>
+      <div class="scout-filter-chip">For Lease</div>
+      <div class="scout-filter-chip">Condo</div>
+      <div class="scout-filter-chip">House & Lot</div>
+      <div class="scout-filter-chip">Commercial</div>
+    </div>
+    <div class="scout-listings-grid">
+      <div class="scout-card">
+        <div class="scout-card-img">
+          🏙️
+          <div class="scout-card-img-overlay"></div>
+          <div class="scout-card-tag sale">For Sale</div>
+          <div class="scout-card-save">🤍</div>
+        </div>
+        <div class="scout-card-body">
+          <div class="scout-card-type">Condominium</div>
+          <div class="scout-card-name">The Residences at One BGC</div>
+          <div class="scout-card-loc">📍 BGC, Taguig</div>
+          <div class="scout-card-specs">
+            <div class="scout-spec">🛏 2 BR</div>
+            <div class="scout-spec">🚿 2 Bath</div>
+            <div class="scout-spec">📐 68 sqm</div>
+          </div>
+          <div class="scout-card-price-row">
+            <div class="scout-card-price">₱9.2M</div>
+            <div class="scout-card-btn">Inquire</div>
+          </div>
+        </div>
+      </div>
+      <div class="scout-card">
+        <div class="scout-card-img">
+          🏡
+          <div class="scout-card-img-overlay"></div>
+          <div class="scout-card-tag new">New Listing</div>
+          <div class="scout-card-save">🤍</div>
+        </div>
+        <div class="scout-card-body">
+          <div class="scout-card-type">House & Lot</div>
+          <div class="scout-card-name">Palm Heights Subdivision</div>
+          <div class="scout-card-loc">📍 Las Piñas City</div>
+          <div class="scout-card-specs">
+            <div class="scout-spec">🛏 3 BR</div>
+            <div class="scout-spec">🚿 2 Bath</div>
+            <div class="scout-spec">📐 150 sqm</div>
+          </div>
+          <div class="scout-card-price-row">
+            <div class="scout-card-price">₱6.8M</div>
+            <div class="scout-card-btn">Inquire</div>
+          </div>
+        </div>
+      </div>
+      <div class="scout-card">
+        <div class="scout-card-img">
+          🏢
+          <div class="scout-card-img-overlay"></div>
+          <div class="scout-card-tag lease">For Lease</div>
+          <div class="scout-card-save">🤍</div>
+        </div>
+        <div class="scout-card-body">
+          <div class="scout-card-type">Office Space</div>
+          <div class="scout-card-name">Ortigas Commerce Suite 7A</div>
+          <div class="scout-card-loc">📍 Ortigas Center, Pasig</div>
+          <div class="scout-card-specs">
+            <div class="scout-spec">📐 80 sqm</div>
+            <div class="scout-spec">🏢 7th Floor</div>
+          </div>
+          <div class="scout-card-price-row">
+            <div class="scout-card-price">₱85k/mo</div>
+            <div class="scout-card-btn">Inquire</div>
+          </div>
+        </div>
+      </div>
+      <div class="scout-card">
+        <div class="scout-card-img">
+          🏠
+          <div class="scout-card-img-overlay"></div>
+          <div class="scout-card-tag sale">For Sale</div>
+          <div class="scout-card-save">🤍</div>
+        </div>
+        <div class="scout-card-body">
+          <div class="scout-card-type">Townhouse</div>
+          <div class="scout-card-name">Marikina Townhomes Phase 3</div>
+          <div class="scout-card-loc">📍 Marikina City</div>
+          <div class="scout-card-specs">
+            <div class="scout-spec">🛏 3 BR</div>
+            <div class="scout-spec">🚿 2 Bath</div>
+            <div class="scout-spec">📐 90 sqm</div>
+          </div>
+          <div class="scout-card-price-row">
+            <div class="scout-card-price">₱4.5M</div>
+            <div class="scout-card-btn">Inquire</div>
+          </div>
+        </div>
+      </div>
+      <div class="scout-card">
+        <div class="scout-card-img">
+          🌿
+          <div class="scout-card-img-overlay"></div>
+          <div class="scout-card-tag new">Pre-Selling</div>
+          <div class="scout-card-save">🤍</div>
+        </div>
+        <div class="scout-card-body">
+          <div class="scout-card-type">Lot Only</div>
+          <div class="scout-card-name">Nuvali Residential Lots</div>
+          <div class="scout-card-loc">📍 Sta. Rosa, Laguna</div>
+          <div class="scout-card-specs">
+            <div class="scout-spec">📐 200–400 sqm</div>
+          </div>
+          <div class="scout-card-price-row">
+            <div class="scout-card-price">From ₱3.2M</div>
+            <div class="scout-card-btn">Inquire</div>
+          </div>
+        </div>
+      </div>
+      <div class="scout-card">
+        <div class="scout-card-img">
+          🏪
+          <div class="scout-card-img-overlay"></div>
+          <div class="scout-card-tag lease">For Lease</div>
+          <div class="scout-card-save">🤍</div>
+        </div>
+        <div class="scout-card-body">
+          <div class="scout-card-type">Retail / Commercial</div>
+          <div class="scout-card-name">Katipunan Strip Unit B3</div>
+          <div class="scout-card-loc">📍 Quezon City</div>
+          <div class="scout-card-specs">
+            <div class="scout-spec">📐 45 sqm</div>
+            <div class="scout-spec">Ground FL</div>
+          </div>
+          <div class="scout-card-price-row">
+            <div class="scout-card-price">₱32k/mo</div>
+            <div class="scout-card-btn">Inquire</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="scout-divider"></div>
+
+  <!-- LEAD INQUIRY -->
+  <section class="scout-section scout-inquiry">
+    <div class="scout-inquiry-inner">
+      <div class="scout-form-wrap">
+        <div class="scout-form-deco"></div>
+        <div class="scout-form-deco2"></div>
+        <div class="scout-form-title">Send a Lead Inquiry</div>
+        <div class="scout-form-sub">Tell us what you're looking for and an agent will connect with you within the day.</div>
+        <div class="scout-form-fields">
+          <div class="scout-form-row">
+            <div class="scout-field">👤 Full Name</div>
+            <div class="scout-field">📱 Phone</div>
+          </div>
+          <div class="scout-field">✉️ Email Address</div>
+          <div class="scout-form-row">
+            <div class="scout-field">🏠 Property Type</div>
+            <div class="scout-field">💰 Budget</div>
+          </div>
+          <div class="scout-field">📍 Preferred Location</div>
+          <div class="scout-field tall">💬 Any specific requirements?</div>
+          <div class="scout-submit">Submit Inquiry</div>
+        </div>
+      </div>
+      <div class="scout-inquiry-right">
+        <div class="scout-label">Why Scout?</div>
+        <div class="scout-inquiry-title">A Smarter Way to Find Property</div>
+        <p class="scout-inquiry-body">We cut through the noise — no spam, no cold calls. Just verified listings, professional agents, and a process that actually works for the buyer.</p>
+        <div class="scout-info-cards">
+          <div class="scout-info-card">
+            <div class="scout-info-icon">✅</div>
+            <div>
+              <div class="scout-info-label">Verified Listings</div>
+              <div class="scout-info-val">All 40+ listings are personally verified by our team</div>
+            </div>
+          </div>
+          <div class="scout-info-card">
+            <div class="scout-info-icon">⚡</div>
+            <div>
+              <div class="scout-info-label">Fast Response</div>
+              <div class="scout-info-val">Inquiries are responded to within the same business day</div>
+            </div>
+          </div>
+          <div class="scout-info-card">
+            <div class="scout-info-icon">💼</div>
+            <div>
+              <div class="scout-info-label">PRC-Licensed Agents</div>
+              <div class="scout-info-val">Work only with accredited real estate brokers</div>
+            </div>
+          </div>
+          <div class="scout-info-card">
+            <div class="scout-info-icon">🆓</div>
+            <div>
+              <div class="scout-info-label">Free for Buyers</div>
+              <div class="scout-info-val">No buyer's fee — ever. Our service is 100% free to buyers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="scout-cta-band">
+    <div>
+      <div class="scout-cta-title">Ready to Scout<br>Your Next Property?</div>
+      <div class="scout-cta-sub">Over 40 verified listings across Metro Manila. Start your search today.</div>
+    </div>
+    <div class="scout-cta-btns">
+      <div class="scout-cta-btn-main">Browse All Listings</div>
+      <div class="scout-cta-btn-sec">📲 Chat on WhatsApp →</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="scout-footer">
+    <div class="scout-footer-logo">
+      <div class="scout-footer-logo-icon">📍</div>
+      scout.ph
+    </div>
+    <div class="scout-footer-links">
+      <span>Listings</span>
+      <span>Agents</span>
+      <span>Terms</span>
+      <span>Privacy</span>
+    </div>
+    <div class="scout-footer-copy">© 2025 Scout Real Estate</div>
+  </footer>
+
+</div>

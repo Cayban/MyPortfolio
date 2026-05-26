@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apex — Real Estate & Construction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --night: #060D1E;
+    --night-2: #0C1530;
+    --night-3: #121D3E;
+    --amber: #F7B731;
+    --amber-dim: rgba(247,183,49,0.12);
+    --amber-dim2: rgba(247,183,49,0.06);
+    --white: #FFFFFF;
+    --snow: #F4F5F8;
+    --ink: #060D1E;
+    --muted: rgba(6,13,30,0.45);
+    --muted-light: rgba(255,255,255,0.45);
+    --border: rgba(247,183,49,0.18);
+    --border-dark: rgba(255,255,255,0.08);
+    --sans: 'Space Grotesk', system-ui, sans-serif;
+    --mono: 'Space Mono', monospace;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: var(--night);
+    border-bottom: 1px solid var(--border-dark);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .nav-mark {
+    width: 30px; height: 30px;
+    background: var(--amber);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  .nav-wordmark {
+    font-family: var(--mono);
+    font-size: 15px; font-weight: 700;
+    color: var(--white);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex; gap: 36px;
+  }
+  .nav-links a {
+    font-size: 12px; font-weight: 500;
+    color: var(--muted-light);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-ghost {
+    font-size: 12px; font-weight: 600;
+    color: var(--amber); border: 1.5px solid var(--amber);
+    padding: 8px 20px; border-radius: 4px; cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-ghost:hover { background: var(--amber); color: var(--night); }
+  .nav-cta {
+    font-size: 12px; font-weight: 700;
+    background: var(--amber); color: var(--night);
+    padding: 9px 22px; border-radius: 4px; cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TICKER STRIP ── */
+  .ticker-strip {
+    margin-top: 64px;
+    background: var(--amber);
+    overflow: hidden; height: 38px;
+    display: flex; align-items: center;
+  }
+  .ticker-inner {
+    display: flex; align-items: center;
+    animation: ticker-scroll 28s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 40px;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 700;
+    color: var(--night);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .ticker-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--night); opacity: 0.4;
+  }
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--night);
+    padding: 72px 48px 80px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.5;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.3;
+  }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--amber-dim);
+    border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 11px; font-weight: 600;
+    color: var(--amber);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero-label-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--amber);
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .hero-heading {
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  .hero-heading em {
+    font-style: normal;
+    color: var(--amber);
+  }
+  .hero-sub {
+    font-size: 16px; font-weight: 400;
+    color: var(--muted-light);
+    line-height: 1.65;
+    max-width: 460px;
+    margin-bottom: 40px;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .btn-primary {
+    background: var(--amber); color: var(--night);
+    font-size: 14px; font-weight: 700;
+    padding: 14px 32px; border-radius: 4px;
+    cursor: pointer; letter-spacing: 0.3px;
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .btn-arrow {
+    width: 20px; height: 20px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(6,13,30,0.2);
+    border-radius: 50%;
+    font-size: 11px;
+  }
+  .btn-outline-light {
+    background: transparent; color: var(--white);
+    font-size: 14px; font-weight: 500;
+    border: 1.5px solid var(--border-dark);
+    padding: 14px 28px; border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .btn-outline-light:hover { border-color: var(--amber); color: var(--amber); }
+
+  /* HERO RIGHT — bento grid */
+  .hero-bento {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+  }
+  .bento-card {
+    background: var(--night-2);
+    border: 1px solid var(--border-dark);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bento-card.span2 { grid-column: 1 / -1; }
+  .bento-card.accent { border-color: var(--border); }
+  .bento-number {
+    font-family: var(--mono);
+    font-size: 36px; font-weight: 700;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .bento-label {
+    font-size: 11px; font-weight: 500;
+    color: var(--muted-light);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .bento-img {
+    grid-column: 1 / -1;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 140px;
+    background: var(--night-3);
+    position: relative;
+    display: flex; align-items: flex-end;
+    padding: 16px;
+  }
+  .bento-img-mock {
+    width: 100%; height: 100%;
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, transparent 40%, rgba(6,13,30,0.85) 100%),
+      repeating-linear-gradient(
+        45deg,
+        rgba(247,183,49,0.03) 0px, rgba(247,183,49,0.03) 1px,
+        transparent 1px, transparent 20px
+      );
+  }
+  .bento-img-badge {
+    position: relative; z-index: 2;
+    background: var(--amber); color: var(--night);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 3px;
+  }
+  .bento-img-title {
+    position: relative; z-index: 2;
+    margin-left: 10px;
+    font-size: 14px; font-weight: 600;
+    color: var(--white);
+  }
+  .bento-bar-row {
+    display: flex; align-items: center; gap: 8px; margin-top: 10px;
+  }
+  .bento-bar-track {
+    flex: 1; height: 3px; background: var(--border-dark); border-radius: 2px;
+  }
+  .bento-bar-fill {
+    height: 100%; background: var(--amber); border-radius: 2px;
+    width: 72%;
+  }
+  .bento-bar-pct {
+    font-family: var(--mono);
+    font-size: 11px; color: var(--amber); font-weight: 700;
+  }
+
+  /* ── HERO STATS ── */
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 56px;
+    border-top: 1px solid var(--border-dark);
+    padding-top: 40px;
+  }
+  .hero-stat {
+    padding: 0 32px 0 0;
+    border-right: 1px solid var(--border-dark);
+  }
+  .hero-stat:last-child { border-right: none; padding-left: 32px; padding-right: 0; }
+  .hero-stat:first-child { padding-left: 0; }
+  .hero-stat-num {
+    font-family: var(--mono);
+    font-size: 32px; font-weight: 700;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .hero-stat-label {
+    font-size: 12px; font-weight: 400;
+    color: var(--muted-light);
+    line-height: 1.4;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    height: 56px;
+    background: var(--night);
+    clip-path: polygon(0 0, 100% 0, 100% 40%, 0 100%);
+  }
+  .section-divider.invert {
+    background: var(--snow);
+    clip-path: polygon(0 0, 100% 60%, 100% 100%, 0 100%);
+  }
+
+  /* ── LISTINGS ── */
+  .listings {
+    background: var(--snow);
+    padding: 96px 48px;
+  }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 56px;
+  }
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 700;
+    color: var(--amber);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: 38px; font-weight: 700;
+    color: var(--night);
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+  }
+  .section-link {
+    font-size: 13px; font-weight: 600;
+    color: var(--night); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 1.5px solid var(--night);
+    padding-bottom: 2px;
+    white-space: nowrap;
+  }
+  .section-link:hover { color: #c88d1a; border-color: #c88d1a; }
+
+  /* Property cards — horizontal numbered */
+  .listings-grid {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .prop-card {
+    display: grid;
+    grid-template-columns: 72px 1fr 1fr auto;
+    align-items: center;
+    gap: 0;
+    background: var(--white);
+    border: 1px solid rgba(6,13,30,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .prop-card:hover {
+    box-shadow: 0 8px 32px rgba(6,13,30,0.08);
+    transform: translateY(-2px);
+  }
+  .prop-index {
+    background: var(--night);
+    height: 100%; display: flex;
+    align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 18px; font-weight: 700;
+    color: var(--amber);
+    min-height: 100px;
+  }
+  .prop-img-col {
+    width: 200px; height: 100px;
+    overflow: hidden; flex-shrink: 0;
+    position: relative;
+  }
+  .prop-img-mock {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    background: var(--night-3);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .prop-img-pattern {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(247,183,49,0.06) 0px, rgba(247,183,49,0.06) 1px,
+      transparent 1px, transparent 16px
+    );
+  }
+  .prop-img-label {
+    position: relative; z-index: 2;
+    font-size: 10px; font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .prop-badge {
+    position: absolute; top: 10px; left: 10px; z-index: 3;
+    background: var(--amber); color: var(--night);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px;
+  }
+  .prop-badge.sale { background: #1ed760; }
+  .prop-badge.construction { background: var(--amber); }
+  .prop-info {
+    padding: 16px 24px;
+  }
+  .prop-type {
+    font-size: 10px; font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .prop-name {
+    font-size: 16px; font-weight: 700;
+    color: var(--night);
+    margin-bottom: 4px;
+  }
+  .prop-loc {
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .prop-details {
+    padding: 16px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .prop-spec-row {
+    display: flex; gap: 20px;
+  }
+  .prop-spec {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--muted);
+  }
+  .prop-spec-val { font-weight: 600; color: var(--night); }
+  .prop-price-col {
+    padding: 16px 28px;
+    text-align: right;
+    border-left: 1px solid rgba(6,13,30,0.06);
+  }
+  .prop-price {
+    font-family: var(--mono);
+    font-size: 18px; font-weight: 700;
+    color: var(--night);
+    white-space: nowrap;
+  }
+  .prop-price-label {
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .prop-cta {
+    margin-top: 10px;
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700;
+    color: var(--amber);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* ── PROJECT SHOWCASE ── */
+  .showcase {
+    background: var(--white);
+    padding: 96px 48px;
+  }
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 280px 220px;
+    gap: 12px;
+  }
+  .showcase-card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: var(--night-3);
+    cursor: pointer;
+  }
+  .showcase-card.large {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+  .showcase-bg {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(247,183,49,0.04) 0, rgba(247,183,49,0.04) 1px,
+      transparent 1px, transparent 20px
+    );
+    transition: opacity 0.3s;
+  }
+  .showcase-card:hover .showcase-bg { opacity: 0; }
+  .showcase-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 35%, rgba(6,13,30,0.92) 100%);
+  }
+  .showcase-content {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 24px;
+    z-index: 2;
+  }
+  .showcase-tag {
+    background: var(--amber); color: var(--night);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 3px;
+    display: inline-block; margin-bottom: 10px;
+  }
+  .showcase-title {
+    font-size: 20px; font-weight: 700;
+    color: var(--white); line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .showcase-card.large .showcase-title {
+    font-size: 28px;
+  }
+  .showcase-meta {
+    font-size: 12px; color: var(--muted-light);
+  }
+  .showcase-progress {
+    margin-top: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .prog-track {
+    flex: 1; height: 2px;
+    background: rgba(255,255,255,0.15); border-radius: 2px;
+  }
+  .prog-fill {
+    height: 100%; background: var(--amber); border-radius: 2px;
+  }
+  .prog-label {
+    font-family: var(--mono);
+    font-size: 11px; color: var(--amber); font-weight: 700;
+  }
+  .showcase-icon {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    opacity: 0.06;
+    font-size: 120px;
+    color: var(--white);
+    z-index: 1;
+  }
+
+  /* ── INQUIRY / FORM ── */
+  .inquiry {
+    background: var(--night);
+    padding: 96px 48px;
+    display: grid;
+    grid-template-columns: 1fr 500px;
+    gap: 80px;
+    align-items: center;
+  }
+  .inquiry-left {}
+  .inquiry-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 700;
+    color: var(--amber);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .inquiry-heading {
+    font-size: 44px; font-weight: 700;
+    color: var(--white);
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+  }
+  .inquiry-heading em { font-style: normal; color: var(--amber); }
+  .inquiry-desc {
+    font-size: 15px; color: var(--muted-light);
+    line-height: 1.65; margin-bottom: 40px;
+  }
+  .inquiry-features {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .inquiry-feat {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: rgba(255,255,255,0.75);
+  }
+  .inquiry-feat-icon {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--amber-dim); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber); font-size: 14px;
+    flex-shrink: 0;
+  }
+  .form-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 40px;
+  }
+  .form-title {
+    font-size: 20px; font-weight: 700;
+    color: var(--night);
+    margin-bottom: 6px;
+  }
+  .form-sub {
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-label {
+    font-size: 11px; font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.5px; text-transform: uppercase;
+    display: block; margin-bottom: 6px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--snow);
+    border: 1px solid rgba(6,13,30,0.1);
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-family: var(--sans);
+    font-size: 14px; color: var(--night);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--amber);
+  }
+  .form-textarea { resize: vertical; min-height: 90px; }
+  .form-submit {
+    width: 100%;
+    background: var(--night); color: var(--amber);
+    font-family: var(--sans);
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    border: none; border-radius: 6px;
+    padding: 15px;
+    cursor: pointer;
+    margin-top: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--night-3); }
+  .form-privacy {
+    text-align: center;
+    font-size: 11px; color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* ── CTA / CONTACT ── */
+  .cta-section {
+    background: var(--snow);
+    padding: 96px 48px;
+  }
+  .cta-box {
+    background: var(--night);
+    border-radius: 16px;
+    padding: 72px 64px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.4;
+  }
+  .cta-box::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.2;
+  }
+  .cta-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 700;
+    color: var(--amber);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .cta-heading {
+    font-size: 46px; font-weight: 700;
+    color: var(--white);
+    letter-spacing: -2px; line-height: 1.0;
+    margin-bottom: 16px;
+  }
+  .cta-heading em { font-style: normal; color: var(--amber); }
+  .cta-sub {
+    font-size: 15px; color: var(--muted-light);
+    line-height: 1.6;
+  }
+  .cta-right {
+    display: flex; flex-direction: column; gap: 14px;
+    flex-shrink: 0; position: relative; z-index: 2;
+  }
+  .cta-contact-item {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--night-2);
+    border: 1px solid var(--border-dark);
+    border-radius: 10px; padding: 16px 20px;
+    min-width: 280px;
+  }
+  .cta-contact-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--amber-dim); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber); font-size: 18px;
+    flex-shrink: 0;
+  }
+  .cta-contact-label {
+    font-size: 10px; font-weight: 600;
+    color: var(--muted-light);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .cta-contact-val {
+    font-size: 14px; font-weight: 600;
+    color: var(--white);
+  }
+  .cta-actions {
+    display: flex; gap: 12px; margin-top: 32px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--night);
+    border-top: 1px solid var(--border-dark);
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .footer-brand {}
+  .footer-logo {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .footer-mark {
+    width: 24px; height: 24px;
+    background: var(--amber);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  .footer-wordmark {
+    font-family: var(--mono);
+    font-size: 13px; font-weight: 700;
+    color: var(--white); letter-spacing: 2px; text-transform: uppercase;
+  }
+  .footer-tagline {
+    font-size: 12px; color: var(--muted-light);
+    line-height: 1.55; max-width: 180px;
+  }
+  .footer-col-title {
+    font-size: 11px; font-weight: 700;
+    color: var(--amber);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .footer-links {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .footer-link {
+    font-size: 13px; color: var(--muted-light);
+    text-decoration: none; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--amber); }
+  .footer-bottom {
+    background: var(--night);
+    border-top: 1px solid var(--border-dark);
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-copy {
+    font-size: 12px; color: var(--muted-light);
+  }
+  .footer-bottom-links {
+    display: flex; gap: 24px;
+  }
+  .footer-bottom-link {
+    font-size: 12px; color: var(--muted-light);
+    text-decoration: none;
+  }
+  .footer-bottom-link:hover { color: var(--amber); }
+  .footer-socials {
+    display: flex; gap: 10px; margin-top: 20px;
+  }
+  .social-pill {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--night-2);
+    border: 1px solid var(--border-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--muted-light); cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-pill:hover { border-color: var(--amber); color: var(--amber); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-mark"></div>
+    <span class="nav-wordmark">Apex</span>
+  </a>
+  <div class="nav-links">
+    <a href="#">Properties</a>
+    <a href="#">Projects</a>
+    <a href="#">About</a>
+    <a href="#">News</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="nav-right">
+    <span class="nav-ghost">Sign In</span>
+    <span class="nav-cta">Get a Quote</span>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">Now Selling — The Meridian Tower <span class="ticker-dot"></span></span>
+    <span class="ticker-item">24 Units Available in Eastwood Rise <span class="ticker-dot"></span></span>
+    <span class="ticker-item">New Project Launch — Bayfront Commons <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Construction Update — Phase 3 Complete <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Award Winner — Best Developer 2024 PH <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Now Selling — The Meridian Tower <span class="ticker-dot"></span></span>
+    <span class="ticker-item">24 Units Available in Eastwood Rise <span class="ticker-dot"></span></span>
+    <span class="ticker-item">New Project Launch — Bayfront Commons <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Construction Update — Phase 3 Complete <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Award Winner — Best Developer 2024 PH <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-label">
+      <span class="hero-label-dot"></span>
+      Most Trusted Developer in the Philippines
+    </div>
+    <h1 class="hero-heading">
+      Build Where<br><em>Vision</em><br>Meets Value.
+    </h1>
+    <p class="hero-sub">
+      From premium condominiums to landmark commercial developments, Apex delivers properties engineered for generations. Your future address starts here.
+    </p>
+    <div class="hero-actions">
+      <a href="#listings" class="btn-primary">
+        Browse Properties
+        <span class="btn-arrow">→</span>
+      </a>
+      <a href="#showcase" class="btn-outline-light">
+        View Projects
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">₱12B+</div>
+        <div class="hero-stat-label">Total Project<br>Value Delivered</div>
+      </div>
+      <div class="hero-stat" style="padding-left: 32px;">
+        <div class="hero-stat-num">340+</div>
+        <div class="hero-stat-label">Properties<br>Completed</div>
+      </div>
+      <div class="hero-stat" style="padding-left: 32px;">
+        <div class="hero-stat-num">98%</div>
+        <div class="hero-stat-label">Client<br>Satisfaction Rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO GRID RIGHT -->
+  <div class="hero-bento">
+    <div class="bento-img">
+      <div class="bento-img-mock"></div>
+      <span class="bento-img-badge">Featured</span>
+      <span class="bento-img-title">The Meridian Tower</span>
+    </div>
+    <div class="bento-card accent">
+      <div class="bento-number">48</div>
+      <div class="bento-label">Active Listings</div>
+      <div class="bento-bar-row">
+        <div class="bento-bar-track"><div class="bento-bar-fill"></div></div>
+        <div class="bento-bar-pct">72%</div>
+      </div>
+    </div>
+    <div class="bento-card">
+      <div class="bento-number">18</div>
+      <div class="bento-label">Projects Ongoing</div>
+      <div class="bento-bar-row">
+        <div class="bento-bar-track"><div class="bento-bar-fill" style="width: 55%;"></div></div>
+        <div class="bento-bar-pct">55%</div>
+      </div>
+    </div>
+    <div class="bento-card span2" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px;">
+      <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--amber-dim); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F7B731" stroke-width="2" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div>
+        <div style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.45); letter-spacing: 0.5px; margin-bottom: 3px;">Next Open House</div>
+        <div style="font-size: 13px; font-weight: 600; color: var(--white);">Bayfront Commons — Sat, June 7</div>
+      </div>
+      <div style="margin-left: auto; background: var(--amber); color: var(--night); font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 5px 12px; border-radius: 3px; text-transform: uppercase; cursor: pointer;">RSVP</div>
+    </div>
+  </div>
+</section>
+
+<!-- LISTINGS -->
+<section class="listings" id="listings">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Available Now</div>
+      <h2 class="section-title">Property Listings</h2>
+    </div>
+    <a href="#" class="section-link">View all 48 properties →</a>
+  </div>
+
+  <div class="listings-grid">
+
+    <!-- Card 1 -->
+    <div class="prop-card">
+      <div class="prop-index">01</div>
+      <div class="prop-img-col">
+        <div class="prop-img-mock">
+          <div class="prop-img-pattern"></div>
+          <span class="prop-img-label">IMG</span>
+          <span class="prop-badge sale">For Sale</span>
+        </div>
+      </div>
+      <div class="prop-info">
+        <div class="prop-type">Condominium · BGC, Taguig</div>
+        <div class="prop-name">The Meridian Tower, Unit 22B</div>
+        <div class="prop-loc">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+          32nd Ave, Bonifacio Global City
+        </div>
+      </div>
+      <div class="prop-details">
+        <div class="prop-spec-row">
+          <span class="prop-spec"><span class="prop-spec-val">3</span>&nbsp;BR</span>
+          <span class="prop-spec"><span class="prop-spec-val">2</span>&nbsp;Bath</span>
+          <span class="prop-spec"><span class="prop-spec-val">88</span>&nbsp;sqm</span>
+        </div>
+        <div style="font-size: 11px; color: var(--muted);">High-floor · City View · Turnover Q3 2025</div>
+      </div>
+      <div class="prop-price-col">
+        <div class="prop-price-label">Starting at</div>
+        <div class="prop-price">₱9.2M</div>
+        <div class="prop-cta">Inquire →</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="prop-card">
+      <div class="prop-index">02</div>
+      <div class="prop-img-col">
+        <div class="prop-img-mock" style="background: #0d1a30;">
+          <div class="prop-img-pattern"></div>
+          <span class="prop-img-label">IMG</span>
+          <span class="prop-badge construction">Pre-Selling</span>
+        </div>
+      </div>
+      <div class="prop-info">
+        <div class="prop-type">House & Lot · Cavite</div>
+        <div class="prop-name">Eastwood Rise — Phase 2</div>
+        <div class="prop-loc">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+          Dasmarinas, Cavite
+        </div>
+      </div>
+      <div class="prop-details">
+        <div class="prop-spec-row">
+          <span class="prop-spec"><span class="prop-spec-val">4</span>&nbsp;BR</span>
+          <span class="prop-spec"><span class="prop-spec-val">3</span>&nbsp;Bath</span>
+          <span class="prop-spec"><span class="prop-spec-val">180</span>&nbsp;sqm</span>
+        </div>
+        <div style="font-size: 11px; color: var(--muted);">Corner Lot · Gated · Delivery 2026</div>
+      </div>
+      <div class="prop-price-col">
+        <div class="prop-price-label">Starting at</div>
+        <div class="prop-price">₱6.5M</div>
+        <div class="prop-cta">Inquire →</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="prop-card">
+      <div class="prop-index">03</div>
+      <div class="prop-img-col">
+        <div class="prop-img-mock" style="background: #122030;">
+          <div class="prop-img-pattern"></div>
+          <span class="prop-img-label">IMG</span>
+          <span class="prop-badge" style="background: #5B8DEF; color: #fff;">For Rent</span>
+        </div>
+      </div>
+      <div class="prop-info">
+        <div class="prop-type">Commercial · Makati CBD</div>
+        <div class="prop-name">Bayfront Office Suites</div>
+        <div class="prop-loc">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+          Ayala Ave, Makati City
+        </div>
+      </div>
+      <div class="prop-details">
+        <div class="prop-spec-row">
+          <span class="prop-spec"><span class="prop-spec-val">PEZA</span></span>
+          <span class="prop-spec"><span class="prop-spec-val">320</span>&nbsp;sqm</span>
+        </div>
+        <div style="font-size: 11px; color: var(--muted);">Ready to Move In · Fitted · 24/7 Security</div>
+      </div>
+      <div class="prop-price-col">
+        <div class="prop-price-label">Per month</div>
+        <div class="prop-price">₱240K</div>
+        <div class="prop-cta">Inquire →</div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="prop-card">
+      <div class="prop-index">04</div>
+      <div class="prop-img-col">
+        <div class="prop-img-mock" style="background: #1a1225;">
+          <div class="prop-img-pattern"></div>
+          <span class="prop-img-label">IMG</span>
+          <span class="prop-badge sale">For Sale</span>
+        </div>
+      </div>
+      <div class="prop-info">
+        <div class="prop-type">Townhouse · Quezon City</div>
+        <div class="prop-name">Vantage Row, Unit 07</div>
+        <div class="prop-loc">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+          Diliman, Quezon City
+        </div>
+      </div>
+      <div class="prop-details">
+        <div class="prop-spec-row">
+          <span class="prop-spec"><span class="prop-spec-val">3</span>&nbsp;BR</span>
+          <span class="prop-spec"><span class="prop-spec-val">2</span>&nbsp;Bath</span>
+          <span class="prop-spec"><span class="prop-spec-val">120</span>&nbsp;sqm</span>
+        </div>
+        <div style="font-size: 11px; color: var(--muted);">End Unit · Carport · Key-Ready</div>
+      </div>
+      <div class="prop-price-col">
+        <div class="prop-price-label">Starting at</div>
+        <div class="prop-price">₱5.8M</div>
+        <div class="prop-cta">Inquire →</div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="prop-card">
+      <div class="prop-index">05</div>
+      <div class="prop-img-col">
+        <div class="prop-img-mock" style="background: #0a2020;">
+          <div class="prop-img-pattern"></div>
+          <span class="prop-img-label">IMG</span>
+          <span class="prop-badge" style="background: #1ed760; color: #060D1E;">New</span>
+        </div>
+      </div>
+      <div class="prop-info">
+        <div class="prop-type">Lot Only · Laguna</div>
+        <div class="prop-name">Greenfield Estates — Block 5</div>
+        <div class="prop-loc">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+          Calamba, Laguna
+        </div>
+      </div>
+      <div class="prop-details">
+        <div class="prop-spec-row">
+          <span class="prop-spec"><span class="prop-spec-val">250</span>&nbsp;sqm</span>
+          <span class="prop-spec"><span class="prop-spec-val">Title</span>&nbsp;Ready</span>
+        </div>
+        <div style="font-size: 11px; color: var(--muted);">Master-Planned · Clubhouse · Flood-free</div>
+      </div>
+      <div class="prop-price-col">
+        <div class="prop-price-label">Starting at</div>
+        <div class="prop-price">₱3.2M</div>
+        <div class="prop-cta">Inquire →</div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="prop-card">
+      <div class="prop-index">06</div>
+      <div class="prop-img-col">
+        <div class="prop-img-mock" style="background: #1e1010;">
+          <div class="prop-img-pattern"></div>
+          <span class="prop-img-label">IMG</span>
+          <span class="prop-badge construction">Pre-Selling</span>
+        </div>
+      </div>
+      <div class="prop-info">
+        <div class="prop-type">Mixed-Use · Pasig</div>
+        <div class="prop-name">Orion Square — Retail Units</div>
+        <div class="prop-loc">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+          C5 Road, Pasig City
+        </div>
+      </div>
+      <div class="prop-details">
+        <div class="prop-spec-row">
+          <span class="prop-spec"><span class="prop-spec-val">60–200</span>&nbsp;sqm</span>
+        </div>
+        <div style="font-size: 11px; color: var(--muted);">Ground Floor · High Foot Traffic · 2026</div>
+      </div>
+      <div class="prop-price-col">
+        <div class="prop-price-label">Starting at</div>
+        <div class="prop-price">₱4.1M</div>
+        <div class="prop-cta">Inquire →</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECT SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Portfolio</div>
+      <h2 class="section-title">Project Showcase</h2>
+    </div>
+    <a href="#" class="section-link">See all projects →</a>
+  </div>
+
+  <div class="showcase-grid">
+    <!-- Large card -->
+    <div class="showcase-card large">
+      <div class="showcase-bg"></div>
+      <div class="showcase-overlay"></div>
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-55%); opacity: 0.04;">
+        <svg width="200" height="200" viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="showcase-content">
+        <span class="showcase-tag">Flagship · Residential</span>
+        <div class="showcase-title">The Meridian Tower</div>
+        <div class="showcase-meta">BGC, Taguig · 48 Floors · 320 Units</div>
+        <div class="showcase-progress">
+          <div class="prog-track"><div class="prog-fill" style="width: 78%;"></div></div>
+          <span class="prog-label">78% Sold</span>
+        </div>
+      </div>
+    </div>
+    <!-- Small cards -->
+    <div class="showcase-card">
+      <div class="showcase-bg"></div>
+      <div class="showcase-overlay"></div>
+      <div class="showcase-content">
+        <span class="showcase-tag">Commercial</span>
+        <div class="showcase-title">Bayfront Commons</div>
+        <div class="showcase-meta">Pasay · 12 Floors</div>
+        <div class="showcase-progress">
+          <div class="prog-track"><div class="prog-fill" style="width: 45%;"></div></div>
+          <span class="prog-label">Under Construction</span>
+        </div>
+      </div>
+    </div>
+    <div class="showcase-card">
+      <div class="showcase-bg"></div>
+      <div class="showcase-overlay"></div>
+      <div class="showcase-content">
+        <span class="showcase-tag">Subdivision</span>
+        <div class="showcase-title">Eastwood Rise</div>
+        <div class="showcase-meta">Dasmarinas, Cavite · 350 Lots</div>
+        <div class="showcase-progress">
+          <div class="prog-track"><div class="prog-fill" style="width: 92%;"></div></div>
+          <span class="prog-label">92% Complete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INQUIRY FORM -->
+<section class="inquiry" id="inquiry">
+  <div class="inquiry-left">
+    <div class="inquiry-eyebrow">Get In Touch</div>
+    <h2 class="inquiry-heading">Ready to Find<br>Your <em>Next</em><br>Property?</h2>
+    <p class="inquiry-desc">Our property consultants are standing by to guide you through every step — from shortlisting to turnover. No pressure, just honest advice.</p>
+    <div class="inquiry-features">
+      <div class="inquiry-feat">
+        <div class="inquiry-feat-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        Dedicated consultant within 24 hours
+      </div>
+      <div class="inquiry-feat">
+        <div class="inquiry-feat-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        Free site visit & property tour scheduling
+      </div>
+      <div class="inquiry-feat">
+        <div class="inquiry-feat-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        In-house financing & payment computation
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-title">Send an Inquiry</div>
+    <div class="form-sub">Fill out the form below and we'll get back to you within one business day.</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-input" placeholder="Juan">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-input" placeholder="dela Cruz">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <input type="email" class="form-input" placeholder="juan@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phone Number</label>
+      <input type="tel" class="form-input" placeholder="+63 917 000 0000">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Property Type</label>
+        <select class="form-select">
+          <option>Condominium</option>
+          <option>House & Lot</option>
+          <option>Lot Only</option>
+          <option>Commercial</option>
+          <option>Mixed-Use</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Budget Range</label>
+        <select class="form-select">
+          <option>₱2M – ₱5M</option>
+          <option>₱5M – ₱10M</option>
+          <option>₱10M – ₱20M</option>
+          <option>₱20M+</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message (Optional)</label>
+      <textarea class="form-textarea" placeholder="Tell us more about what you're looking for…"></textarea>
+    </div>
+    <button class="form-submit">
+      Submit Inquiry
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <div class="form-privacy">🔒 Your information is safe. We never share your data.</div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta-section">
+  <div class="cta-box">
+    <div>
+      <div class="cta-eyebrow">Start Your Journey</div>
+      <h2 class="cta-heading">Every <em>Dream</em><br>Needs a<br>Foundation.</h2>
+      <p class="cta-sub" style="max-width: 400px;">Whether you're investing, relocating, or building from the ground up — Apex has the expertise and portfolio to make it happen.</p>
+      <div class="cta-actions">
+        <a href="#inquiry" class="btn-primary" style="background: var(--amber); color: var(--night);">
+          Start Inquiry
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="#" class="btn-outline-light">Download Brochure</a>
+      </div>
+    </div>
+    <div class="cta-right">
+      <div class="cta-contact-item">
+        <div class="cta-contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="cta-contact-label">Call Us</div>
+          <div class="cta-contact-val">+63 2 8888 APEX</div>
+        </div>
+      </div>
+      <div class="cta-contact-item">
+        <div class="cta-contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="cta-contact-label">Email</div>
+          <div class="cta-contact-val">inquiries@apexdev.ph</div>
+        </div>
+      </div>
+      <div class="cta-contact-item">
+        <div class="cta-contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="cta-contact-label">Showroom</div>
+          <div class="cta-contact-val">32nd Ave, BGC · Mon–Sat 9–6PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">
+      <div class="footer-mark"></div>
+      <span class="footer-wordmark">Apex</span>
+    </div>
+    <div class="footer-tagline">Building the Philippines' finest addresses since 2004.</div>
+    <div class="footer-socials">
+      <div class="social-pill">f</div>
+      <div class="social-pill">in</div>
+      <div class="social-pill">ig</div>
+      <div class="social-pill">yt</div>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-title">Properties</div>
+    <div class="footer-links">
+      <a class="footer-link" href="#">For Sale</a>
+      <a class="footer-link" href="#">For Rent</a>
+      <a class="footer-link" href="#">Pre-Selling</a>
+      <a class="footer-link" href="#">Commercial</a>
+      <a class="footer-link" href="#">Lot Only</a>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-title">Company</div>
+    <div class="footer-links">
+      <a class="footer-link" href="#">About Apex</a>
+      <a class="footer-link" href="#">Projects</a>
+      <a class="footer-link" href="#">Awards</a>
+      <a class="footer-link" href="#">Careers</a>
+      <a class="footer-link" href="#">News & Updates</a>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-title">Support</div>
+    <div class="footer-links">
+      <a class="footer-link" href="#">FAQs</a>
+      <a class="footer-link" href="#">Financing Guide</a>
+      <a class="footer-link" href="#">Buyer's Checklist</a>
+      <a class="footer-link" href="#">Privacy Policy</a>
+      <a class="footer-link" href="#">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Apex Development Corporation. All rights reserved. HLURB Lic. No. 000123.</span>
+  <div class="footer-bottom-links">
+    <a class="footer-bottom-link" href="#">Privacy</a>
+    <a class="footer-bottom-link" href="#">Terms</a>
+    <a class="footer-bottom-link" href="#">Sitemap</a>
+  </div>
+</div>
+
+</body>
+</html>

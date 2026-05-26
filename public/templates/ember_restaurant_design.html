@@ -1,0 +1,286 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+  .ember-wrap * { box-sizing: border-box; margin: 0; padding: 0; }
+  .ember-wrap { font-family: 'Inter', sans-serif; background: #0a0704; color: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #2a1a0a; }
+  .playfair { font-family: 'Playfair Display', serif; }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 32px; background: rgba(10,7,4,0.95); border-bottom: 1px solid #1e1206; position: relative; z-index: 10; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #e8944a; letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links span { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); cursor: pointer; transition: color 0.2s; }
+  .nav-links span:hover { color: #e8944a; }
+  .nav-cta { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; background: #e8944a; color: #0a0704; padding: 8px 18px; border-radius: 4px; font-weight: 600; cursor: pointer; }
+
+  .hero { position: relative; min-height: 340px; display: flex; align-items: center; overflow: hidden; background: #0a0704; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(180,80,20,0.18) 0%, transparent 65%), radial-gradient(ellipse at 20% 80%, rgba(232,148,74,0.08) 0%, transparent 50%); }
+  .hero-lines { position: absolute; inset: 0; opacity: 0.04; background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(232,148,74,0.8) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(232,148,74,0.8) 40px); }
+  .hero-content { position: relative; z-index: 2; padding: 52px 36px; flex: 1; max-width: 60%; }
+  .hero-tag { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #e8944a; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .hero-tag::before { content: ''; display: inline-block; width: 28px; height: 1px; background: #e8944a; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900; line-height: 1.0; color: #fff; margin-bottom: 20px; }
+  .hero-title em { color: #e8944a; font-style: italic; }
+  .hero-sub { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.8; margin-bottom: 32px; max-width: 320px; }
+  .hero-btns { display: flex; gap: 14px; align-items: center; }
+  .btn-primary { background: #e8944a; color: #0a0704; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 13px 28px; border-radius: 4px; cursor: pointer; }
+  .btn-ghost { border: 1px solid rgba(232,148,74,0.4); color: #e8944a; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 13px 28px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .hero-img-panel { position: absolute; right: 0; top: 0; bottom: 0; width: 42%; display: flex; align-items: center; justify-content: center; }
+  .hero-plate { width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #3a2010, #1a0e06); border: 1px solid rgba(232,148,74,0.15); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; position: relative; }
+  .hero-plate::before { content: ''; position: absolute; inset: -12px; border-radius: 50%; border: 1px solid rgba(232,148,74,0.08); }
+  .hero-plate::after { content: ''; position: absolute; inset: -24px; border-radius: 50%; border: 1px solid rgba(232,148,74,0.04); }
+  .plate-emoji { font-size: 56px; line-height: 1; }
+  .plate-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(232,148,74,0.5); }
+  .hero-badge { position: absolute; bottom: 20px; right: 20px; background: rgba(232,148,74,0.1); border: 1px solid rgba(232,148,74,0.25); border-radius: 8px; padding: 10px 14px; }
+  .badge-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #e8944a; line-height: 1; }
+  .badge-txt { font-size: 9px; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+
+  .section { padding: 48px 36px; }
+  .section-tag { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #e8944a; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .section-tag::before { content: ''; display: inline-block; width: 20px; height: 1px; background: #e8944a; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .section-sub { font-size: 13px; color: rgba(255,255,255,0.35); line-height: 1.7; }
+  .divider { height: 1px; background: linear-gradient(to right, rgba(232,148,74,0.15), transparent); margin: 0 36px; }
+
+  .menu-section { background: #0c0805; }
+  .menu-cats { display: flex; gap: 6px; margin-bottom: 28px; flex-wrap: wrap; }
+  .menu-cat { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 7px 16px; border-radius: 20px; cursor: pointer; }
+  .menu-cat.active { background: #e8944a; color: #0a0704; font-weight: 600; }
+  .menu-cat:not(.active) { border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); }
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .menu-item { background: #120b05; border: 1px solid #1e1206; border-radius: 10px; padding: 16px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .menu-item-info { flex: 1; }
+  .menu-item-name { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 4px; }
+  .menu-item-desc { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.6; }
+  .menu-item-price { font-family: 'Playfair Display', serif; font-size: 16px; color: #e8944a; font-weight: 700; white-space: nowrap; }
+  .menu-feat { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .feat-dot { width: 5px; height: 5px; border-radius: 50%; background: #e8944a; opacity: 0.6; }
+  .feat-txt { font-size: 9px; color: rgba(232,148,74,0.6); letter-spacing: 1px; text-transform: uppercase; }
+
+  .gallery-section { background: #0a0704; }
+  .gallery-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 10px; margin-top: 28px; }
+  .gal-item { border-radius: 10px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+  .gal-item.tall { grid-row: span 2; }
+  .gal-inner { width: 100%; padding-bottom: 75%; position: relative; background: #1a0e06; border: 1px solid #2a1a0a; border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .gal-item.tall .gal-inner { padding-bottom: 0; height: 200px; }
+  .gal-emoji { font-size: 36px; opacity: 0.7; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .gal-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,7,4,0.7) 0%, transparent 60%); border-radius: 10px; display: flex; align-items: flex-end; padding: 12px; }
+  .gal-label { font-size: 10px; letter-spacing: 1.5px; color: rgba(255,255,255,0.6); text-transform: uppercase; }
+
+  .info-section { background: #0c0805; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .info-half { padding: 40px 36px; }
+  .info-half:first-child { border-right: 1px solid #1e1206; }
+  .info-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+  .info-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(232,148,74,0.1); border: 1px solid rgba(232,148,74,0.2); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .info-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 4px; }
+  .info-val { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+  .map-placeholder { width: 100%; height: 130px; background: #120b05; border-radius: 10px; border: 1px solid #1e1206; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; margin-top: 16px; }
+  .map-emoji { font-size: 28px; opacity: 0.5; }
+  .map-txt { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+
+  .reserve-section { background: #0a0704; padding: 48px 36px; }
+  .reserve-inner { background: #120b05; border: 1px solid #2a1a0a; border-radius: 14px; padding: 32px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 36px; align-items: center; }
+  .reserve-left .section-tag { margin-bottom: 10px; }
+  .reserve-left .section-title { font-size: 26px; margin-bottom: 12px; }
+  .reserve-left p { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.8; }
+  .reserve-form { display: flex; flex-direction: column; gap: 10px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-field { background: rgba(255,255,255,0.04); border: 1px solid #2a1a0a; border-radius: 8px; padding: 11px 14px; font-size: 12px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 8px; }
+  .form-field i { font-size: 14px; color: #e8944a; opacity: 0.7; }
+  .reserve-btn { background: #e8944a; color: #0a0704; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 13px; border-radius: 8px; text-align: center; cursor: pointer; margin-top: 4px; }
+
+  .footer { background: #070503; border-top: 1px solid #1a0e06; padding: 24px 36px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 16px; color: #e8944a; opacity: 0.7; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links span { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+  .footer-copy { font-size: 10px; color: rgba(255,255,255,0.15); }
+</style>
+
+<div class="ember-wrap">
+
+  <nav class="nav">
+    <div class="nav-logo">Ember Kitchen</div>
+    <div class="nav-links">
+      <span>Menu</span>
+      <span>Gallery</span>
+      <span>Reserve</span>
+      <span>Find Us</span>
+    </div>
+    <div class="nav-cta">Book a Table</div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Fine Dining · Est. 2019</div>
+      <h1 class="hero-title playfair">Where Every<br><em>Meal</em> is an Art</h1>
+      <p class="hero-sub">A curated dining experience where bold fire-kissed flavors meet intimate atmosphere. Reservations recommended.</p>
+      <div class="hero-btns">
+        <div class="btn-primary">Reserve a Table</div>
+        <div class="btn-ghost"><i class="ti ti-book-2" aria-hidden="true"></i> View Menu</div>
+      </div>
+    </div>
+    <div class="hero-img-panel">
+      <div class="hero-plate">
+        <div class="plate-emoji">🔥</div>
+        <div class="plate-label">Signature Dish</div>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-num">4.9</div>
+        <div class="badge-txt">Guest Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="section menu-section">
+    <div class="section-tag">Our Menu</div>
+    <div class="section-title">Crafted with Fire</div>
+    <p class="section-sub" style="margin-bottom: 24px;">Seasonal ingredients. Refined technique. Bold character.</p>
+    <div class="menu-cats">
+      <div class="menu-cat active">Starters</div>
+      <div class="menu-cat">Mains</div>
+      <div class="menu-cat">Desserts</div>
+      <div class="menu-cat">Drinks</div>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Charred Bone Marrow</div>
+          <div class="menu-item-desc">Toasted sourdough, chimichurri, sea salt</div>
+          <div class="menu-feat"><div class="feat-dot"></div><div class="feat-txt">Chef's Pick</div></div>
+        </div>
+        <div class="menu-item-price">₱480</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Smoked Burrata</div>
+          <div class="menu-item-desc">Heirloom tomatoes, basil oil, crispy capers</div>
+        </div>
+        <div class="menu-item-price">₱420</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Wagyu Tartare</div>
+          <div class="menu-item-desc">Egg yolk, dijon, toasted brioche</div>
+          <div class="menu-feat"><div class="feat-dot"></div><div class="feat-txt">Seasonal</div></div>
+        </div>
+        <div class="menu-item-price">₱680</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Ember Oysters</div>
+          <div class="menu-item-desc">Grilled half-shell, lemon butter, herbs</div>
+        </div>
+        <div class="menu-item-price">₱560</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="section gallery-section">
+    <div class="section-tag">Gallery</div>
+    <div class="section-title">The Experience</div>
+    <div class="gallery-grid">
+      <div class="gal-item tall">
+        <div class="gal-inner" style="height:200px;">
+          <div class="gal-emoji">🥩</div>
+          <div class="gal-overlay"><span class="gal-label">Signature Mains</span></div>
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-inner">
+          <div class="gal-emoji">🍷</div>
+          <div class="gal-overlay"><span class="gal-label">Wine Selection</span></div>
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-inner">
+          <div class="gal-emoji">🕯️</div>
+          <div class="gal-overlay"><span class="gal-label">Ambiance</span></div>
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-inner">
+          <div class="gal-emoji">🍮</div>
+          <div class="gal-overlay"><span class="gal-label">Desserts</span></div>
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-inner">
+          <div class="gal-emoji">👨‍🍳</div>
+          <div class="gal-overlay"><span class="gal-label">The Kitchen</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="info-section">
+    <div class="info-half">
+      <div class="section-tag">Find Us</div>
+      <div class="section-title" style="font-size:24px; margin-bottom:20px;">Location & Hours</div>
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div>
+          <div class="info-label">Address</div>
+          <div class="info-val">12 Burgos Circle, BGC<br>Taguig City, Metro Manila</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🕐</div>
+        <div>
+          <div class="info-label">Hours</div>
+          <div class="info-val">Tue – Sun: 6pm – 11pm<br>Monday: Closed</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📞</div>
+        <div>
+          <div class="info-label">Reservations</div>
+          <div class="info-val">+63 917 888 2345</div>
+        </div>
+      </div>
+      <div class="map-placeholder">
+        <div class="map-emoji">🗺️</div>
+        <div class="map-txt">Embedded Map</div>
+      </div>
+    </div>
+    <div class="info-half">
+      <div class="reserve-section" style="padding:0;">
+        <div class="reserve-inner" style="grid-template-columns:1fr; background:transparent; border:none; padding:0; gap:20px;">
+          <div>
+            <div class="section-tag">Reservations</div>
+            <div class="section-title" style="font-size:24px; margin-bottom:10px;">Book a Table</div>
+            <p style="font-size:12px; color:rgba(255,255,255,0.35); line-height:1.8;">Walk-ins welcome, but reservations are strongly recommended for a guaranteed experience.</p>
+          </div>
+          <div class="reserve-form">
+            <div class="form-row">
+              <div class="form-field"><i class="ti ti-user" aria-hidden="true"></i> Full Name</div>
+              <div class="form-field"><i class="ti ti-users" aria-hidden="true"></i> Guests</div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><i class="ti ti-calendar" aria-hidden="true"></i> Date</div>
+              <div class="form-field"><i class="ti ti-clock" aria-hidden="true"></i> Time</div>
+            </div>
+            <div class="form-field" style="color:rgba(255,255,255,0.25);"><i class="ti ti-message" aria-hidden="true"></i> Special requests (optional)</div>
+            <div class="reserve-btn">Confirm Reservation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Ember Kitchen</div>
+    <div class="footer-links">
+      <span>Instagram</span>
+      <span>Facebook</span>
+      <span>TripAdvisor</span>
+    </div>
+    <div class="footer-copy">© 2025 Ember Kitchen</div>
+  </footer>
+
+</div>

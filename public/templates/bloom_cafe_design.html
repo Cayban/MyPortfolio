@@ -1,0 +1,356 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap');
+  .bloom-wrap * { box-sizing: border-box; margin: 0; padding: 0; }
+  .bloom-wrap { font-family: 'DM Sans', sans-serif; background: #faf7f2; color: #2c1f0e; border-radius: 16px; overflow: hidden; border: 1px solid #e8ddd0; }
+  .cormorant { font-family: 'Cormorant Garamond', serif; }
+
+  .bloom-nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 36px; background: #faf7f2; border-bottom: 1px solid #ede5d8; }
+  .bloom-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #2c1f0e; letter-spacing: 1px; display: flex; flex-direction: column; line-height: 1; }
+  .bloom-logo span { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: #b07d4a; font-family: 'DM Sans', sans-serif; font-weight: 400; margin-top: 2px; }
+  .bloom-nav-links { display: flex; gap: 28px; }
+  .bloom-nav-links a { font-size: 12px; letter-spacing: 1px; color: rgba(44,31,14,0.5); text-decoration: none; }
+  .bloom-nav-cta { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid #b07d4a; color: #b07d4a; padding: 9px 20px; border-radius: 30px; cursor: pointer; }
+
+  .bloom-hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 360px; }
+  .bloom-hero-left { padding: 56px 40px 56px 36px; display: flex; flex-direction: column; justify-content: center; background: #faf7f2; }
+  .bloom-eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #b07d4a; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .bloom-eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: #b07d4a; opacity: 0.5; }
+  .bloom-hero-title { font-family: 'Cormorant Garamond', serif; font-size: 54px; font-weight: 600; line-height: 1.05; color: #2c1f0e; margin-bottom: 20px; }
+  .bloom-hero-title em { color: #b07d4a; font-style: italic; }
+  .bloom-hero-sub { font-size: 13px; color: rgba(44,31,14,0.5); line-height: 1.9; margin-bottom: 32px; max-width: 280px; }
+  .bloom-btns { display: flex; gap: 14px; align-items: center; }
+  .bloom-btn-fill { background: #2c1f0e; color: #faf7f2; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 13px 28px; border-radius: 30px; cursor: pointer; }
+  .bloom-btn-text { font-size: 12px; color: #b07d4a; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .bloom-hero-right { background: #f0e8d8; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .bloom-hero-deco { position: absolute; width: 280px; height: 280px; border-radius: 50%; background: rgba(176,125,74,0.1); top: -40px; right: -40px; }
+  .bloom-hero-deco2 { position: absolute; width: 160px; height: 160px; border-radius: 50%; background: rgba(176,125,74,0.08); bottom: 20px; left: 20px; }
+  .bloom-hero-plate { width: 180px; height: 180px; border-radius: 50%; background: #faf7f2; border: 1px solid #e0d0bc; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; position: relative; z-index: 2; box-shadow: 0 20px 60px rgba(176,125,74,0.15); }
+  .bloom-plate-emoji { font-size: 60px; line-height: 1; }
+  .bloom-plate-tag { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #b07d4a; opacity: 0.7; }
+  .bloom-stats { position: absolute; bottom: 24px; left: 24px; display: flex; gap: 20px; }
+  .bloom-stat { background: #faf7f2; border-radius: 10px; padding: 10px 14px; box-shadow: 0 4px 20px rgba(176,125,74,0.12); }
+  .bloom-stat-n { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: #2c1f0e; line-height: 1; }
+  .bloom-stat-l { font-size: 9px; color: rgba(44,31,14,0.4); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+  .bloom-marquee { background: #2c1f0e; padding: 12px 0; overflow: hidden; white-space: nowrap; }
+  .bloom-marquee-inner { display: inline-flex; gap: 40px; animation: marquee 18s linear infinite; }
+  @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+  .bloom-marquee-item { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(250,247,242,0.4); display: flex; align-items: center; gap: 14px; }
+  .bloom-marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: #b07d4a; }
+
+  .bloom-section { padding: 52px 36px; }
+  .bloom-section-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #b07d4a; margin-bottom: 8px; }
+  .bloom-section-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: #2c1f0e; margin-bottom: 6px; }
+  .bloom-section-sub { font-size: 13px; color: rgba(44,31,14,0.45); line-height: 1.8; }
+  .bloom-divider { height: 1px; background: #ede5d8; margin: 0 36px; }
+
+  .bloom-menu { background: #faf7f2; }
+  .bloom-menu-tabs { display: flex; gap: 0; border: 1px solid #ede5d8; border-radius: 30px; overflow: hidden; width: fit-content; margin-bottom: 28px; }
+  .bloom-tab { font-size: 11px; letter-spacing: 1px; padding: 8px 20px; cursor: pointer; color: rgba(44,31,14,0.4); }
+  .bloom-tab.active { background: #2c1f0e; color: #faf7f2; }
+  .bloom-menu-list { display: flex; flex-direction: column; gap: 0; border: 1px solid #ede5d8; border-radius: 12px; overflow: hidden; }
+  .bloom-menu-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #ede5d8; gap: 16px; }
+  .bloom-menu-row:last-child { border-bottom: none; }
+  .bloom-menu-row:hover { background: #f5ede0; }
+  .bloom-menu-left { display: flex; align-items: center; gap: 14px; }
+  .bloom-menu-emoji { font-size: 24px; width: 44px; height: 44px; background: #f0e8d8; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .bloom-menu-name { font-size: 14px; font-weight: 500; color: #2c1f0e; margin-bottom: 3px; }
+  .bloom-menu-desc { font-size: 11px; color: rgba(44,31,14,0.4); }
+  .bloom-menu-right { display: flex; align-items: center; gap: 16px; }
+  .bloom-menu-badge { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; background: #f0e8d8; color: #b07d4a; padding: 3px 10px; border-radius: 20px; }
+  .bloom-menu-price { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: #2c1f0e; min-width: 50px; text-align: right; }
+
+  .bloom-gallery { background: #f5ede0; }
+  .bloom-gallery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto; gap: 10px; margin-top: 28px; }
+  .bloom-gal { border-radius: 12px; overflow: hidden; background: #e8d8c4; border: 1px solid #ddd0bc; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; position: relative; }
+  .bloom-gal.wide { grid-column: span 2; }
+  .bloom-gal-inner { width: 100%; height: 110px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
+  .bloom-gal.wide .bloom-gal-inner { height: 130px; }
+  .bloom-gal-emoji { font-size: 34px; opacity: 0.8; }
+  .bloom-gal-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(44,31,14,0.4); }
+
+  .bloom-about { background: #faf7f2; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .bloom-about-left { padding: 52px 36px; border-right: 1px solid #ede5d8; }
+  .bloom-about-right { padding: 52px 36px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+  .bloom-quote { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: #2c1f0e; line-height: 1.5; margin-bottom: 16px; border-left: 3px solid #b07d4a; padding-left: 20px; }
+  .bloom-quote-attr { font-size: 11px; color: rgba(44,31,14,0.4); letter-spacing: 1px; text-transform: uppercase; padding-left: 20px; }
+  .bloom-value { display: flex; align-items: flex-start; gap: 14px; }
+  .bloom-value-dot { width: 8px; height: 8px; border-radius: 50%; background: #b07d4a; margin-top: 5px; flex-shrink: 0; }
+  .bloom-value-title { font-size: 13px; font-weight: 500; color: #2c1f0e; margin-bottom: 3px; }
+  .bloom-value-desc { font-size: 12px; color: rgba(44,31,14,0.45); line-height: 1.7; }
+
+  .bloom-location { background: #f5ede0; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .bloom-loc-left { padding: 52px 36px; border-right: 1px solid #ddd0bc; }
+  .bloom-loc-right { padding: 52px 36px; }
+  .bloom-info-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+  .bloom-info-icon { width: 38px; height: 38px; border-radius: 10px; background: #faf7f2; border: 1px solid #ddd0bc; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .bloom-info-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #b07d4a; margin-bottom: 4px; }
+  .bloom-info-val { font-size: 13px; color: #2c1f0e; line-height: 1.7; }
+  .bloom-map { width: 100%; height: 140px; background: #e8d8c4; border-radius: 12px; border: 1px solid #ddd0bc; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; margin-top: 16px; }
+  .bloom-map-emoji { font-size: 28px; opacity: 0.5; }
+  .bloom-map-txt { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(44,31,14,0.3); }
+  .bloom-contact-form { display: flex; flex-direction: column; gap: 10px; }
+  .bloom-field { background: #faf7f2; border: 1px solid #ddd0bc; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: rgba(44,31,14,0.4); display: flex; align-items: center; gap: 10px; }
+  .bloom-field i { font-size: 14px; color: #b07d4a; opacity: 0.7; }
+  .bloom-submit { background: #2c1f0e; color: #faf7f2; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 13px; border-radius: 8px; text-align: center; cursor: pointer; margin-top: 4px; }
+
+  .bloom-footer { background: #2c1f0e; padding: 28px 36px; display: flex; align-items: center; justify-content: space-between; }
+  .bloom-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #faf7f2; opacity: 0.8; }
+  .bloom-footer-links { display: flex; gap: 20px; }
+  .bloom-footer-links span { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(250,247,242,0.3); }
+  .bloom-footer-copy { font-size: 10px; color: rgba(250,247,242,0.2); }
+</style>
+
+<div class="bloom-wrap">
+
+  <nav class="bloom-nav">
+    <div class="bloom-logo">The Bloom Café <span>Specialty Coffee & Kitchen</span></div>
+    <div class="bloom-nav-links">
+      <a href="#">Menu</a>
+      <a href="#">Our Story</a>
+      <a href="#">Gallery</a>
+      <a href="#">Find Us</a>
+    </div>
+    <div class="bloom-nav-cta">Order Now</div>
+  </nav>
+
+  <section class="bloom-hero">
+    <div class="bloom-hero-left">
+      <div class="bloom-eyebrow">Specialty Coffee & Kitchen</div>
+      <h1 class="bloom-hero-title cormorant">Fresh Plates,<br><em>Bold Flavors</em></h1>
+      <p class="bloom-hero-sub">A bright, welcoming space where every cup is brewed with intention and every dish is made from scratch.</p>
+      <div class="bloom-btns">
+        <div class="bloom-btn-fill">View Our Menu</div>
+        <div class="bloom-btn-text">Our Story →</div>
+      </div>
+    </div>
+    <div class="bloom-hero-right">
+      <div class="bloom-hero-deco"></div>
+      <div class="bloom-hero-deco2"></div>
+      <div class="bloom-hero-plate">
+        <div class="bloom-plate-emoji">☕</div>
+        <div class="bloom-plate-tag">Brewed Fresh</div>
+      </div>
+      <div class="bloom-stats">
+        <div class="bloom-stat">
+          <div class="bloom-stat-n">4.8★</div>
+          <div class="bloom-stat-l">Rating</div>
+        </div>
+        <div class="bloom-stat">
+          <div class="bloom-stat-n">6+</div>
+          <div class="bloom-stat-l">Yrs Open</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bloom-marquee">
+    <div class="bloom-marquee-inner">
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Single Origin Coffee</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Freshly Baked Pastries</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>All-Day Breakfast</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Plant-Based Options</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Seasonal Specials</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Single Origin Coffee</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Freshly Baked Pastries</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>All-Day Breakfast</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Plant-Based Options</div>
+      <div class="bloom-marquee-item"><div class="bloom-marquee-dot"></div>Seasonal Specials</div>
+    </div>
+  </div>
+
+  <section class="bloom-section bloom-menu">
+    <div class="bloom-section-label">Our Menu</div>
+    <div class="bloom-section-title">Made from Scratch</div>
+    <p class="bloom-section-sub" style="margin-bottom:24px;">Simple, honest food made with ingredients you can trust.</p>
+    <div class="bloom-menu-tabs">
+      <div class="bloom-tab active">Coffee</div>
+      <div class="bloom-tab">All-Day Brunch</div>
+      <div class="bloom-tab">Pastries</div>
+      <div class="bloom-tab">Drinks</div>
+    </div>
+    <div class="bloom-menu-list">
+      <div class="bloom-menu-row">
+        <div class="bloom-menu-left">
+          <div class="bloom-menu-emoji">☕</div>
+          <div>
+            <div class="bloom-menu-name">Signature Bloom Latte</div>
+            <div class="bloom-menu-desc">Double shot, oat milk, house vanilla syrup</div>
+          </div>
+        </div>
+        <div class="bloom-menu-right">
+          <div class="bloom-menu-badge">Bestseller</div>
+          <div class="bloom-menu-price">₱185</div>
+        </div>
+      </div>
+      <div class="bloom-menu-row">
+        <div class="bloom-menu-left">
+          <div class="bloom-menu-emoji">🧇</div>
+          <div>
+            <div class="bloom-menu-name">Ricotta Hotcakes</div>
+            <div class="bloom-menu-desc">Seasonal fruit compote, whipped butter, maple</div>
+          </div>
+        </div>
+        <div class="bloom-menu-right">
+          <div class="bloom-menu-badge">Chef's Pick</div>
+          <div class="bloom-menu-price">₱320</div>
+        </div>
+      </div>
+      <div class="bloom-menu-row">
+        <div class="bloom-menu-left">
+          <div class="bloom-menu-emoji">🥑</div>
+          <div>
+            <div class="bloom-menu-name">Avocado Toast</div>
+            <div class="bloom-menu-desc">Sourdough, smashed avo, poached egg, dukkah</div>
+          </div>
+        </div>
+        <div class="bloom-menu-right">
+          <div class="bloom-menu-price">₱295</div>
+        </div>
+      </div>
+      <div class="bloom-menu-row">
+        <div class="bloom-menu-left">
+          <div class="bloom-menu-emoji">🍰</div>
+          <div>
+            <div class="bloom-menu-name">Basque Cheesecake</div>
+            <div class="bloom-menu-desc">Burnt top, creamy center, berry coulis</div>
+          </div>
+        </div>
+        <div class="bloom-menu-right">
+          <div class="bloom-menu-badge">Daily Bake</div>
+          <div class="bloom-menu-price">₱220</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bloom-divider"></div>
+
+  <section class="bloom-section bloom-gallery">
+    <div class="bloom-section-label">Gallery</div>
+    <div class="bloom-section-title">A Little Peek Inside</div>
+    <div class="bloom-gallery-grid">
+      <div class="bloom-gal wide">
+        <div class="bloom-gal-inner">
+          <div class="bloom-gal-emoji">🥞</div>
+          <div class="bloom-gal-label">All-Day Brunch</div>
+        </div>
+      </div>
+      <div class="bloom-gal">
+        <div class="bloom-gal-inner">
+          <div class="bloom-gal-emoji">☕</div>
+          <div class="bloom-gal-label">Our Coffee</div>
+        </div>
+      </div>
+      <div class="bloom-gal">
+        <div class="bloom-gal-inner">
+          <div class="bloom-gal-emoji">🌿</div>
+          <div class="bloom-gal-label">The Space</div>
+        </div>
+      </div>
+      <div class="bloom-gal">
+        <div class="bloom-gal-inner">
+          <div class="bloom-gal-emoji">🍰</div>
+          <div class="bloom-gal-label">Pastries</div>
+        </div>
+      </div>
+      <div class="bloom-gal wide">
+        <div class="bloom-gal-inner">
+          <div class="bloom-gal-emoji">🌸</div>
+          <div class="bloom-gal-label">Weekend Vibes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bloom-divider"></div>
+
+  <section class="bloom-about">
+    <div class="bloom-about-left">
+      <div class="bloom-section-label">Our Story</div>
+      <div class="bloom-section-title" style="margin-bottom:20px;">Started with a Cup</div>
+      <div class="bloom-quote">"We believe that good food and good coffee should be simple, honest, and made with love."</div>
+      <div class="bloom-quote-attr">— Lea Santos, Founder</div>
+    </div>
+    <div class="bloom-about-right">
+      <div class="bloom-value">
+        <div class="bloom-value-dot"></div>
+        <div>
+          <div class="bloom-value-title">Locally Sourced</div>
+          <div class="bloom-value-desc">We partner with local farms and roasters to bring you the freshest ingredients every day.</div>
+        </div>
+      </div>
+      <div class="bloom-value">
+        <div class="bloom-value-dot"></div>
+        <div>
+          <div class="bloom-value-title">Made Fresh Daily</div>
+          <div class="bloom-value-desc">Everything on our menu is prepared in-house from scratch — no shortcuts, no compromise.</div>
+        </div>
+      </div>
+      <div class="bloom-value">
+        <div class="bloom-value-dot"></div>
+        <div>
+          <div class="bloom-value-title">A Place to Stay</div>
+          <div class="bloom-value-desc">Whether you're here for an hour or an afternoon, we want you to feel at home.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bloom-divider"></div>
+
+  <section class="bloom-location">
+    <div class="bloom-loc-left">
+      <div class="bloom-section-label">Find Us</div>
+      <div class="bloom-section-title" style="font-size:26px; margin-bottom:20px;">Come Say Hello</div>
+      <div class="bloom-info-item">
+        <div class="bloom-info-icon">📍</div>
+        <div>
+          <div class="bloom-info-label">Address</div>
+          <div class="bloom-info-val">34 Maginhawa Street<br>Quezon City, Metro Manila</div>
+        </div>
+      </div>
+      <div class="bloom-info-item">
+        <div class="bloom-info-icon">🕐</div>
+        <div>
+          <div class="bloom-info-label">Hours</div>
+          <div class="bloom-info-val">Mon – Fri: 7am – 8pm<br>Sat – Sun: 8am – 9pm</div>
+        </div>
+      </div>
+      <div class="bloom-info-item">
+        <div class="bloom-info-icon">📞</div>
+        <div>
+          <div class="bloom-info-label">Contact</div>
+          <div class="bloom-info-val">+63 917 234 5678</div>
+        </div>
+      </div>
+      <div class="bloom-map">
+        <div class="bloom-map-emoji">🗺️</div>
+        <div class="bloom-map-txt">Embedded Map</div>
+      </div>
+    </div>
+    <div class="bloom-loc-right">
+      <div class="bloom-section-label">Get in Touch</div>
+      <div class="bloom-section-title" style="font-size:26px; margin-bottom:8px;">Drop Us a Message</div>
+      <p style="font-size:12px; color:rgba(44,31,14,0.4); line-height:1.8; margin-bottom:20px;">For reservations, catering inquiries, or just to say hi — we'd love to hear from you.</p>
+      <div class="bloom-contact-form">
+        <div class="bloom-field"><i class="ti ti-user" aria-hidden="true"></i> Your Name</div>
+        <div class="bloom-field"><i class="ti ti-mail" aria-hidden="true"></i> Email Address</div>
+        <div class="bloom-field" style="height:70px; align-items:flex-start; padding-top:14px;"><i class="ti ti-message" style="margin-top:1px;" aria-hidden="true"></i> Your message...</div>
+        <div class="bloom-submit">Send Message</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bloom-footer">
+    <div class="bloom-footer-logo">The Bloom Café</div>
+    <div class="bloom-footer-links">
+      <span>Instagram</span>
+      <span>Facebook</span>
+      <span>TikTok</span>
+    </div>
+    <div class="bloom-footer-copy">© 2025 The Bloom Café</div>
+  </footer>
+
+</div>

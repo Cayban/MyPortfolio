@@ -1,0 +1,563 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&family=Manrope:wght@300;400;500;600&display=swap');
+
+  .spot-wrap * { box-sizing: border-box; margin: 0; padding: 0; }
+  .spot-wrap {
+    font-family: 'Manrope', sans-serif;
+    background: #f5f0e8;
+    color: #111;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e0d8cc;
+  }
+  .syne { font-family: 'Syne', sans-serif; }
+  .mono { font-family: 'Syne Mono', monospace; }
+
+  /* ── NAV ── */
+  .spot-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: #111; height: 58px;
+    position: relative; z-index: 10;
+  }
+  .spot-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px;
+    color: #f5e100; letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .spot-logo-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #f5e100;
+    display: inline-block;
+  }
+  .spot-nav-links { display: flex; gap: 24px; }
+  .spot-nav-links span {
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.4); cursor: pointer;
+    transition: color 0.2s;
+  }
+  .spot-nav-links span:hover { color: #f5e100; }
+  .spot-nav-cta {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    background: #f5e100; color: #111; padding: 8px 18px;
+    border-radius: 3px; cursor: pointer;
+  }
+
+  /* ── HERO ── */
+  .spot-hero {
+    background: #111; position: relative; overflow: hidden;
+    min-height: 360px; display: grid;
+    grid-template-columns: 1fr 380px;
+  }
+  .spot-hero-noise {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+  .spot-hero-accent {
+    position: absolute; top: -60px; left: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: #f5e100; opacity: 0.07; filter: blur(60px);
+  }
+  .spot-hero-left {
+    padding: 52px 36px; display: flex;
+    flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .spot-kicker {
+    font-family: 'Syne Mono', monospace; font-size: 10px;
+    letter-spacing: 3px; color: #f5e100; margin-bottom: 22px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .spot-kicker-line { width: 32px; height: 1px; background: #f5e100; }
+  .spot-hero-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 62px; line-height: 0.92; color: #fff;
+    margin-bottom: 24px; letter-spacing: -2px;
+  }
+  .spot-hero-title .yel { color: #f5e100; display: block; }
+  .spot-hero-sub {
+    font-size: 13px; color: rgba(255,255,255,0.4);
+    line-height: 1.9; margin-bottom: 36px; max-width: 300px;
+  }
+  .spot-hero-btns { display: flex; gap: 12px; align-items: center; }
+  .spot-btn-main {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    background: #f5e100; color: #111; padding: 14px 30px;
+    border-radius: 3px; cursor: pointer;
+  }
+  .spot-btn-outline {
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5);
+    padding: 14px 30px; border-radius: 3px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .spot-hero-right {
+    background: #f5e100; display: flex; align-items: center;
+    justify-content: center; position: relative; overflow: hidden;
+  }
+  .spot-hero-right-bg {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg, transparent, transparent 18px,
+      rgba(0,0,0,0.04) 18px, rgba(0,0,0,0.04) 19px
+    );
+  }
+  .spot-hero-plate-wrap { position: relative; z-index: 2; text-align: center; }
+  .spot-big-emoji { font-size: 96px; line-height: 1; display: block; margin-bottom: 10px; }
+  .spot-plate-tag {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+  }
+  .spot-hero-counter {
+    position: absolute; bottom: 20px; left: 20px;
+    background: #111; border-radius: 6px; padding: 12px 16px; z-index: 3;
+  }
+  .spot-counter-n {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 26px; color: #f5e100; line-height: 1; letter-spacing: -1px;
+  }
+  .spot-counter-l {
+    font-family: 'Syne Mono', monospace; font-size: 9px;
+    letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-top: 3px;
+  }
+
+  /* ── TICKER ── */
+  .spot-ticker {
+    background: #f5e100; padding: 10px 0; overflow: hidden;
+    white-space: nowrap; border-top: 2px solid #111;
+    border-bottom: 2px solid #111;
+  }
+  .spot-ticker-inner {
+    display: inline-flex; gap: 0;
+    animation: ticker 22s linear infinite;
+  }
+  @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+  .spot-ticker-item {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: #111; padding: 0 24px; display: flex; align-items: center; gap: 18px;
+  }
+  .spot-ticker-sep { width: 5px; height: 5px; background: #111; border-radius: 50%; }
+
+  /* ── SECTIONS ── */
+  .spot-section { padding: 52px 36px; }
+  .spot-label {
+    font-family: 'Syne Mono', monospace; font-size: 10px;
+    letter-spacing: 3px; text-transform: uppercase; color: #888;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+  }
+  .spot-label::before { content: '//'; color: #f5e100; font-size: 11px; }
+  .spot-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 36px; color: #111; letter-spacing: -1px; margin-bottom: 6px;
+    line-height: 1.1;
+  }
+  .spot-sub { font-size: 13px; color: #777; line-height: 1.8; }
+  .spot-divider { height: 2px; background: #111; margin: 0; }
+
+  /* ── MENU HIGHLIGHTS ── */
+  .spot-menu { background: #f5f0e8; }
+  .spot-menu-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
+  .spot-menu-see-all {
+    font-family: 'Syne Mono', monospace; font-size: 10px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: #111; text-decoration: none; display: flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid #111; padding-bottom: 2px;
+  }
+  .spot-menu-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .spot-menu-card {
+    background: #fff; border: 2px solid #111; border-radius: 6px;
+    overflow: hidden; position: relative;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+  }
+  .spot-menu-card:hover { transform: translateY(-3px); box-shadow: 4px 6px 0 #111; }
+  .spot-card-top {
+    background: #f5e100; height: 90px; display: flex;
+    align-items: center; justify-content: center; font-size: 44px;
+    position: relative;
+  }
+  .spot-card-top.alt { background: #111; }
+  .spot-card-top.alt2 { background: #e8f0d8; }
+  .spot-card-body { padding: 14px 16px; }
+  .spot-card-name {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 14px; color: #111; margin-bottom: 4px; letter-spacing: -0.3px;
+  }
+  .spot-card-desc { font-size: 11px; color: #777; line-height: 1.6; margin-bottom: 10px; }
+  .spot-card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .spot-card-price {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 18px; color: #111; letter-spacing: -0.5px;
+  }
+  .spot-card-badge {
+    font-family: 'Syne Mono', monospace; font-size: 9px;
+    letter-spacing: 1px; text-transform: uppercase;
+    background: #f5e100; color: #111; padding: 3px 9px; border-radius: 20px;
+    border: 1px solid #111;
+  }
+
+  /* ── GALLERY ── */
+  .spot-gallery { background: #111; }
+  .spot-gallery .spot-label { color: rgba(255,255,255,0.3); }
+  .spot-gallery .spot-label::before { color: #f5e100; }
+  .spot-gallery .spot-title { color: #fff; }
+  .spot-gal-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 140px 100px;
+    gap: 10px; margin-top: 28px;
+  }
+  .spot-gal-item {
+    border: 2px solid rgba(255,255,255,0.1); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 8px; overflow: hidden; position: relative;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .spot-gal-item:hover { border-color: #f5e100; }
+  .spot-gal-item.tall { grid-row: span 2; }
+  .spot-gal-item.yel-bg { background: #f5e100; border-color: #f5e100; }
+  .spot-gal-emoji { font-size: 36px; opacity: 0.85; position: relative; z-index: 2; }
+  .spot-gal-label {
+    font-family: 'Syne Mono', monospace; font-size: 9px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); position: relative; z-index: 2;
+  }
+  .spot-gal-item.yel-bg .spot-gal-emoji { opacity: 1; }
+  .spot-gal-item.yel-bg .spot-gal-label { color: rgba(0,0,0,0.5); }
+
+  /* ── HOURS & LOCATION ── */
+  .spot-info { background: #f5f0e8; }
+  .spot-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 28px; }
+  .spot-info-col { padding: 28px 0; }
+  .spot-info-col:first-child { padding-right: 36px; border-right: 2px solid #111; }
+  .spot-info-col:last-child { padding-left: 36px; }
+  .spot-info-block { margin-bottom: 24px; }
+  .spot-info-block-label {
+    font-family: 'Syne Mono', monospace; font-size: 9px;
+    letter-spacing: 3px; text-transform: uppercase; color: #888; margin-bottom: 6px;
+  }
+  .spot-info-block-val {
+    font-family: 'Syne', sans-serif; font-size: 15px;
+    font-weight: 600; color: #111; line-height: 1.6; letter-spacing: -0.3px;
+  }
+  .spot-hours-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .spot-hours-row:last-child { border-bottom: none; }
+  .spot-day { font-family: 'Syne Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #555; }
+  .spot-time { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; color: #111; }
+  .spot-time.closed { color: #bbb; font-weight: 400; }
+  .spot-map-box {
+    width: 100%; height: 130px; background: #e5e0d8;
+    border: 2px solid #111; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 8px; margin-bottom: 20px;
+  }
+  .spot-map-emoji { font-size: 26px; opacity: 0.4; }
+  .spot-map-txt {
+    font-family: 'Syne Mono', monospace; font-size: 9px;
+    letter-spacing: 2px; text-transform: uppercase; color: #bbb;
+  }
+
+  /* ── CTA STRIP ── */
+  .spot-cta {
+    background: #f5e100; padding: 48px 36px;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 32px;
+    border-top: 2px solid #111; border-bottom: 2px solid #111;
+  }
+  .spot-cta-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 40px; color: #111; letter-spacing: -1.5px; line-height: 1;
+  }
+  .spot-cta-sub { font-size: 13px; color: rgba(0,0,0,0.5); margin-top: 8px; line-height: 1.7; }
+  .spot-cta-actions { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+  .spot-cta-btn-main {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    background: #111; color: #f5e100; padding: 14px 28px;
+    border-radius: 3px; cursor: pointer; text-align: center; white-space: nowrap;
+  }
+  .spot-cta-btn-sec {
+    font-family: 'Syne Mono', monospace; font-size: 11px; letter-spacing: 1px;
+    color: rgba(0,0,0,0.5); text-align: center; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  /* ── FOOTER ── */
+  .spot-footer {
+    background: #111; padding: 24px 36px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .spot-footer-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 16px; color: #f5e100; letter-spacing: -0.5px;
+  }
+  .spot-footer-links { display: flex; gap: 20px; }
+  .spot-footer-links span {
+    font-family: 'Syne Mono', monospace; font-size: 10px;
+    letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25);
+    cursor: pointer; transition: color 0.2s;
+  }
+  .spot-footer-links span:hover { color: #f5e100; }
+  .spot-footer-copy {
+    font-family: 'Syne Mono', monospace; font-size: 10px;
+    color: rgba(255,255,255,0.15);
+  }
+</style>
+
+<div class="spot-wrap">
+
+  <!-- NAV -->
+  <nav class="spot-nav">
+    <div class="spot-logo">
+      <span class="spot-logo-dot"></span>
+      Spot
+    </div>
+    <div class="spot-nav-links">
+      <span>Menu</span>
+      <span>Gallery</span>
+      <span>Hours</span>
+      <span>Find Us</span>
+    </div>
+    <div class="spot-nav-cta">Order Now</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="spot-hero">
+    <div class="spot-hero-noise"></div>
+    <div class="spot-hero-accent"></div>
+    <div class="spot-hero-left">
+      <div class="spot-kicker">
+        <span class="spot-kicker-line"></span>
+        Fast Casual · Est. 2021
+      </div>
+      <h1 class="spot-hero-title syne">
+        Your Go-To
+        <span class="yel">Eat Spot.</span>
+      </h1>
+      <p class="spot-hero-sub">No-fuss food done right. Big portions, bold flavors, and a menu that hits every time — dine in or take out.</p>
+      <div class="spot-hero-btns">
+        <div class="spot-btn-main">See the Menu</div>
+        <div class="spot-btn-outline">Get Directions</div>
+      </div>
+    </div>
+    <div class="spot-hero-right">
+      <div class="spot-hero-right-bg"></div>
+      <div class="spot-hero-plate-wrap">
+        <span class="spot-big-emoji">🍱</span>
+        <div class="spot-plate-tag">Today's Special</div>
+      </div>
+      <div class="spot-hero-counter">
+        <div class="spot-counter-n">50+</div>
+        <div class="spot-counter-l">Menu Items</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="spot-ticker">
+    <div class="spot-ticker-inner">
+      <div class="spot-ticker-item">Silog Meals <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Filipino Favorites <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">All-Day Breakfast <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Bilao Orders <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Group Trays <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Takeout Friendly <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Silog Meals <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Filipino Favorites <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">All-Day Breakfast <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Bilao Orders <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Group Trays <span class="spot-ticker-sep"></span></div>
+      <div class="spot-ticker-item">Takeout Friendly <span class="spot-ticker-sep"></span></div>
+    </div>
+  </div>
+
+  <!-- MENU HIGHLIGHTS -->
+  <section class="spot-section spot-menu">
+    <div class="spot-menu-header">
+      <div>
+        <div class="spot-label">What We Serve</div>
+        <div class="spot-title">Menu Highlights</div>
+      </div>
+      <a class="spot-menu-see-all">Full Menu →</a>
+    </div>
+    <div class="spot-menu-grid">
+      <div class="spot-menu-card">
+        <div class="spot-card-top">🍳</div>
+        <div class="spot-card-body">
+          <div class="spot-card-name">Tapsilog</div>
+          <div class="spot-card-desc">Marinated beef tapa, garlic rice, sunny side up</div>
+          <div class="spot-card-footer">
+            <div class="spot-card-price">₱185</div>
+            <div class="spot-card-badge">Best Seller</div>
+          </div>
+        </div>
+      </div>
+      <div class="spot-menu-card">
+        <div class="spot-card-top alt">🍗</div>
+        <div class="spot-card-body">
+          <div class="spot-card-name">Crispy Pork Belly</div>
+          <div class="spot-card-desc">Lechon kawali, sawsawan, steamed rice</div>
+          <div class="spot-card-footer">
+            <div class="spot-card-price">₱220</div>
+            <div class="spot-card-badge">Fan Fave</div>
+          </div>
+        </div>
+      </div>
+      <div class="spot-menu-card">
+        <div class="spot-card-top alt2">🥘</div>
+        <div class="spot-card-body">
+          <div class="spot-card-name">Adobo Plate</div>
+          <div class="spot-card-desc">Classic pork adobo, garlic fried rice, pickled veggies</div>
+          <div class="spot-card-footer">
+            <div class="spot-card-price">₱175</div>
+          </div>
+        </div>
+      </div>
+      <div class="spot-menu-card">
+        <div class="spot-card-top">🍜</div>
+        <div class="spot-card-body">
+          <div class="spot-card-name">Pancit Canton</div>
+          <div class="spot-card-desc">Stir-fried noodles, mixed veggies, pork slices</div>
+          <div class="spot-card-footer">
+            <div class="spot-card-price">₱160</div>
+          </div>
+        </div>
+      </div>
+      <div class="spot-menu-card">
+        <div class="spot-card-top alt">🍖</div>
+        <div class="spot-card-body">
+          <div class="spot-card-name">Sinigang na Baboy</div>
+          <div class="spot-card-desc">Tamarind broth, pork ribs, fresh vegetables</div>
+          <div class="spot-card-footer">
+            <div class="spot-card-price">₱245</div>
+            <div class="spot-card-badge">Seasonal</div>
+          </div>
+        </div>
+      </div>
+      <div class="spot-menu-card">
+        <div class="spot-card-top alt2">🫙</div>
+        <div class="spot-card-body">
+          <div class="spot-card-name">Halo-Halo</div>
+          <div class="spot-card-desc">Shaved ice, mixed sweets, ube ice cream, leche flan</div>
+          <div class="spot-card-footer">
+            <div class="spot-card-price">₱125</div>
+            <div class="spot-card-badge">Summer Hit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="spot-divider"></div>
+
+  <!-- GALLERY -->
+  <section class="spot-section spot-gallery">
+    <div class="spot-label">The Food</div>
+    <div class="spot-title" style="color:#fff;">Real. Fresh. Yours.</div>
+    <div class="spot-gal-grid">
+      <div class="spot-gal-item tall yel-bg">
+        <div class="spot-gal-emoji">🍽️</div>
+        <div class="spot-gal-label" style="color:rgba(0,0,0,0.5);">Signature Plates</div>
+      </div>
+      <div class="spot-gal-item">
+        <div class="spot-gal-emoji">🔥</div>
+        <div class="spot-gal-label">Grilled Specials</div>
+      </div>
+      <div class="spot-gal-item">
+        <div class="spot-gal-emoji">☕</div>
+        <div class="spot-gal-label">Drinks</div>
+      </div>
+      <div class="spot-gal-item">
+        <div class="spot-gal-emoji">🥗</div>
+        <div class="spot-gal-label">Sides & Salads</div>
+      </div>
+      <div class="spot-gal-item">
+        <div class="spot-gal-emoji">🍰</div>
+        <div class="spot-gal-label">Desserts</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="spot-divider"></div>
+
+  <!-- LOCATION & HOURS -->
+  <section class="spot-section spot-info">
+    <div class="spot-label">Find Us</div>
+    <div class="spot-title">Location & Hours</div>
+    <div class="spot-info-grid">
+      <div class="spot-info-col">
+        <div class="spot-map-box">
+          <div class="spot-map-emoji">📍</div>
+          <div class="spot-map-txt">Embedded Map</div>
+        </div>
+        <div class="spot-info-block">
+          <div class="spot-info-block-label">Address</div>
+          <div class="spot-info-block-val">78 Malingap St., Teachers Village<br>Quezon City, Metro Manila</div>
+        </div>
+        <div class="spot-info-block">
+          <div class="spot-info-block-label">Contact</div>
+          <div class="spot-info-block-val">+63 926 111 4567</div>
+        </div>
+      </div>
+      <div class="spot-info-col">
+        <div class="spot-info-block">
+          <div class="spot-info-block-label">Opening Hours</div>
+        </div>
+        <div class="spot-hours-row">
+          <span class="spot-day">Mon – Fri</span>
+          <span class="spot-time">7:00 AM – 9:00 PM</span>
+        </div>
+        <div class="spot-hours-row">
+          <span class="spot-day">Saturday</span>
+          <span class="spot-time">8:00 AM – 10:00 PM</span>
+        </div>
+        <div class="spot-hours-row">
+          <span class="spot-day">Sunday</span>
+          <span class="spot-time">8:00 AM – 8:00 PM</span>
+        </div>
+        <div style="margin-top:28px;">
+          <div class="spot-info-block-label" style="margin-bottom:10px;">We also do</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <span style="font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:1px;background:#f5e100;color:#111;padding:5px 12px;border-radius:20px;border:1.5px solid #111;">Takeout</span>
+            <span style="font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:1px;background:#fff;color:#111;padding:5px 12px;border-radius:20px;border:1.5px solid #111;">Delivery</span>
+            <span style="font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:1px;background:#fff;color:#111;padding:5px 12px;border-radius:20px;border:1.5px solid #111;">Bilao Orders</span>
+            <span style="font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:1px;background:#fff;color:#111;padding:5px 12px;border-radius:20px;border:1.5px solid #111;">Bulk Catering</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <div class="spot-cta">
+    <div>
+      <div class="spot-cta-title">Hungry?<br>Let's Fix That.</div>
+      <div class="spot-cta-sub">Walk in, order ahead, or message us. We're always ready to serve.</div>
+    </div>
+    <div class="spot-cta-actions">
+      <div class="spot-cta-btn-main">Message Us on FB</div>
+      <div class="spot-cta-btn-sec">📲 Order via WhatsApp →</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="spot-footer">
+    <div class="spot-footer-logo">• Spot</div>
+    <div class="spot-footer-links">
+      <span>Instagram</span>
+      <span>Facebook</span>
+      <span>TikTok</span>
+    </div>
+    <div class="spot-footer-copy">© 2025 Spot Food House</div>
+  </footer>
+
+</div>
