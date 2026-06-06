@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault — E-Commerce Web Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#080808;
+  --white:#f0ede8;
+  --orange:#ff4500;
+  --gray1:#111;
+  --gray2:#1c1c1c;
+  --gray3:#2e2e2e;
+  --gray4:#555;
+  --gray5:#888;
+  --mono:'IBM Plex Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--body);overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 48px;
+  border-bottom:1px solid var(--gray2);
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(8px);
+}
+.nav-logo{
+  font-family:var(--display);
+  font-size:28px;letter-spacing:0.08em;color:var(--white);
+}
+.nav-logo span{color:var(--orange);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gray5);text-decoration:none;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.15em;text-transform:uppercase;
+  background:var(--orange);color:var(--white);
+  border:none;padding:10px 24px;cursor:pointer;
+  transition:opacity 0.2s;
+}
+.nav-cta:hover{opacity:0.85;}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  padding-top:80px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 79px,var(--gray2) 79px,var(--gray2) 80px),
+    repeating-linear-gradient(90deg,transparent,transparent 79px,var(--gray2) 79px,var(--gray2) 80px);
+  opacity:0.35;
+  pointer-events:none;
+}
+.hero-left{
+  padding:80px 48px 80px 48px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;z-index:1;
+  border-right:1px solid var(--gray2);
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:32px;
+}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--orange);}
+.hero-h1{
+  font-family:var(--display);
+  font-size:clamp(80px,10vw,140px);
+  line-height:0.9;
+  letter-spacing:0.02em;
+  color:var(--white);
+  margin-bottom:32px;
+}
+.hero-h1 em{
+  color:var(--orange);
+  font-style:normal;
+  display:block;
+}
+.hero-desc{
+  font-size:15px;font-weight:300;
+  color:var(--gray5);line-height:1.75;
+  max-width:380px;margin-bottom:48px;
+}
+.hero-actions{display:flex;gap:16px;align-items:center;}
+.btn-primary{
+  background:var(--white);color:var(--black);
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:16px 36px;border:none;cursor:pointer;
+  transition:background 0.2s,color 0.2s;
+}
+.btn-primary:hover{background:var(--orange);color:var(--white);}
+.btn-ghost{
+  background:transparent;color:var(--gray5);
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:16px 36px;border:1px solid var(--gray3);cursor:pointer;
+  transition:border-color 0.2s,color 0.2s;
+}
+.btn-ghost:hover{border-color:var(--white);color:var(--white);}
+
+.hero-right{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:80px 48px;
+  position:relative;z-index:1;
+}
+.hero-stat-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--gray2);
+  border:1px solid var(--gray2);
+  margin-bottom:32px;
+}
+.hero-stat{
+  background:var(--black);
+  padding:28px 24px;
+}
+.hero-stat-num{
+  font-family:var(--display);
+  font-size:52px;line-height:1;
+  color:var(--white);letter-spacing:0.02em;
+}
+.hero-stat-num span{color:var(--orange);}
+.hero-stat-label{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.25em;color:var(--gray4);
+  text-transform:uppercase;margin-top:6px;
+}
+.hero-price-badge{
+  background:var(--orange);
+  padding:28px 32px;
+  display:flex;align-items:baseline;gap:8px;
+}
+.hero-price-badge .currency{
+  font-family:var(--mono);font-size:18px;color:rgba(255,255,255,0.7);
+}
+.hero-price-badge .amount{
+  font-family:var(--display);font-size:72px;
+  line-height:1;letter-spacing:0.02em;color:var(--white);
+}
+.hero-price-badge .label{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.7);align-self:flex-end;margin-bottom:8px;
+}
+
+/* MARQUEE */
+.marquee-strip{
+  border-top:1px solid var(--gray2);
+  border-bottom:1px solid var(--gray2);
+  overflow:hidden;
+  background:var(--orange);
+  padding:14px 0;
+}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marquee 18s linear infinite;
+  white-space:nowrap;
+}
+.marquee-item{
+  font-family:var(--display);font-size:22px;
+  letter-spacing:0.08em;color:var(--white);
+  padding:0 40px;
+  display:inline-flex;align-items:center;gap:40px;
+}
+.marquee-item::after{content:'✦';font-size:14px;opacity:0.6;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION HEADER */
+.section-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding:80px 48px 40px;
+  border-bottom:1px solid var(--gray2);
+}
+.section-num{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.3em;color:var(--gray4);
+  margin-bottom:12px;
+}
+.section-title{
+  font-family:var(--display);font-size:clamp(40px,6vw,72px);
+  letter-spacing:0.02em;line-height:1;color:var(--white);
+}
+.section-title span{color:var(--orange);}
+.section-desc{
+  font-size:14px;font-weight:300;
+  color:var(--gray5);line-height:1.7;
+  max-width:320px;text-align:right;
+}
+
+/* FEATURES GRID */
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--gray2);
+  border-bottom:1px solid var(--gray2);
+}
+.feature-cell{
+  background:var(--black);
+  padding:48px 40px;
+  transition:background 0.2s;
+}
+.feature-cell:hover{background:var(--gray1);}
+.feature-num{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.3em;color:var(--gray4);
+  margin-bottom:24px;
+}
+.feature-icon{
+  font-size:32px;margin-bottom:20px;
+  display:block;
+}
+.feature-name{
+  font-family:var(--display);font-size:28px;
+  letter-spacing:0.04em;color:var(--white);
+  margin-bottom:12px;
+}
+.feature-desc{
+  font-size:13px;font-weight:300;
+  color:var(--gray5);line-height:1.7;
+}
+
+/* ADDONS */
+.addons-section{padding:80px 48px;}
+.addons-intro{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.3em;color:var(--orange);
+  text-transform:uppercase;margin-bottom:40px;
+}
+.addons-list{
+  display:flex;flex-direction:column;
+  border:1px solid var(--gray2);
+}
+.addon-row{
+  display:grid;grid-template-columns:60px 1fr 120px;
+  align-items:center;gap:0;
+  border-bottom:1px solid var(--gray2);
+  transition:background 0.15s;
+  cursor:default;
+}
+.addon-row:last-child{border-bottom:none;}
+.addon-row:hover{background:var(--gray1);}
+.addon-row:hover .addon-arrow{color:var(--orange);}
+.addon-idx{
+  font-family:var(--mono);font-size:10px;
+  color:var(--gray4);padding:24px 16px;
+  border-right:1px solid var(--gray2);
+  text-align:center;
+}
+.addon-name{
+  font-size:15px;font-weight:400;
+  color:var(--white);padding:24px 32px;
+}
+.addon-arrow{
+  font-family:var(--mono);font-size:18px;
+  color:var(--gray3);padding:24px 24px;
+  text-align:right;
+  transition:color 0.15s;
+}
+
+/* PROCESS */
+.process-section{
+  display:grid;grid-template-columns:1fr 2fr;
+  border-top:1px solid var(--gray2);
+}
+.process-left{
+  padding:80px 48px;
+  border-right:1px solid var(--gray2);
+}
+.process-right{
+  padding:80px 48px;
+}
+.process-steps{display:flex;flex-direction:column;gap:0;}
+.process-step{
+  display:grid;grid-template-columns:80px 1fr;
+  gap:0;border-bottom:1px solid var(--gray2);
+  padding:32px 0;
+}
+.process-step:last-child{border-bottom:none;}
+.step-num{
+  font-family:var(--display);font-size:64px;
+  line-height:1;color:var(--gray2);
+  letter-spacing:0.02em;
+}
+.step-body{}
+.step-title{
+  font-family:var(--display);font-size:26px;
+  letter-spacing:0.04em;color:var(--white);
+  margin-bottom:8px;
+}
+.step-desc{
+  font-size:13px;font-weight:300;
+  color:var(--gray5);line-height:1.7;
+}
+
+/* CTA SECTION */
+.cta-section{
+  background:var(--orange);
+  padding:100px 48px;
+  display:grid;grid-template-columns:2fr 1fr;
+  align-items:center;gap:48px;
+}
+.cta-headline{
+  font-family:var(--display);
+  font-size:clamp(48px,7vw,96px);
+  line-height:0.92;letter-spacing:0.02em;
+  color:var(--white);
+}
+.cta-sub{
+  font-size:14px;font-weight:300;
+  color:rgba(255,255,255,0.75);
+  line-height:1.7;margin-top:20px;
+}
+.cta-right{display:flex;flex-direction:column;gap:12px;}
+.btn-cta-white{
+  background:var(--white);color:var(--black);
+  font-family:var(--mono);font-size:12px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:18px 32px;border:none;cursor:pointer;
+  transition:opacity 0.2s;text-align:center;
+}
+.btn-cta-white:hover{opacity:0.9;}
+.btn-cta-outline{
+  background:transparent;color:var(--white);
+  font-family:var(--mono);font-size:12px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:18px 32px;border:1px solid rgba(255,255,255,0.4);cursor:pointer;
+  transition:border-color 0.2s;text-align:center;
+}
+.btn-cta-outline:hover{border-color:var(--white);}
+
+/* FOOTER */
+footer{
+  padding:48px;
+  border-top:1px solid var(--gray2);
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:48px;align-items:start;
+}
+.footer-brand{
+  font-family:var(--display);font-size:40px;
+  letter-spacing:0.06em;color:var(--white);
+}
+.footer-brand span{color:var(--orange);}
+.footer-tagline{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.2em;color:var(--gray5);
+  text-transform:uppercase;margin-top:8px;
+}
+.footer-col-title{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gray4);margin-bottom:16px;
+}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-links a{
+  font-size:14px;font-weight:300;
+  color:var(--gray5);text-decoration:none;
+  transition:color 0.2s;
+}
+.footer-links a:hover{color:var(--white);}
+.footer-copy{
+  padding-top:32px;
+  border-top:1px solid var(--gray2);
+  margin:0 48px;
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.15em;color:var(--gray4);
+  display:flex;justify-content:space-between;
+  padding-bottom:32px;
+}
+
+
+/* STORE MOCKUP */
+.store-preview{gap:24px;}
+.sale-card{border:1px solid var(--gray2);background:linear-gradient(135deg,var(--gray1),#1b0d07);padding:34px;position:relative;overflow:hidden;}
+.sale-card::after{content:'';position:absolute;right:-60px;top:-60px;width:180px;height:180px;border:1px solid var(--orange);border-radius:50%;opacity:.35;}
+.sale-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.35em;color:var(--orange);margin-bottom:18px;}
+.sale-title{font-family:var(--display);font-size:54px;line-height:.9;letter-spacing:.03em;max-width:360px;}
+.sale-card p{color:var(--gray5);font-size:14px;line-height:1.7;margin:18px 0 24px;max-width:420px;}
+.sale-meta{display:flex;gap:10px;flex-wrap:wrap;}
+.sale-meta span{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;border:1px solid var(--gray3);padding:10px 12px;color:var(--white);}
+.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray2);border-bottom:1px solid var(--gray2);}
+.product-card{background:var(--black);padding:18px;transition:background .2s,transform .2s;}
+.product-card:hover{background:var(--gray1);transform:translateY(-4px);}
+.product-image{height:330px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid var(--gray2);}
+.gradient-one{background:linear-gradient(145deg,#2d160e,#0c0c0c);}.gradient-two{background:linear-gradient(145deg,#202020,#050505);}.gradient-three{background:linear-gradient(145deg,#3b1a0f,#111);}.gradient-four{background:linear-gradient(145deg,#181818,#2b0d04);}
+.badge{position:absolute;left:14px;top:14px;background:var(--orange);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.18em;padding:7px 10px;}.badge.dark{background:var(--black);border:1px solid var(--gray3);}
+.heart{position:absolute;right:14px;top:12px;font-size:24px;color:var(--white);}
+.mock-product{font-family:var(--display);font-size:48px;letter-spacing:.08em;color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.18);padding:38px 28px;background:rgba(0,0,0,.25);}
+.mock-product.large{font-size:64px;text-align:center;}
+.product-info{padding:18px 2px 4px;}.product-category{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gray5);margin-bottom:8px;}
+.product-info h3{font-size:18px;font-weight:400;color:var(--white);margin-bottom:18px;}.product-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;}.product-bottom span{font-family:var(--display);font-size:28px;color:var(--orange);}.product-bottom button{background:transparent;border:1px solid var(--gray3);color:var(--white);font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:10px 16px;cursor:pointer;}
+.store-layout{display:grid;grid-template-columns:2fr 1fr;border-top:1px solid var(--gray2);border-bottom:1px solid var(--gray2);}
+.detail-panel{padding:80px 48px;border-right:1px solid var(--gray2);}.detail-card{margin-top:38px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--gray2);background:var(--gray1);}.detail-image{min-height:430px;background:linear-gradient(145deg,#281309,#050505);display:flex;align-items:center;justify-content:center;border-right:1px solid var(--gray2);}.detail-content{padding:42px;display:flex;flex-direction:column;justify-content:center;}.detail-content h3{font-family:var(--display);font-size:48px;line-height:.95;letter-spacing:.04em;margin-bottom:14px;}.rating{font-family:var(--mono);font-size:12px;color:var(--orange);margin-bottom:20px;}.rating span{color:var(--gray5);}.detail-desc{color:var(--gray5);font-size:14px;line-height:1.75;margin-bottom:24px;}.swatches{display:flex;gap:10px;margin-bottom:28px;}.swatches span{width:32px;height:32px;border:1px solid var(--gray3);background:var(--orange);}.swatches span:nth-child(2){background:var(--white);}.swatches span:nth-child(3){background:var(--gray3);}.full{width:100%;}
+.cart-panel{padding:80px 32px;background:#0b0b0b;}.cart-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--gray2);padding-bottom:20px;margin-bottom:20px;}.cart-top h3{font-family:var(--display);font-size:34px;letter-spacing:.04em;}.cart-top span{font-family:var(--mono);font-size:10px;color:var(--gray5);letter-spacing:.2em;text-transform:uppercase;}.cart-item{display:grid;grid-template-columns:58px 1fr;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid var(--gray2);}.cart-thumb{width:58px;height:58px;background:var(--gray2);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:28px;color:var(--orange);}.cart-item strong{font-size:14px;font-weight:400;}.cart-item p{font-size:12px;color:var(--gray5);margin-top:5px;}.cart-summary{margin-top:24px;}.cart-summary div{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-family:var(--mono);font-size:12px;color:var(--gray5);}.cart-summary strong{font-family:var(--display);font-size:34px;color:var(--white);}
+@media(max-width:1100px){.product-grid{grid-template-columns:repeat(2,1fr)}.store-layout,.detail-card{grid-template-columns:1fr}.detail-image{border-right:none;border-bottom:1px solid var(--gray2)}}
+@media(max-width:900px){.product-grid{grid-template-columns:1fr}.product-image{height:260px}.detail-panel,.cart-panel{padding:48px 24px}.sale-title{font-size:42px}.mock-product.large{font-size:42px}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-left > *{animation:fadeUp 0.6s ease both;}
+.hero-eyebrow{animation-delay:0.1s}
+.hero-h1{animation-delay:0.2s}
+.hero-desc{animation-delay:0.3s}
+.hero-actions{animation-delay:0.4s}
+.hero-right{animation:fadeUp 0.6s 0.5s ease both;}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:48px 24px;}
+  .hero-right{padding:32px 24px;border-top:1px solid var(--gray2);}
+  .hero::before{display:none;}
+  .section-header{flex-direction:column;gap:16px;padding:48px 24px 24px;}
+  .section-desc{text-align:left;max-width:100%;}
+  .features-grid{grid-template-columns:1fr;}
+  .addons-section{padding:48px 24px;}
+  .process-section{grid-template-columns:1fr;}
+  .process-left,.process-right{padding:48px 24px;}
+  .cta-section{grid-template-columns:1fr;padding:64px 24px;}
+  footer{grid-template-columns:1fr;padding:48px 24px;}
+  .footer-copy{margin:0 24px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">VAULT<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Shop</a></li>
+    <li><a href="#process">Product</a></li>
+    <li><a href="#addons">Add-ons</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <button class="nav-cta">Cart (3)</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero store-hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Most Popular · E-Commerce / Online Store</div>
+    <h1 class="hero-h1">VAULT<br><em>STORE.</em></h1>
+    <p class="hero-desc">A premium online store layout built for products, promos, cart actions, and customer inquiries — designed like a real shopping website, not a process page.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Shop Collection</button>
+      <button class="btn-ghost">View Cart</button>
+    </div>
+  </div>
+  <div class="hero-right store-preview">
+    <div class="sale-card">
+      <div class="sale-kicker">NEW DROP</div>
+      <div class="sale-title">ESSENTIAL STREETWEAR</div>
+      <p>Limited pieces available. Clean storefront preview with banner, products, cart, and checkout-ready sections.</p>
+      <div class="sale-meta"><span>Up to 30% Off</span><span>Free Local Delivery</span></div>
+    </div>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="hero-stat-num">14<span>—</span>21</div><div class="hero-stat-label">Day Delivery</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">₱8K</div><div class="hero-stat-label">Starting Price</div></div>
+    </div>
+    <div class="hero-price-badge">
+      <span class="currency">₱</span><span class="amount">8,000</span><span class="label">Vault Package</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Hero Banner</span><span class="marquee-item">Product Grid</span><span class="marquee-item">Product Details</span><span class="marquee-item">Shopping Cart</span><span class="marquee-item">Contact CTA</span><span class="marquee-item">Wishlist</span><span class="marquee-item">Checkout Flow</span><span class="marquee-item">Reviews</span>
+    <span class="marquee-item">Hero Banner</span><span class="marquee-item">Product Grid</span><span class="marquee-item">Product Details</span><span class="marquee-item">Shopping Cart</span><span class="marquee-item">Contact CTA</span><span class="marquee-item">Wishlist</span><span class="marquee-item">Checkout Flow</span><span class="marquee-item">Reviews</span>
+  </div>
+</div>
+
+<!-- PRODUCT GRID -->
+<div class="section-header" id="features">
+  <div>
+    <div class="section-num">// 01</div>
+    <h2 class="section-title">SHOP THE<br><span>COLLECTION</span></h2>
+  </div>
+  <p class="section-desc">Actual storefront-style cards with product images, prices, sale tags, and add-to-cart actions.</p>
+</div>
+
+<div class="product-grid">
+  <article class="product-card">
+    <div class="product-image gradient-one"><span class="badge">SALE</span><span class="heart">♡</span><div class="mock-product">HOODIE</div></div>
+    <div class="product-info"><p class="product-category">Outerwear</p><h3>Vault Oversized Hoodie</h3><div class="product-bottom"><span>₱1,299</span><button>Add</button></div></div>
+  </article>
+  <article class="product-card">
+    <div class="product-image gradient-two"><span class="badge dark">NEW</span><span class="heart">♡</span><div class="mock-product">CAP</div></div>
+    <div class="product-info"><p class="product-category">Accessories</p><h3>Monogram Street Cap</h3><div class="product-bottom"><span>₱499</span><button>Add</button></div></div>
+  </article>
+  <article class="product-card">
+    <div class="product-image gradient-three"><span class="badge">HOT</span><span class="heart">♡</span><div class="mock-product">BAG</div></div>
+    <div class="product-info"><p class="product-category">Bags</p><h3>Everyday Utility Tote</h3><div class="product-bottom"><span>₱899</span><button>Add</button></div></div>
+  </article>
+  <article class="product-card">
+    <div class="product-image gradient-four"><span class="badge dark">BEST</span><span class="heart">♡</span><div class="mock-product">SHIRT</div></div>
+    <div class="product-info"><p class="product-category">Apparel</p><h3>Core Graphic Tee</h3><div class="product-bottom"><span>₱599</span><button>Add</button></div></div>
+  </article>
+</div>
+
+<!-- PRODUCT DETAIL + CART -->
+<div class="store-layout" id="process">
+  <div class="detail-panel">
+    <div class="section-num">// 02</div>
+    <h2 class="section-title">PRODUCT<br><span>DETAIL</span></h2>
+    <div class="detail-card">
+      <div class="detail-image"><div class="mock-product large">FEATURED ITEM</div></div>
+      <div class="detail-content">
+        <p class="product-category">Limited Edition</p>
+        <h3>Vault Premium Jacket</h3>
+        <p class="rating">★★★★★ <span>128 reviews</span></p>
+        <p class="detail-desc">Product gallery, variant selector, size options, short description, reviews preview, and clear buy buttons.</p>
+        <div class="swatches"><span></span><span></span><span></span></div>
+        <button class="btn-primary full">Add to Cart — ₱1,899</button>
+      </div>
+    </div>
+  </div>
+  <aside class="cart-panel">
+    <div class="cart-top"><h3>Shopping Cart</h3><span>3 items</span></div>
+    <div class="cart-item"><div class="cart-thumb">H</div><div><strong>Oversized Hoodie</strong><p>Qty 1 · ₱1,299</p></div></div>
+    <div class="cart-item"><div class="cart-thumb">C</div><div><strong>Street Cap</strong><p>Qty 1 · ₱499</p></div></div>
+    <div class="cart-item"><div class="cart-thumb">T</div><div><strong>Graphic Tee</strong><p>Qty 1 · ₱599</p></div></div>
+    <div class="cart-summary"><div><span>Subtotal</span><strong>₱2,397</strong></div><button class="btn-primary full">Checkout</button></div>
+  </aside>
+</div>
+
+<!-- ADDONS -->
+<div class="addons-section" id="addons">
+  <p class="addons-intro">// 03 — Available Add-ons</p>
+  <div class="addons-list">
+    <div class="addon-row"><div class="addon-idx">01</div><div class="addon-name">Wishlist / Favorites</div><div class="addon-arrow">♡</div></div>
+    <div class="addon-row"><div class="addon-idx">02</div><div class="addon-name">Full Checkout Flow</div><div class="addon-arrow">→</div></div>
+    <div class="addon-row"><div class="addon-idx">03</div><div class="addon-name">Promo / Sale Banners</div><div class="addon-arrow">%</div></div>
+    <div class="addon-row"><div class="addon-idx">04</div><div class="addon-name">Product Reviews</div><div class="addon-arrow">★</div></div>
+    <div class="addon-row"><div class="addon-idx">05</div><div class="addon-name">Live Chat Widget</div><div class="addon-arrow">●</div></div>
+    <div class="addon-row"><div class="addon-idx">06</div><div class="addon-name">Blog / Lookbook</div><div class="addon-arrow">↗</div></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section" id="pricing">
+  <div>
+    <div class="cta-headline">LAUNCH<br>YOUR STORE.</div>
+    <p class="cta-sub">Vault package · ₱8,000 · 14–21 days<br>Includes hero/banner, product grid, product detail pages, shopping cart, and contact CTA.</p>
+  </div>
+  <div class="cta-right">
+    <button class="btn-cta-white">Start My Online Store →</button>
+    <button class="btn-cta-outline">Request Add-ons</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div><div class="footer-brand">VAULT<span>.</span></div><p class="footer-tagline">Online Store Design</p></div>
+  <div><p class="footer-col-title">Store</p><ul class="footer-links"><li><a href="#features">Products</a></li><li><a href="#process">Product Detail</a></li><li><a href="#addons">Add-ons</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
+  <div><p class="footer-col-title">Support</p><ul class="footer-links"><li><a href="#">Live Chat</a></li><li><a href="#">Shipping Info</a></li><li><a href="#">Contact Seller</a></li></ul></div>
+</footer>
+<div class="footer-copy"><span>© 2026 Vault Online Store</span><span>Philippines</span></div>
+
+</body>
+</html>

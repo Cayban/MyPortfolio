@@ -1622,6 +1622,18 @@ function TemplatePreview({ tmpl }) {
   'gym-3': [
     { label: 'Home', file: '/templates/pump_design.html' },
   ],
+
+  'ec-1': [
+    { label: 'Home', file: '/templates/vault-ecommerce-store.html' },
+  ],
+
+  'ec-2': [
+    { label: 'Home', file: '/templates/luxe-ecommerce-store.html' },
+  ],
+
+  'ec-3': [
+    { label: 'Home', file: '/templates/shelf-ecommerce-store.html' },
+  ],
 };
 
   const htmlFiles = htmlFileMap[tmpl.id] || [];
@@ -1984,6 +1996,9 @@ function TemplateExplorer({ tmpl, allTemplates, onClose, onPick }) {
     'gym-1':  [{ label: 'Home', file: '/templates/forge_design.html' }],
     'gym-2':  [{ label: 'Home', file: '/templates/kinetic_design.html' }],
     'gym-3':  [{ label: 'Home', file: '/templates/pump_design.html' }],
+    'ec-1':  [{ label: 'Home', file: '/templates/vault-ecommerce-store.html' }],
+    'ec-2':  [{ label: 'Home', file: '/templates/luxe-ecommerce-store.html' }],
+    'ec-3':  [{ label: 'Home', file: '/templates/shelf-ecommerce-store.html' }],
   };
 
   // Which template index are we on in the allTemplates list
