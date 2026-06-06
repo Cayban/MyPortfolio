@@ -10,6 +10,7 @@ import kttmLogin2 from "./assets/kttmloginSample2.png";
 import pedHome from "./assets/pedatricsample.png";
 import pedHome2 from "./assets/pediatricSample2.png";
 import pedHome3 from "./assets/pediatricSample3.png";
+import myImage from "./assets/myimage.jpg";
 
 const NAV_LINKS = ["About", "Skills", "Projects", "Services", "Contact"];
 
@@ -2237,6 +2238,39 @@ export function ServicesSection() {
 function PortfolioApp() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [typedText, setTypedText] = useState("");
+
+  useEffect(() => {
+    const full = "Kim Ivan Ebora.";
+    let index = 0;
+    let deleting = false;
+    let timeoutId;
+
+    const step = () => {
+      setTypedText(full.slice(0, index));
+
+      if (!deleting) {
+        if (index < full.length) {
+          index += 1;
+          timeoutId = setTimeout(step, 90);
+        } else {
+          deleting = true;
+          timeoutId = setTimeout(step, 1200);
+        }
+      } else {
+        if (index > 0) {
+          index -= 1;
+          timeoutId = setTimeout(step, 50);
+        } else {
+          deleting = false;
+          timeoutId = setTimeout(step, 500);
+        }
+      }
+    };
+
+    timeoutId = setTimeout(step, 600);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -2265,6 +2299,16 @@ function PortfolioApp() {
         }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
         @keyframes gradient-x { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        @keyframes fade-slide-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink-cursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes badge-float-in { from { opacity: 0; transform: translateY(12px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes float-b1 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-5px,-9px)} 66%{transform:translate(4px,-5px)} }
+        @keyframes float-b2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(6px,-7px)} 66%{transform:translate(-4px,5px)} }
+        @keyframes float-b3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-7px,9px)} }
+        @keyframes float-b4 { 0%,100%{transform:translate(0,0)} 40%{transform:translate(5px,8px)} 70%{transform:translate(-3px,-6px)} }
+        @keyframes photo-ring { 0%,100%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        @keyframes code-card-float { 0%,100%{transform:translate(0,0) rotate(-2deg)} 50%{transform:translate(-4px,-8px) rotate(-2deg)} }
+        @keyframes git-badge-float { 0%,100%{transform:translate(0,0) rotate(1deg)} 50%{transform:translate(5px,6px) rotate(1deg)} }
         .float-anim { animation: float 7s ease-in-out infinite; }
         .gradient-text {
           background: linear-gradient(135deg, #00f5d4, #7b2fff, #f72585);
@@ -2287,6 +2331,20 @@ function PortfolioApp() {
           border-bottom: 1px solid rgba(255,255,255,0.07);
         }
         .mono { font-family: 'DM Mono', monospace; }
+        .stagger-1 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.1s; }
+        .stagger-2 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.3s; }
+        .stagger-3 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.5s; }
+        .stagger-4 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.7s; }
+        .stagger-5 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.9s; }
+        .stagger-6 { animation: fade-slide-up 0.55s ease both; animation-delay: 1.1s; }
+        .stagger-7 { animation: fade-slide-up 0.55s ease both; animation-delay: 1.3s; }
+        .cursor-blink { animation: blink-cursor 1s step-end infinite; }
+        .badge-float-in { animation: badge-float-in 0.5s ease forwards; }
+        .photo-ring-spin { animation: photo-ring 18s linear infinite; }
+        .photo-card { animation: float 6s ease-in-out infinite; }
+        .code-card-anim { animation: badge-float-in 0.5s ease forwards 1.1s, code-card-float 7s ease-in-out 2s infinite; opacity:0; }
+        .git-badge-anim { animation: badge-float-in 0.5s ease forwards 2.5s, git-badge-float 8s ease-in-out 3.3s infinite; opacity:0; }
+        .tech-badge-item { opacity: 0; }
       `}</style>
 
       {/* Ambient orbs */}
@@ -2341,11 +2399,12 @@ function PortfolioApp() {
               </div>
 
               <p className="mono text-xs tracking-widest text-white/30 uppercase mb-3">IT Student · Network Technology</p>
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-2">
-                <span className="text-white">Kim Ivan</span>
+              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-2 text-white">
+                Hi, I'm
               </h1>
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-                <span className="gradient-text">Ebora.</span>
+              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6 flex items-center gap-2">
+                <span className="gradient-text">{typedText}</span>
+                <span className="cursor-blink inline-block" style={{ width: "3px", height: "52px", background: "#00f5d4" }} />
               </h1>
 
               <p className="text-white/55 leading-relaxed max-w-md text-base">
@@ -2376,26 +2435,137 @@ function PortfolioApp() {
               </div>
             </div>
 
-            {/* Avatar card */}
             <div className="flex justify-center md:justify-end">
-              <div className="relative">
+              <div className="relative" style={{ width: "320px", height: "420px" }}>
                 <div
-                  className="w-64 h-64 md:w-72 md:h-72 rounded-3xl glass float-anim flex flex-col items-center justify-center relative overflow-hidden"
-                  style={{ border: "1px solid rgba(0,245,212,0.18)" }}
+                  className="photo-ring-spin absolute inset-0 rounded-3xl"
+                  style={{
+                    background: "conic-gradient(from 0deg, #00f5d4, #7b2fff, #f72585, #00f5d4)",
+                    padding: "2px",
+                    borderRadius: "28px",
+                    top: "10px",
+                    left: "10px",
+                    right: "10px",
+                    bottom: "10px",
+                  }}
+                />
+                <div
+                  className="photo-card absolute inset-0 rounded-3xl overflow-hidden"
+                  style={{
+                    margin: "12px",
+                    border: "2px solid rgba(0,245,212,0.25)",
+                    boxShadow: "0 0 60px rgba(123,47,255,0.2), 0 0 120px rgba(0,245,212,0.08)",
+                  }}
                 >
-                  <div className="absolute inset-0 opacity-15" style={{ background: "linear-gradient(135deg, #7b2fff, #00f5d4)" }} />
-                  <div className="absolute inset-0" style={{ background: "repeating-linear-gradient(45deg, transparent, transparent 24px, rgba(0,245,212,0.015) 24px, rgba(0,245,212,0.015) 25px)" }} />
-                  <div className="relative z-10 text-center px-4">
-                    <div className="text-6xl mb-3">👨‍💻</div>
-                    <p className="text-white font-bold text-sm">Kim Ivan B. Ebora</p>
-                    <p className="text-white/35 text-xs mt-1 mono">IT Student · Network Tech</p>
+                  <div className="absolute inset-0 z-10" style={{ background: "linear-gradient(to top, rgba(3,7,18,0.95) 0%, rgba(3,7,18,0.3) 40%, transparent 65%)" }} />
+                  <img
+                    src={myImage}
+                    alt="Kim Ivan B. Ebora"
+                    className="w-full h-full object-cover object-top"
+                    style={{ display: "block" }}
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 z-20 p-5">
+                    <p className="text-white font-bold text-sm leading-tight">Kim Ivan B. Ebora</p>
+                    <p className="mono text-xs mt-1" style={{ color: "#00f5d4" }}>IT Student · Network Tech</p>
                   </div>
                 </div>
-                <div className="absolute -top-3 -right-3 glass rounded-xl px-3 py-2 text-xs mono text-cyan-400" style={{ border: "1px solid rgba(0,245,212,0.2)" }}>
-                  &lt;/code&gt;
+                <div
+                  className="code-card-anim absolute"
+                  style={{
+                    top: "-18px",
+                    right: "-28px",
+                    background: "rgba(8,8,20,0.92)",
+                    border: "1px solid rgba(123,47,255,0.4)",
+                    borderRadius: "12px",
+                    padding: "10px 14px",
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: "10px",
+                    lineHeight: "1.7",
+                    zIndex: 30,
+                    transform: "rotate(-2deg)",
+                    backdropFilter: "blur(10px)",
+                  }}
+                >
+                  <div><span style={{ color: "#7b2fff" }}>const</span> <span style={{ color: "#00f5d4" }}>kim</span> = {'{'} </div>
+                  <div style={{ paddingLeft: "10px" }}><span style={{ color: "#f72585" }}>&quot;role&quot;</span>: <span style={{ color: "#00f5d4" }}>&quot;dev&quot;</span>,</div>
+                  <div style={{ paddingLeft: "10px" }}><span style={{ color: "#f72585" }}>&quot;passion&quot;</span>: <span style={{ color: "#00f5d4" }}>&quot;build&quot;</span></div>
+                  <div>{'}'}</div>
+                  <div style={{ color: "rgba(255,255,255,0.25)", marginTop: "3px" }}>// always learning</div>
                 </div>
-                <div className="absolute -bottom-3 -left-3 glass rounded-xl px-3 py-2 text-xs mono text-purple-400" style={{ border: "1px solid rgba(123,47,255,0.2)" }}>
-                  git push ✓
+
+                <div
+                  className="tech-badge-item tech-b1 absolute flex items-center gap-2"
+                  style={{
+                    top: "40px", left: "-44px",
+                    background: "rgba(8,8,20,0.92)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "10px", padding: "6px 12px",
+                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+                  }}
+                >
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#61dafb", display: "inline-block", flexShrink: 0 }} />
+                  React.js
+                </div>
+
+                <div
+                  className="tech-badge-item tech-b2 absolute flex items-center gap-2"
+                  style={{
+                    top: "100px", right: "-48px",
+                    background: "rgba(8,8,20,0.92)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "10px", padding: "6px 12px",
+                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+                  }}
+                >
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#f72585", display: "inline-block", flexShrink: 0 }} />
+                  Laravel
+                </div>
+
+                <div
+                  className="tech-badge-item tech-b3 absolute flex items-center gap-2"
+                  style={{
+                    bottom: "110px", left: "-52px",
+                    background: "rgba(8,8,20,0.92)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "10px", padding: "6px 12px",
+                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+                  }}
+                >
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#68a063", display: "inline-block", flexShrink: 0 }} />
+                  Node.js
+                </div>
+
+                <div
+                  className="tech-badge-item tech-b4 absolute flex items-center gap-2"
+                  style={{
+                    bottom: "60px", right: "-44px",
+                    background: "rgba(8,8,20,0.92)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "10px", padding: "6px 12px",
+                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+                  }}
+                >
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#7b2fff", display: "inline-block", flexShrink: 0 }} />
+                  PostgreSQL
+                </div>
+
+                <div
+                  className="git-badge-anim absolute flex items-center gap-2"
+                  style={{
+                    bottom: "-14px", left: "-20px",
+                    background: "rgba(8,8,20,0.92)",
+                    border: "1px solid rgba(0,245,212,0.3)",
+                    borderRadius: "10px", padding: "7px 12px",
+                    fontFamily: "'DM Mono', monospace", fontSize: "10px",
+                    color: "rgba(255,255,255,0.5)", backdropFilter: "blur(10px)", zIndex: 30,
+                    transform: "rotate(1deg)",
+                  }}
+                >
+                  <span style={{ color: "#00f5d4" }}>✓</span> git push · done
                 </div>
               </div>
             </div>
@@ -2508,66 +2678,278 @@ function PortfolioApp() {
             <p className="text-white/40 mt-3 text-sm">Open to freelance projects, collaborations, internships, and full-time opportunities.</p>
           </div>
 
-          <div className="glass rounded-3xl p-8 md:p-12" style={{ border: "1px solid rgba(0,245,212,0.1)", background: "linear-gradient(135deg, rgba(0,245,212,0.025), rgba(123,47,255,0.025))" }}>
-            <div className="grid md:grid-cols-2 gap-4 mb-10">
-              {[
-                { icon: "✉️", label: "Email", value: "kimiebora@gmail.com", href: "mailto:kimiebora@gmail.com" },
-                { icon: "📍", label: "Location", value: "Malalim, Batangas City, PH", href: null },
-                { icon: "💼", label: "LinkedIn", value: "kim-ivan-ebora", href: "https://www.linkedin.com/in/kim-ivan-ebora-a44014405" },
-                { icon: "🐙", label: "GitHub", value: "github.com/Cayban", href: "https://github.com/Cayban" },
-              ].map((c) => (
-                <div key={c.label} className="flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors group">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0" style={{ background: "rgba(0,245,212,0.07)", border: "1px solid rgba(0,245,212,0.15)" }}>
-                    {c.icon}
-                  </div>
-                  <div>
-                    <p className="mono text-xs text-white/25 uppercase tracking-wider">{c.label}</p>
-                    {c.href ? (
-                      <a href={c.href} target="_blank" rel="noreferrer" className="text-sm text-white/65 hover:text-cyan-400 transition-colors mt-0.5 block font-medium">{c.value}</a>
-                    ) : (
-                      <p className="text-sm text-white/65 mt-0.5 font-medium">{c.value}</p>
-                    )}
-                  </div>
+          <style>{`
+            @keyframes contactFadeUp {
+              from { opacity: 0; transform: translateY(24px); }
+              to   { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes orbitSpin {
+              from { transform: rotate(0deg) translateX(54px) rotate(0deg); }
+              to   { transform: rotate(360deg) translateX(54px) rotate(-360deg); }
+            }
+            @keyframes cardReveal {
+              from { opacity: 0; transform: translateX(-14px); }
+              to   { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes lineGrow {
+              from { width: 0; }
+              to   { width: 100%; }
+            }
+            .contact-wrap {
+              animation: contactFadeUp 0.6s ease both;
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 0;
+              border-radius: 2rem;
+              overflow: hidden;
+              border: 1px solid rgba(255,255,255,0.07);
+            }
+            @media (max-width: 768px) {
+              .contact-wrap { grid-template-columns: 1fr; }
+            }
+            .contact-left {
+              padding: 2.5rem;
+              background: rgba(0,245,212,0.03);
+              border-right: 1px solid rgba(255,255,255,0.05);
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              gap: 2rem;
+            }
+            .contact-right {
+              padding: 2.5rem;
+              background: rgba(123,47,255,0.03);
+              display: flex;
+              flex-direction: column;
+              gap: 0.875rem;
+            }
+            .contact-avatar {
+              width: 64px;
+              height: 64px;
+              border-radius: 50%;
+              background: linear-gradient(135deg, rgba(0,245,212,0.2), rgba(123,47,255,0.2));
+              border: 1px solid rgba(0,245,212,0.2);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.6rem;
+              position: relative;
+            }
+            .status-dot {
+              position: absolute;
+              bottom: 3px;
+              right: 3px;
+              width: 13px;
+              height: 13px;
+              border-radius: 50%;
+              background: #22c55e;
+              border: 2px solid #0d0d16;
+            }
+            .meta-row {
+              display: flex;
+              align-items: center;
+              gap: 0.6rem;
+              animation: cardReveal 0.5s ease both;
+            }
+            .meta-icon {
+              width: 32px;
+              height: 32px;
+              border-radius: 8px;
+              background: rgba(255,255,255,0.04);
+              border: 1px solid rgba(255,255,255,0.07);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 0.85rem;
+              flex-shrink: 0;
+            }
+            .reach-card {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              padding: 1rem 1.125rem;
+              border-radius: 1rem;
+              border: 1px solid rgba(255,255,255,0.07);
+              background: rgba(255,255,255,0.025);
+              text-decoration: none;
+              position: relative;
+              overflow: hidden;
+              transition: background 0.22s, border-color 0.22s, transform 0.22s;
+              animation: cardReveal 0.45s ease both;
+            }
+            .reach-card::after {
+              content: '';
+              position: absolute;
+              left: 0; top: 0; bottom: 0;
+              width: 3px;
+              border-radius: 0 2px 2px 0;
+              background: var(--rc-accent, rgba(0,245,212,0.5));
+              opacity: 0;
+              transform: scaleY(0);
+              transition: opacity 0.2s, transform 0.2s;
+              transform-origin: center;
+            }
+            .reach-card:hover {
+              background: rgba(255,255,255,0.05);
+              border-color: rgba(255,255,255,0.13);
+              transform: translateX(4px);
+            }
+            .reach-card:hover::after {
+              opacity: 1;
+              transform: scaleY(1);
+            }
+            .reach-logo {
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 0.75rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.1rem;
+              flex-shrink: 0;
+              background: var(--rc-logo-bg, rgba(0,245,212,0.08));
+              border: 1px solid var(--rc-logo-border, rgba(0,245,212,0.15));
+              transition: transform 0.22s;
+            }
+            .reach-card:hover .reach-logo {
+              transform: scale(1.1);
+            }
+            .reach-arrow {
+              margin-left: auto;
+              font-size: 0.8rem;
+              opacity: 0.25;
+              transition: opacity 0.2s, transform 0.2s;
+              flex-shrink: 0;
+            }
+            .reach-card:hover .reach-arrow {
+              opacity: 0.8;
+              transform: translateX(3px);
+            }
+            .preferred-tag {
+              font-size: 0.6rem;
+              letter-spacing: 0.08em;
+              text-transform: uppercase;
+              padding: 2px 7px;
+              border-radius: 99px;
+              background: rgba(0,245,212,0.12);
+              color: #00f5d4;
+              font-family: 'Courier New', monospace;
+              line-height: 1.6;
+            }
+            .divider-label {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+              margin: 0.25rem 0 0.5rem;
+            }
+            .divider-label::before,
+            .divider-label::after {
+              content: '';
+              flex: 1;
+              height: 1px;
+              background: rgba(255,255,255,0.06);
+            }
+          `}</style>
+
+          <div className="contact-wrap">
+            {/* LEFT — identity + meta */}
+            <div className="contact-left">
+              <div>
+                <div className="contact-avatar mb-5">
+                  👨‍💻
+                  <div className="status-dot" />
                 </div>
-              ))}
+                <p className="text-white font-bold text-xl leading-snug">Kim Ivan Ebora</p>
+                <p className="mono text-xs mt-1" style={{ color: "rgba(0,245,212,0.7)" }}>Full-Stack Developer</p>
+                <p className="text-white/35 text-xs mt-3 leading-relaxed max-w-xs">
+                  Open to freelance, collabs, internships, and full-time roles. Let's build something great together.
+                </p>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                {[
+                  { icon: "📍", label: "Malalim, Batangas City, PH", delay: "0ms" },
+                  { icon: "🕐", label: "Usually replies within 24 hrs", delay: "60ms" },
+                  { icon: "✅", label: "Available for new projects", delay: "120ms" },
+                ].map((m) => (
+                  <div key={m.label} className="meta-row" style={{ animationDelay: m.delay }}>
+                    <div className="meta-icon">{m.icon}</div>
+                    <span className="text-white/40 text-xs">{m.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Contact form */}
-            <div className="border-t border-white/5 pt-8">
-              <h3 className="mono text-xs text-white/30 uppercase tracking-widest mb-6">Send a Message</h3>
-              <div className="grid md:grid-cols-2 gap-4 mb-4">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder-white/20 outline-none transition-all"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                  onFocus={e => e.target.style.borderColor = "rgba(0,245,212,0.4)"}
-                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.08)"}
-                />
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder-white/20 outline-none transition-all"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                  onFocus={e => e.target.style.borderColor = "rgba(0,245,212,0.4)"}
-                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.08)"}
-                />
+            {/* RIGHT — platform cards */}
+            <div className="contact-right">
+              <div>
+                <p className="mono text-xs uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.2)" }}>Reach me via</p>
+                <div className="divider-label">
+                  <span style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.15)", letterSpacing: "0.05em" }}>choose a platform</span>
+                </div>
               </div>
-              <textarea
-                rows={4}
-                placeholder="What's on your mind?"
-                className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder-white/20 outline-none transition-all resize-none mb-4"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                onFocus={e => e.target.style.borderColor = "rgba(0,245,212,0.4)"}
-                onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.08)"}
-              />
-              <a
-                href="mailto:kimiebora@gmail.com"
-                className="w-full py-4 rounded-xl font-bold text-black text-sm transition-all duration-200 hover:scale-[1.01] hover:brightness-110 flex items-center justify-center gap-2"
-                style={{ background: "linear-gradient(135deg, #00f5d4, #7b2fff)", boxShadow: "0 0 40px rgba(0,245,212,0.12)", display: "flex" }}
-              >
-                Send Message →
-              </a>
+
+              {[
+                {
+                  label: "Email",
+                  sub: "kimiebora@gmail.com",
+                  icon: "✉️",
+                  href: "mailto:kimiebora@gmail.com",
+                  accent: "rgba(0,245,212,0.5)",
+                  logoBg: "rgba(0,245,212,0.08)",
+                  logoBorder: "rgba(0,245,212,0.18)",
+                  preferred: true,
+                  delay: "0ms",
+                },
+                {
+                  label: "LinkedIn",
+                  sub: "kim-ivan-ebora",
+                  icon: "💼",
+                  href: "https://www.linkedin.com/in/kim-ivan-ebora-a44014405",
+                  accent: "rgba(10,102,194,0.7)",
+                  logoBg: "rgba(10,102,194,0.1)",
+                  logoBorder: "rgba(10,102,194,0.2)",
+                  delay: "70ms",
+                },
+                {
+                  label: "GitHub",
+                  sub: "github.com/Cayban",
+                  icon: "🐙",
+                  href: "https://github.com/Cayban",
+                  accent: "rgba(255,255,255,0.3)",
+                  logoBg: "rgba(255,255,255,0.05)",
+                  logoBorder: "rgba(255,255,255,0.1)",
+                  delay: "140ms",
+                },
+              ].map((p) => (
+                <a
+                  key={p.label}
+                  href={p.href}
+                  target={p.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noreferrer"
+                  className="reach-card"
+                  style={{
+                    animationDelay: p.delay,
+                    "--rc-accent": p.accent,
+                    "--rc-logo-bg": p.logoBg,
+                    "--rc-logo-border": p.logoBorder,
+                  }}
+                >
+                  <div className="reach-logo">{p.icon}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      <span className="text-white font-semibold text-sm">{p.label}</span>
+                      {p.preferred && <span className="preferred-tag">preferred</span>}
+                    </div>
+                    <p className="mono text-xs truncate mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>{p.sub}</p>
+                  </div>
+                  <span className="reach-arrow text-white">→</span>
+                </a>
+              ))}
+
+              <p className="mono text-xs text-center mt-auto pt-3" style={{ color: "rgba(255,255,255,0.12)", borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                All links open directly · No forms, no bots
+              </p>
             </div>
           </div>
         </div>
