@@ -11,18 +11,69 @@ import pedHome from "./assets/pedatricsample.png";
 import pedHome2 from "./assets/pediatricSample2.png";
 import pedHome3 from "./assets/pediatricSample3.png";
 import myImage from "./assets/myimage.jpg";
+import ladLoginSample from "./assets/ladloginSample.png";
+import ladSample2 from "./assets/ladSample2.png";
+import ladSample3 from "./assets/ladSample3.png";
 
 const NAV_LINKS = ["About", "Skills", "Projects", "Services", "Contact"];
 
 const SKILLS_CAN_DO = [
-  { name: "Web Development", icon: "🌐", level: 85 },
-  { name: "Backend Development", icon: "⚙️", level: 80 },
-  { name: "Database Management", icon: "🗄️", level: 78 },
-  { name: "UI/UX Design", icon: "🎨", level: 72 },
-  { name: "System Integration", icon: "🔗", level: 75 },
-  { name: "AI-Assisted Dev", icon: "🤖", level: 82 },
-  { name: "Technical Problem Solving", icon: "🔧", level: 85 },
-  { name: "Business Web Dev", icon: "💼", level: 78 },
+  {
+    name: "Web Development",
+    icon: "🌐",
+    level: 55,
+    label: "Comfortable",
+    desc: "I can build functional, responsive websites using HTML, CSS, JavaScript, and React. I rely on documentation and research for advanced patterns, but I understand what I'm working with and can adapt code to fit the project.",
+  },
+  {
+    name: "Backend Development",
+    icon: "⚙️",
+    level: 45,
+    label: "Familiar",
+    desc: "I've worked with Laravel and Node.js to build basic server-side logic and REST APIs. I can follow and modify existing backend code, but I lean on guides and examples when building from scratch.",
+  },
+  {
+    name: "Database Management",
+    icon: "🗄️",
+    level: 45,
+    label: "Familiar",
+    desc: "I can write queries, set up tables, and manage basic data relationships in PostgreSQL and Firebase. I look things up for complex queries or schema decisions, but I understand the fundamentals well enough to get things working.",
+  },
+  {
+    name: "UI/UX Design",
+    icon: "🎨",
+    level: 52,
+    label: "Comfortable",
+    desc: "I have a decent eye for layout, spacing, and color — mostly self-taught through building real projects. I use Tailwind CSS and reference design patterns. I'm not a formal designer, but I can produce clean, usable interfaces.",
+  },
+  {
+    name: "System Integration",
+    icon: "🔗",
+    level: 42,
+    label: "Familiar",
+    desc: "I've connected frontend and backend systems and integrated third-party services like Firebase. I approach integration tasks step by step, researching each connection point to make sure things work together properly.",
+  },
+  {
+    name: "AI-Assisted Dev",
+    icon: "🤖",
+    level: 70,
+    label: "Proficient",
+    desc: "This is genuinely one of my stronger skills. I know how to use AI tools effectively — writing clear prompts, reviewing and understanding generated code, spotting issues, and adapting outputs to fit what the project actually needs.",
+  },
+  {
+    name: "Research & Problem Solving",
+    icon: "🔧",
+    level: 72,
+    label: "Proficient",
+    desc: "When I hit something I don't know, I find the answer. I'm good at searching, reading docs, cross-referencing Stack Overflow, and applying solutions to my specific context — rather than just copying blindly.",
+  },
+  {
+    name: "Business Web Dev",
+    icon: "💼",
+    level: 58,
+    label: "Comfortable",
+    desc: "I've built and redesigned real websites for actual clients. I understand what small businesses need — clean presentation, contact flows, mobile-readiness — and I can deliver that within a reasonable scope.",
+  },
 ];
 
 const TECH_TAGS = [
@@ -51,6 +102,7 @@ const PROJECTS = [
     github: null,
     live: "https://lad-enterprises.com",
     liveLabel: "lad-enterprises.com",
+    images: [ladLoginSample, ladSample2, ladSample3],
   },
   {
     title: "KTTM Records System",
@@ -103,9 +155,12 @@ function AnimatedCounter({ target, duration = 1500 }) {
   return <span ref={ref}>{count}</span>;
 }
 
-function SkillBar({ name, icon, level, delay }) {
+function SkillBar({ name, icon, level, label, desc, delay }) {
   const [animated, setAnimated] = useState(false);
+  const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const popupRef = useRef(null);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([e]) => {
@@ -119,24 +174,108 @@ function SkillBar({ name, icon, level, delay }) {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [delay]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e) => {
+      if (popupRef.current && !popupRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  const labelColor = {
+    "Proficient": "#00f5d4",
+    "Comfortable": "#7b2fff",
+    "Familiar": "#f72585",
+  }[label] || "#00f5d4";
+
   return (
-    <div ref={ref} className="group">
-      <div className="flex justify-between items-center mb-2">
-        <span className="flex items-center gap-2 text-sm font-medium text-white/80">
-          <span>{icon}</span> {name}
-        </span>
-        <span className="text-xs font-mono text-cyan-400">{level}%</span>
-      </div>
-      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
+    <div ref={ref} className="group relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full text-left focus:outline-none"
+        aria-expanded={open}
+        aria-label={`${name} — click for details`}
+      >
+        <div className="flex justify-between items-center mb-2">
+          <span className="flex items-center gap-2 text-sm font-medium text-white/80 group-hover:text-white transition-colors">
+            <span>{icon}</span> {name}
+            <svg
+              width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2"
+              viewBox="0 0 24 24"
+              style={{ color: "rgba(255,255,255,0.25)", flexShrink: 0, transition: "color 0.2s" }}
+            >
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className="mono text-xs px-2 py-0.5 rounded-full"
+              style={{ background: `${labelColor}18`, color: labelColor, border: `1px solid ${labelColor}35`, fontSize: "10px" }}
+            >
+              {label}
+            </span>
+            <span className="text-xs font-mono text-cyan-400">{level}%</span>
+          </div>
+        </div>
+        <div className="h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
+          <div
+            className="h-full rounded-full transition-all ease-out"
+            style={{
+              width: animated ? `${level}%` : "0%",
+              transitionDuration: "1.2s",
+              background: "linear-gradient(90deg, #00f5d4, #7b2fff)",
+            }}
+          />
+        </div>
+      </button>
+
+      {open && (
         <div
-          className="h-full rounded-full transition-all ease-out"
+          ref={popupRef}
+          className="absolute z-50 mt-3 rounded-2xl p-4"
           style={{
-            width: animated ? `${level}%` : "0%",
-            transitionDuration: "1.2s",
-            background: "linear-gradient(90deg, #00f5d4, #7b2fff)",
+            background: "rgba(8, 8, 22, 0.97)",
+            border: `1px solid ${labelColor}40`,
+            boxShadow: `0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px ${labelColor}18`,
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            width: "min(360px, calc(100vw - 48px))",
+            left: 0,
+            right: "auto",
           }}
-        />
-      </div>
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-base">{icon}</span>
+              <span className="font-semibold text-white text-sm">{name}</span>
+            </div>
+            <button
+              onClick={(e) => { e.stopPropagation(); setOpen(false); }}
+              className="text-white/30 hover:text-white/70 transition-colors"
+              aria-label="Close"
+            >
+              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <div className="mb-3">
+            <span
+              className="mono text-xs px-2.5 py-1 rounded-full"
+              style={{ background: `${labelColor}18`, color: labelColor, border: `1px solid ${labelColor}40` }}
+            >
+              {label} · {level}%
+            </span>
+          </div>
+          <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+            {desc}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -195,24 +334,82 @@ function FeaturedCard({ project }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Left — decorative placeholder (no screenshot for LAD) */}
+      {/* Left — carousel or decorative placeholder */}
       <div className="md:w-1/2 relative overflow-hidden flex-shrink-0" style={{ minHeight: "280px", background: "#07070f" }}>
-        <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}18 0%, #030712 70%)` }} />
-        <div className="absolute inset-0" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,0.015) 30px, rgba(255,255,255,0.015) 31px)" }} />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-          <div className="text-6xl">{project.icon}</div>
-          <div className="px-4 py-2 rounded-xl mono text-xs" style={{ background: `${project.color}15`, color: project.color, border: `1px solid ${project.color}30` }}>
-            Live Website
-          </div>
-          {project.live && (
-            <a href={project.live} target="_blank" rel="noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
-              style={{ background: `linear-gradient(135deg, ${project.color}, #7b2fff)`, color: "#000" }}>
-              Visit Site
-              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </a>
-          )}
-        </div>
+        {project.images && project.images.length > 0 ? (
+          <>
+            {/* Fixed height so ImageCarousel gets a number, not "100%" */}
+            <div className="absolute inset-0">
+              <ImageCarousel images={project.images} color={project.color} height={280} />
+            </div>
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #030712 0%, transparent 40%)` }} />
+            {project.live && (
+              <div
+                className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
+                style={{ background: "rgba(3,7,18,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
+              >
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
+                  style={{ background: `linear-gradient(135deg, ${project.color}, #7b2fff)`, color: "#000", pointerEvents: "auto" }}
+                >
+                  Visit Site
+                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            )}
+          </>
+        ) : project.screenshot ? (
+          <>
+            <img
+              src={project.screenshot}
+              alt={`${project.title} screenshot`}
+              className="w-full h-full object-cover object-top"
+              style={{ display: "block", minHeight: "280px" }}
+            />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #030712 0%, transparent 40%)` }} />
+            {project.live && (
+              <div
+                className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
+                style={{ background: "rgba(3,7,18,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
+              >
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
+                  style={{ background: `linear-gradient(135deg, ${project.color}, #7b2fff)`, color: "#000", pointerEvents: "auto" }}
+                >
+                  Visit Site
+                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}18 0%, #030712 70%)` }} />
+            <div className="absolute inset-0" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,0.015) 30px, rgba(255,255,255,0.015) 31px)" }} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+              <div className="text-6xl">{project.icon}</div>
+              <div className="px-4 py-2 rounded-xl mono text-xs" style={{ background: `${project.color}15`, color: project.color, border: `1px solid ${project.color}30` }}>
+                Live Website
+              </div>
+              {project.live && (
+                <a href={project.live} target="_blank" rel="noreferrer"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
+                  style={{ background: `linear-gradient(135deg, ${project.color}, #7b2fff)`, color: "#000" }}>
+                  Visit Site
+                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Right — content */}
@@ -2345,6 +2542,15 @@ function PortfolioApp() {
         .code-card-anim { animation: badge-float-in 0.5s ease forwards 1.1s, code-card-float 7s ease-in-out 2s infinite; opacity:0; }
         .git-badge-anim { animation: badge-float-in 0.5s ease forwards 2.5s, git-badge-float 8s ease-in-out 3.3s infinite; opacity:0; }
         .tech-badge-item { opacity: 0; }
+        .tech-b1 { animation: badge-float-in 0.5s ease forwards 0.4s, float-b1 6s ease-in-out 1.2s infinite; }
+        .tech-b2 { animation: badge-float-in 0.5s ease forwards 0.7s, float-b2 7s ease-in-out 1.5s infinite; }
+        .tech-b3 { animation: badge-float-in 0.5s ease forwards 1.0s, float-b3 8s ease-in-out 1.8s infinite; }
+        .tech-b4 { animation: badge-float-in 0.5s ease forwards 1.3s, float-b4 6.5s ease-in-out 2.1s infinite; }
+        @media (max-width: 768px) {
+          .tech-badge-item { display: none; }
+          .code-card-anim { display: none; }
+          .git-badge-anim { display: none; }
+        }
       `}</style>
 
       {/* Ambient orbs */}
@@ -2378,12 +2584,22 @@ function PortfolioApp() {
           </button>
         </div>
         {menuOpen && (
-          <div className="glass-nav md:hidden px-6 pb-4 flex flex-col gap-1">
+          <div className="glass-nav md:hidden px-6 pb-5 flex flex-col gap-1">
             {NAV_LINKS.map((l) => (
               <button key={l} onClick={() => scrollTo(l)} className="py-3 text-left text-sm text-white/60 hover:text-white border-b border-white/5 last:border-0">
                 {l}
               </button>
             ))}
+            <div className="flex gap-2 mt-3 pt-3 border-t border-white/5">
+              <a
+                href="mailto:kimiebora@gmail.com"
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-black text-center transition-all hover:brightness-110"
+                style={{ background: "linear-gradient(135deg, #00f5d4, #7b2fff)" }}
+                onClick={() => setMenuOpen(false)}
+              >
+                Hire Me
+              </a>
+            </div>
           </div>
         )}
       </nav>
@@ -2860,7 +3076,7 @@ function PortfolioApp() {
                   <div className="status-dot" />
                 </div>
                 <p className="text-white font-bold text-xl leading-snug">Kim Ivan Ebora</p>
-                <p className="mono text-xs mt-1" style={{ color: "rgba(0,245,212,0.7)" }}>Full-Stack Developer</p>
+                <p className="mono text-xs mt-1" style={{ color: "rgba(0,245,212,0.7)" }}>IT Student · Web Developer</p>
                 <p className="text-white/35 text-xs mt-3 leading-relaxed max-w-xs">
                   Open to freelance, collabs, internships, and full-time roles. Let's build something great together.
                 </p>
@@ -2958,7 +3174,7 @@ function PortfolioApp() {
       {/* FOOTER */}
       <footer className="border-t border-white/5 py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="mono text-xs text-white/20">© 2025 · Kim Ivan B. Ebora · Built with React & Tailwind</span>
+          <span className="mono text-xs text-white/20">© 2026 · Kim Ivan B. Ebora · Built with React & Tailwind</span>
           <div className="flex items-center gap-1">
             <a href="https://github.com/Cayban" target="_blank" rel="noreferrer" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">GitHub</a>
             <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">LinkedIn</a>
