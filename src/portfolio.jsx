@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Routes, Route, Link } from "react-router-dom";
 
 // KTTM screenshots
 import kttmHome from "./assets/kttmhomeSample3.png";
@@ -15,7 +16,7 @@ import ladLoginSample from "./assets/ladloginSample.png";
 import ladSample2 from "./assets/ladSample2.png";
 import ladSample3 from "./assets/ladSample3.png";
 
-const NAV_LINKS = ["About", "Skills", "Projects", "Services", "Contact"];
+const NAV_LINKS = ["About", "Skills", "Projects", "Contact"];
 
 const SKILLS_CAN_DO = [
   {
@@ -2651,7 +2652,7 @@ function PersonalityModal({ modalKey, onClose }) {
   );
 }
 
-function PortfolioApp() {
+function HomePage() {
   const [scrolled, setScrolled] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -2833,7 +2834,7 @@ function PortfolioApp() {
               </button>
             ))}
             <a href="mailto:kimiebora@gmail.com" className="ml-3 px-5 py-2 text-sm rounded-lg font-semibold text-black transition-all duration-200 hover:scale-105 hover:brightness-110" style={{ background: "linear-gradient(135deg, #00f5d4, #7b2fff)" }}>
-              Hire Me
+              Get in Touch
             </a>
           </div>
           <button className="md:hidden text-white/70 hover:text-white" onClick={() => setMenuOpen(!menuOpen)}>
@@ -3166,13 +3167,11 @@ function PortfolioApp() {
         </div>
       </section>
 
-      <ServicesSection />
-
       {/* ── CONTACT ── */}
       <section id="contact" className="relative py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">05 / Contact</span>
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">04 / Contact</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span className="text-white">Let's </span>
               <span className="gradient-text">Connect</span>
@@ -3465,11 +3464,80 @@ function PortfolioApp() {
             <a href="https://github.com/Cayban" target="_blank" rel="noreferrer" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">GitHub</a>
             <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">LinkedIn</a>
             <a href="mailto:kimiebora@gmail.com" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">Email</a>
+            <Link to="/freelance" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">Freelance work</Link>
           </div>
         </div>
       </footer>
     </div>
   );
-} 
+}
+
+/* ── FREELANCE (sideline) — separate page, not part of the main portfolio flow ── */
+function FreelancePage() {
+  return (
+    <div className="min-h-screen text-white selection:bg-cyan-400/30" style={{ background: "#030712", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+        * { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #7b2fff50; border-radius: 2px; }
+        .grid-bg {
+          background-image:
+            linear-gradient(rgba(0,245,212,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,245,212,0.025) 1px, transparent 1px);
+          background-size: 60px 60px;
+        }
+        @keyframes gradient-x { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .gradient-text {
+          background: linear-gradient(135deg, #00f5d4, #7b2fff, #f72585);
+          background-size: 200% 200%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: gradient-x 5s ease infinite;
+        }
+        .mono { font-family: 'DM Mono', monospace; }
+      `}</style>
+
+      {/* Ambient orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(123,47,255,0.12), transparent)", top: "8%", left: "2%", filter: "blur(80px)" }} />
+        <div className="absolute w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle, rgba(0,245,212,0.1), transparent)", top: "55%", right: "3%", filter: "blur(80px)" }} />
+      </div>
+
+      {/* Minimal top bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 glass-nav" style={{ background: "rgba(3,7,18,0.88)", backdropFilter: "blur(24px)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors">
+            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Portfolio
+          </Link>
+          <span className="mono text-sm tracking-widest text-white/35 uppercase">kim.dev / freelance</span>
+        </div>
+      </nav>
+
+      <div className="pt-20">
+        <ServicesSection />
+      </div>
+
+      <footer className="border-t border-white/5 py-8">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="mono text-xs text-white/20">© 2026 · Kim Ivan B. Ebora</span>
+          <Link to="/" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">← Back to Portfolio</Link>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function PortfolioApp() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/freelance" element={<FreelancePage />} />
+    </Routes>
+  );
+}
 
 export default PortfolioApp;
