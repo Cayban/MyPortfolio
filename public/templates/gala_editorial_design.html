@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>design3_gala_editorial</title></head>
+<body style="margin:0;padding:40px 20px;background:#e9e6e0;min-height:100vh;font-family:sans-serif;">
+<div style="max-width:1100px;margin:0 auto;">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap');
+
+  :root {
+    --black: #131110;
+    --black2: #1c1917;
+    --gold: #c9a875;
+    --gold-light: #ded0b3;
+    --ivory: #f3ede1;
+    --white: #fffdf9;
+    --crimson: #8a1f2d;
+    --muted: rgba(19,17,16,0.5);
+    --muted-light: rgba(255,255,255,0.5);
+    --border: rgba(19,17,16,0.14);
+  }
+
+  .tmpl3-wrap * { box-sizing: border-box; margin: 0; padding: 0; }
+  .tmpl3-wrap {
+    font-family: 'Archivo', sans-serif;
+    background: var(--ivory);
+    color: var(--black);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  /* NAV / MASTHEAD */
+  .tmpl3-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 76px;
+    background: var(--black); border-bottom: 3px solid var(--gold);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .tmpl3-logo {
+    font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 20px;
+    color: var(--white); letter-spacing: 1px; text-transform: uppercase;
+  }
+  .tmpl3-logo span { color: var(--gold); }
+  .tmpl3-nav-links { display: flex; gap: 30px; }
+  .tmpl3-nav-links span {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted-light); cursor: pointer;
+  }
+  .tmpl3-nav-links span:hover { color: var(--gold); }
+  .tmpl3-nav-cta {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    background: var(--gold); color: var(--black); padding: 11px 22px; cursor: pointer;
+  }
+
+  /* HERO */
+  .tmpl3-hero {
+    background: var(--black); position: relative; overflow: hidden;
+    padding: 76px 40px 60px;
+    display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 40px; align-items: end;
+  }
+  .tmpl3-hero-num {
+    position: absolute; top: -30px; right: 20px; font-size: 220px; font-weight: 900;
+    color: rgba(201,168,117,0.06); line-height: 1; z-index: 1; font-family: 'Archivo', sans-serif;
+  }
+  .tmpl3-hero-left { position: relative; z-index: 2; }
+  .tmpl3-eyebrow-line {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px;
+    color: var(--gold-light); margin-bottom: 18px;
+  }
+  .tmpl3-hero-title {
+    font-size: 58px; font-weight: 900; line-height: 0.98; text-transform: uppercase;
+    color: var(--white); letter-spacing: -1px; margin-bottom: 22px;
+  }
+  .tmpl3-hero-title span { color: var(--gold); }
+  .tmpl3-hero-sub {
+    font-size: 14px; font-weight: 400; color: var(--muted-light); line-height: 1.8;
+    max-width: 380px; margin-bottom: 30px;
+  }
+  .tmpl3-hero-btns { display: flex; gap: 12px; }
+  .tmpl3-btn-gold {
+    font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    background: var(--gold); color: var(--black); padding: 15px 26px; cursor: pointer;
+  }
+  .tmpl3-btn-line {
+    font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); padding: 15px 24px; cursor: pointer;
+  }
+  .tmpl3-hero-right {
+    position: relative; z-index: 2; border: 1px solid rgba(255,255,255,0.15);
+    padding: 22px; background: rgba(255,255,255,0.03);
+  }
+  .tmpl3-hero-stat { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .tmpl3-hero-stat:last-child { border-bottom: none; }
+  .tmpl3-hero-stat-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted-light); }
+  .tmpl3-hero-stat-val { font-size: 13px; font-weight: 700; color: var(--gold-light); }
+
+  /* SECTION SHARED */
+  .tmpl3-section { padding: 60px 40px; }
+  .tmpl3-section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 34px; border-bottom: 3px solid var(--black); padding-bottom: 18px; }
+  .tmpl3-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--crimson); margin-bottom: 8px; }
+  .tmpl3-title { font-size: 32px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px; }
+  .tmpl3-sub { font-size: 13px; color: var(--muted); max-width: 260px; text-align: right; line-height: 1.6; }
+
+  /* GALLERY */
+  .tmpl3-gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--black); }
+  .tmpl3-gcard { background: var(--ivory); cursor: pointer; transition: opacity 0.2s; }
+  .tmpl3-gcard:hover { opacity: 0.85; }
+  .tmpl3-gcard-img {
+    height: 170px; background: var(--white); display: flex; align-items: center;
+    justify-content: center; font-size: 44px; position: relative; border-bottom: 1px solid var(--border);
+  }
+  .tmpl3-gcard-num {
+    position: absolute; top: 10px; left: 10px; font-size: 11px; font-weight: 700; color: var(--muted);
+  }
+  .tmpl3-gcard-body { padding: 16px 18px 20px; }
+  .tmpl3-gcard-title { font-size: 15px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+  .tmpl3-gcard-loc { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: var(--muted); }
+
+  /* PRICING */
+  .tmpl3-pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 3px solid var(--black); }
+  .tmpl3-pcard { padding: 32px 26px; border-right: 3px solid var(--black); position: relative; }
+  .tmpl3-pcard:last-child { border-right: none; }
+  .tmpl3-pcard.featured { background: var(--black); color: var(--white); }
+  .tmpl3-pcard-ribbon {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px;
+  }
+  .tmpl3-pcard-tier { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .tmpl3-pcard.featured .tmpl3-pcard-tier { color: var(--muted-light); }
+  .tmpl3-pcard-name { font-size: 30px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+  .tmpl3-pcard-price { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .tmpl3-pcard.featured .tmpl3-pcard-price { color: var(--muted-light); }
+  .tmpl3-pcard-price b { font-size: 22px; font-weight: 900; color: var(--black); }
+  .tmpl3-pcard.featured .tmpl3-pcard-price b { color: var(--gold); }
+  .tmpl3-pcard-list { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+  .tmpl3-pcard-list li { font-size: 13px; display: flex; gap: 8px; }
+  .tmpl3-pcard-list li::before { content: '/'; font-weight: 700; color: var(--crimson); }
+  .tmpl3-pcard.featured .tmpl3-pcard-list li::before { color: var(--gold); }
+  .tmpl3-pcard-btn {
+    text-align: center; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 14px; cursor: pointer;
+  }
+  .tmpl3-pcard-btn.solid { background: var(--black); color: var(--white); }
+  .tmpl3-pcard.featured .tmpl3-pcard-btn.solid { background: var(--gold); color: var(--black); }
+  .tmpl3-pcard-btn.outline { border: 2px solid var(--black); color: var(--black); }
+
+  /* INQUIRY */
+  .tmpl3-inquiry { background: var(--black); color: var(--white); }
+  .tmpl3-inquiry .tmpl3-section-head { border-bottom-color: rgba(255,255,255,0.2); }
+  .tmpl3-inquiry .tmpl3-title { color: var(--white); }
+  .tmpl3-inquiry .tmpl3-sub { color: var(--muted-light); }
+  .tmpl3-form { display: flex; flex-direction: column; gap: 2px; background: rgba(255,255,255,0.15); }
+  .tmpl3-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .tmpl3-field {
+    background: var(--black2); padding: 16px 18px; font-size: 12px; color: var(--muted-light);
+    letter-spacing: 0.3px; text-transform: uppercase;
+  }
+  .tmpl3-field.tall { min-height: 70px; }
+  .tmpl3-submit {
+    text-align: center; background: var(--gold); color: var(--black);
+    font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 16px; cursor: pointer; margin-top: 2px;
+  }
+
+  /* CTA BAND */
+  .tmpl3-cta-band {
+    background: var(--crimson); padding: 54px 40px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .tmpl3-cta-title { font-size: 26px; font-weight: 900; text-transform: uppercase; color: var(--white); max-width: 400px; line-height: 1.1; }
+  .tmpl3-cta-btn {
+    background: var(--white); color: var(--black); font-size: 12px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 30px; cursor: pointer; flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  .tmpl3-footer {
+    padding: 26px 40px; display: flex; align-items: center; justify-content: space-between;
+    background: var(--black);
+  }
+  .tmpl3-footer-logo { font-size: 14px; font-weight: 900; text-transform: uppercase; color: var(--white); letter-spacing: 1px; }
+  .tmpl3-footer-logo span { color: var(--gold); }
+  .tmpl3-footer-links { display: flex; gap: 22px; }
+  .tmpl3-footer-links span { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted-light); cursor: pointer; }
+  .tmpl3-footer-copy { font-size: 11px; color: var(--muted-light); }
+
+  @media (max-width: 720px) {
+    .tmpl3-hero { grid-template-columns: 1fr; }
+    .tmpl3-gallery-grid, .tmpl3-pricing-grid { grid-template-columns: 1fr; }
+    .tmpl3-pcard { border-right: none; border-bottom: 3px solid var(--black); }
+    .tmpl3-form-row { grid-template-columns: 1fr; }
+    .tmpl3-hero-title { font-size: 38px; }
+    .tmpl3-section-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .tmpl3-sub { text-align: left; }
+    .tmpl3-cta-band { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+
+<div class="tmpl3-wrap">
+
+  <nav class="tmpl3-nav">
+    <div class="tmpl3-logo">Gala<span>&amp;Co.</span></div>
+    <div class="tmpl3-nav-links">
+      <span>Work</span>
+      <span>Packages</span>
+      <span>Studio</span>
+      <span>Contact</span>
+    </div>
+    <div class="tmpl3-nav-cta">Book Now</div>
+  </nav>
+
+  <section class="tmpl3-hero">
+    <div class="tmpl3-hero-num">01</div>
+    <div class="tmpl3-hero-left">
+      <div class="tmpl3-eyebrow-line">Events, staged with intention</div>
+      <div class="tmpl3-hero-title">Your day.<br>Designed <span>boldly.</span></div>
+      <div class="tmpl3-hero-sub">Full production for weddings and galas — concept, styling, and flawless day-of execution.</div>
+      <div class="tmpl3-hero-btns">
+        <div class="tmpl3-btn-gold">Book a Consultation</div>
+        <div class="tmpl3-btn-line">View Our Work</div>
+      </div>
+    </div>
+    <div class="tmpl3-hero-right">
+      <div class="tmpl3-hero-stat"><span class="tmpl3-hero-stat-label">Events Produced</span><span class="tmpl3-hero-stat-val">120+</span></div>
+      <div class="tmpl3-hero-stat"><span class="tmpl3-hero-stat-label">Avg. Planning Window</span><span class="tmpl3-hero-stat-val">6 Months</span></div>
+      <div class="tmpl3-hero-stat"><span class="tmpl3-hero-stat-label">Based In</span><span class="tmpl3-hero-stat-val">Metro Manila</span></div>
+    </div>
+  </section>
+
+  <section class="tmpl3-section">
+    <div class="tmpl3-section-head">
+      <div>
+        <div class="tmpl3-eyebrow">Portfolio</div>
+        <div class="tmpl3-title">Recent Events</div>
+      </div>
+      <div class="tmpl3-sub">A cross-section of the celebrations we've produced this year.</div>
+    </div>
+    <div class="tmpl3-gallery-grid">
+      <div class="tmpl3-gcard">
+        <div class="tmpl3-gcard-img">🥂<div class="tmpl3-gcard-num">01</div></div>
+        <div class="tmpl3-gcard-body"><div class="tmpl3-gcard-title">Camille &amp; Andres</div><div class="tmpl3-gcard-loc">Shangri-La Makati</div></div>
+      </div>
+      <div class="tmpl3-gcard">
+        <div class="tmpl3-gcard-img">🎇<div class="tmpl3-gcard-num">02</div></div>
+        <div class="tmpl3-gcard-body"><div class="tmpl3-gcard-title">Winter Gala 2026</div><div class="tmpl3-gcard-loc">BGC Arts Center</div></div>
+      </div>
+      <div class="tmpl3-gcard">
+        <div class="tmpl3-gcard-img">💍<div class="tmpl3-gcard-num">03</div></div>
+        <div class="tmpl3-gcard-body"><div class="tmpl3-gcard-title">Renata &amp; Lucas</div><div class="tmpl3-gcard-loc">Fairmont Manila</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tmpl3-section">
+    <div class="tmpl3-section-head">
+      <div>
+        <div class="tmpl3-eyebrow">Investment</div>
+        <div class="tmpl3-title">Packages</div>
+      </div>
+      <div class="tmpl3-sub">Structured tiers, fully bespoke execution.</div>
+    </div>
+    <div class="tmpl3-pricing-grid">
+      <div class="tmpl3-pcard">
+        <div class="tmpl3-pcard-tier">Starter</div>
+        <div class="tmpl3-pcard-name">Bloom</div>
+        <div class="tmpl3-pcard-price"><b>₱3,000</b> · 7–12 days</div>
+        <ul class="tmpl3-pcard-list">
+          <li>Hero Section</li>
+          <li>Mini Photo Gallery</li>
+          <li>Package Pricing (2 tiers)</li>
+          <li>Booking Inquiry Form</li>
+        </ul>
+        <div class="tmpl3-pcard-btn outline">Select</div>
+      </div>
+      <div class="tmpl3-pcard featured">
+        <div class="tmpl3-pcard-ribbon">Most Popular</div>
+        <div class="tmpl3-pcard-tier">Signature</div>
+        <div class="tmpl3-pcard-name">Velvet</div>
+        <div class="tmpl3-pcard-price"><b>₱5,500</b> · 7–12 days</div>
+        <ul class="tmpl3-pcard-list">
+          <li>Hero Section</li>
+          <li>Event Portfolio / Gallery</li>
+          <li>Package Pricing</li>
+          <li>Booking Inquiry Form</li>
+          <li>Contact / CTA</li>
+        </ul>
+        <div class="tmpl3-pcard-btn solid">Select</div>
+      </div>
+      <div class="tmpl3-pcard">
+        <div class="tmpl3-pcard-tier">Premium</div>
+        <div class="tmpl3-pcard-name">Gala</div>
+        <div class="tmpl3-pcard-price"><b>₱8,500</b> · 7–12 days</div>
+        <ul class="tmpl3-pcard-list">
+          <li>Everything in Velvet</li>
+          <li>About / Our Story</li>
+          <li>Priority Build Queue</li>
+          <li>1 Add-on Included</li>
+        </ul>
+        <div class="tmpl3-pcard-btn outline">Select</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tmpl3-section tmpl3-inquiry">
+    <div class="tmpl3-section-head">
+      <div>
+        <div class="tmpl3-eyebrow">Contact</div>
+        <div class="tmpl3-title">Start Your Event</div>
+      </div>
+      <div class="tmpl3-sub">We respond to every inquiry within one business day.</div>
+    </div>
+    <div class="tmpl3-form">
+      <div class="tmpl3-form-row">
+        <div class="tmpl3-field">Full Name</div>
+        <div class="tmpl3-field">Phone Number</div>
+      </div>
+      <div class="tmpl3-field">Email Address</div>
+      <div class="tmpl3-form-row">
+        <div class="tmpl3-field">Event Date</div>
+        <div class="tmpl3-field">Guest Count</div>
+      </div>
+      <div class="tmpl3-field tall">Describe your event</div>
+      <div class="tmpl3-submit">Submit Inquiry</div>
+    </div>
+  </section>
+
+  <div class="tmpl3-cta-band">
+    <div class="tmpl3-cta-title">Ready to produce something unforgettable?</div>
+    <div class="tmpl3-cta-btn">Book a Consultation</div>
+  </div>
+
+  <footer class="tmpl3-footer">
+    <div class="tmpl3-footer-logo">Gala<span>&amp;Co.</span></div>
+    <div class="tmpl3-footer-links"><span>Work</span><span>Packages</span><span>Contact</span></div>
+    <div class="tmpl3-footer-copy">© 2026 Gala &amp; Co.</div>
+  </footer>
+
+</div>
+</div></body></html>

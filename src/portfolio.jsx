@@ -37,14 +37,14 @@ const SKILLS_CAN_DO = [
     icon: "🗄️",
     level: 45,
     label: "Familiar",
-    desc: "I can write queries, set up tables, and manage basic data relationships in PostgreSQL and Firebase. I look things up for complex queries or schema decisions, but I understand the fundamentals well enough to get things working.",
+    desc: "I have hands-on experience handling basic data relationships and writing the queries around them setting up tables, defining relations, and working with PostgreSQL and Firebase. For complex queries or schema design decisions, I look things up, but I'm comfortable enough with the fundamentals to get things working.",
   },
   {
     name: "UI/UX Design",
     icon: "🎨",
     level: 52,
     label: "Comfortable",
-    desc: "I have a decent eye for layout, spacing, and color — mostly self-taught through building real projects. I use Tailwind CSS and reference design patterns. I'm not a formal designer, but I can produce clean, usable interfaces.",
+    desc: "I have a decent eye for layout, spacing, and color, mostly self-taught through building real projects. I use Tailwind CSS and reference design patterns. I'm not a formal designer, but I can produce clean, usable interfaces.",
   },
   {
     name: "System Integration",
@@ -1634,6 +1634,19 @@ function TemplatePreview({ tmpl }) {
   'ec-3': [
     { label: 'Home', file: '/templates/shelf-ecommerce-store.html' },
   ],
+
+  // ── EVENTS TEMPLATES ──
+  'ev-1': [
+    { label: 'Home', file: '/templates/velvet_noir_design.html' },
+  ],
+
+  'ev-2': [
+    { label: 'Home', file: '/templates/gala_editorial_design.html' },
+  ],
+
+  'ev-3': [
+    { label: 'Home', file: '/templates/bloom_garden_design.html' },
+  ],
 };
 
   const htmlFiles = htmlFileMap[tmpl.id] || [];
@@ -1999,6 +2012,11 @@ function TemplateExplorer({ tmpl, allTemplates, onClose, onPick }) {
     'ec-1':  [{ label: 'Home', file: '/templates/vault-ecommerce-store.html' }],
     'ec-2':  [{ label: 'Home', file: '/templates/luxe-ecommerce-store.html' }],
     'ec-3':  [{ label: 'Home', file: '/templates/shelf-ecommerce-store.html' }],
+
+    // ── EVENTS TEMPLATES ──
+    'ev-1':  [{ label: 'Home', file: '/templates/velvet_noir_design.html' }],
+    'ev-2':  [{ label: 'Home', file: '/templates/gala_editorial_design.html' }],
+    'ev-3':  [{ label: 'Home', file: '/templates/bloom_garden_design.html' }],
   };
 
   // Which template index are we on in the allTemplates list
@@ -2447,10 +2465,204 @@ export function ServicesSection() {
   );
 }
 
+// ─────────────────────────────────────────────
+// PERSONALITY MODAL DATA
+// ─────────────────────────────────────────────
+const PERSONALITY_DATA = {
+  coffee: {
+    title: "Coffee Lover ☕",
+    accent: "#c8956c",
+    accentGlow: "rgba(200,149,108,0.18)",
+    accentBorder: "rgba(200,149,108,0.35)",
+    sections: [
+      {
+        heading: "My Go-To Drinks",
+        items: [
+          { icon: "🥛", label: "Iced Oat Milk Latte", sub: "The everyday essential" },
+          { icon: "🧊", label: "Cold Brew", sub: "When I need max focus" },
+          { icon: "🍮", label: "Caramel Macchiato", sub: "Sweet treat mode" },
+          { icon: "☕", label: "Café Americano", sub: "Black, no sugar, deep work" },
+        ],
+      },
+      {
+        heading: "Shops I Actually Buy From",
+        items: [
+          { icon: "🟢", label: "Starbucks", sub: "Classic & consistent" },
+          { icon: "🟡", label: "Coffee Bean", sub: "Underrated, chill vibes" },
+          { icon: "🟤", label: "Figaro", sub: "Local fave, affordable" },
+          { icon: "🔵", label: "Bo's Coffee", sub: "Filipino pride ☕" },
+          { icon: "⬛", label: "Local Cafés in Batangas", sub: "Hidden gems > chains" },
+        ],
+      },
+    ],
+  },
+  anime: {
+    title: "Anime & Games ♥",
+    accent: "#f72585",
+    accentGlow: "rgba(247,37,133,0.15)",
+    accentBorder: "rgba(247,37,133,0.35)",
+    sections: [
+      {
+        heading: "Anime I've Watched & Loved",
+        items: [
+          { icon: "⚔️", label: "Attack on Titan", sub: "Best ending in anime, period" },
+          { icon: "🧪", label: "Fullmetal Alchemist: Brotherhood", sub: "The GOAT, no debate" },
+          { icon: "🌀", label: "Jujutsu Kaisen", sub: "Animation that breaks the internet" },
+          { icon: "🌊", label: "Demon Slayer", sub: "Mugen Train arc destroyed me" },
+          { icon: "🎭", label: "Death Note", sub: "Changed how I think about smart characters" },
+          { icon: "🌸", label: "Your Lie in April", sub: "I was not emotionally prepared" },
+        ],
+      },
+      {
+        heading: "Games I Play",
+        items: [
+          { icon: "🏆", label: "Valorant", sub: "FPS grind, occasional rage" },
+          { icon: "🗡️", label: "Genshin Impact", sub: "Gacha problem. Send help." },
+          { icon: "🌍", label: "GTA V / Online", sub: "Chaos, always chaos" },
+          { icon: "🧩", label: "Minecraft", sub: "Never stopped since 2013" },
+          { icon: "⚽", label: "EA FC / FIFA", sub: "Weekend tournament ritual" },
+        ],
+      },
+    ],
+  },
+  remote: {
+    title: "Open for Remote Work 🌐",
+    accent: "#7b2fff",
+    accentGlow: "rgba(123,47,255,0.15)",
+    accentBorder: "rgba(123,47,255,0.35)",
+    sections: [
+      {
+        heading: "What I Can Do Remotely",
+        items: [
+          { icon: "🌐", label: "Frontend Development", sub: "React, Tailwind, responsive UI builds" },
+          { icon: "⚙️", label: "Backend & APIs", sub: "Laravel, Node.js, REST APIs" },
+          { icon: "🎨", label: "UI/UX Design + Dev", sub: "From Figma mockup to live site" },
+          { icon: "💼", label: "Business Websites", sub: "Restaurants, clinics, agencies" },
+          { icon: "🤖", label: "AI-Assisted Projects", sub: "Prompt engineering, LLM integration" },
+          { icon: "🔧", label: "Bug Fixes & Maintenance", sub: "Legacy code cleanup, feature additions" },
+        ],
+      },
+      {
+        heading: "Work Setup & Availability",
+        items: [
+          { icon: "🕐", label: "Philippine Time (UTC+8)", sub: "Overlap-friendly with AU, SG, JP" },
+          { icon: "💬", label: "Async-first, always responsive", sub: "24-hr reply window max" },
+          { icon: "🛠️", label: "Tools: VS Code, Figma, GitHub, Notion", sub: "Standard modern stack" },
+          { icon: "🔗", label: "Available: Freelance · Internship · Part-time", sub: "Open to contract or long-term" },
+        ],
+      },
+    ],
+  },
+};
+
+// ─────────────────────────────────────────────
+// PERSONALITY MODAL COMPONENT
+// ─────────────────────────────────────────────
+function PersonalityModal({ modalKey, onClose }) {
+  const data = PERSONALITY_DATA[modalKey];
+  if (!data) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        key="backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+        style={{ background: "rgba(0,0,0,0.82)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+        onClick={onClose}
+      >
+        <motion.div
+          key="modal"
+          initial={{ opacity: 0, scale: 0.88, y: 32 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.88, y: 24 }}
+          transition={{ type: "spring", stiffness: 320, damping: 28 }}
+          className="w-full max-w-lg rounded-3xl overflow-hidden"
+          style={{
+            background: "rgba(10, 10, 24, 0.98)",
+            border: `1px solid ${data.accentBorder}`,
+            boxShadow: `0 0 0 1px rgba(255,255,255,0.04), 0 24px 80px rgba(0,0,0,0.7), 0 0 60px ${data.accentGlow}`,
+            maxHeight: "85vh",
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="px-7 pt-7 pb-5 flex items-center justify-between"
+            style={{ background: `linear-gradient(135deg, ${data.accentGlow}, rgba(255,255,255,0.01))`, borderBottom: `1px solid rgba(255,255,255,0.05)` }}>
+            <div>
+              <h3 className="text-white font-extrabold text-xl leading-tight">{data.title}</h3>
+              <p className="mono text-xs mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>Click anywhere outside to close</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
+              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
+              aria-label="Close modal"
+            >
+              <svg width="14" height="14" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+
+          {/* Scrollable body */}
+          <div className="overflow-y-auto px-7 py-5 space-y-6" style={{ maxHeight: "calc(85vh - 90px)" }}>
+            {data.sections.map((section, si) => (
+              <div key={si}>
+                <p className="mono text-xs uppercase tracking-widest mb-3"
+                  style={{ color: data.accent, opacity: 0.8 }}>
+                  {section.heading}
+                </p>
+                <div className="space-y-2">
+                  {section.items.map((item, ii) => (
+                    <motion.div
+                      key={ii}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: si * 0.08 + ii * 0.04, duration: 0.3 }}
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl"
+                      style={{
+                        background: `rgba(255,255,255,0.03)`,
+                        border: `1px solid rgba(255,255,255,0.06)`,
+                      }}
+                    >
+                      <span className="text-lg flex-shrink-0 w-7 text-center">{item.icon}</span>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-white leading-tight">{item.label}</p>
+                        <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.38)" }}>{item.sub}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Footer accent line */}
+            <div className="pt-2 pb-1">
+              <div className="h-px w-full rounded-full" style={{ background: `linear-gradient(90deg, transparent, ${data.accent}50, transparent)` }} />
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 function PortfolioApp() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [typedText, setTypedText] = useState("");
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") setActiveModal(null); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   useEffect(() => {
     const full = "Kim Ivan Ebora.";
@@ -2497,6 +2709,13 @@ function PortfolioApp() {
 
   return (
     <div className="min-h-screen text-white selection:bg-cyan-400/30" style={{ background: "#030712", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+
+      {/* Personality Modals */}
+      <AnimatePresence>
+        {activeModal && (
+          <PersonalityModal key={activeModal} modalKey={activeModal} onClose={() => setActiveModal(null)} />
+        )}
+      </AnimatePresence>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
         * { scroll-behavior: smooth; }
@@ -2562,9 +2781,37 @@ function PortfolioApp() {
         .tech-b3 { animation: badge-float-in 0.5s ease forwards 1.0s, float-b3 8s ease-in-out 1.8s infinite; }
         .tech-b4 { animation: badge-float-in 0.5s ease forwards 1.3s, float-b4 6.5s ease-in-out 2.1s infinite; }
         @media (max-width: 768px) {
-          .tech-badge-item { display: none; }
-          .code-card-anim { display: none; }
-          .git-badge-anim { display: none; }
+          .code-card-anim {
+            top: 10px !important;
+            right: 10px !important;
+            left: auto !important;
+          }
+          .tech-b1 {
+            top: 10px !important;
+            left: 10px !important;
+            right: auto !important;
+          }
+          .tech-b2 {
+            top: auto !important;
+            bottom: 110px !important;
+            right: 10px !important;
+            left: auto !important;
+          }
+          .tech-b3 {
+            bottom: 60px !important;
+            left: 10px !important;
+            right: auto !important;
+          }
+          .tech-b4 {
+            bottom: 10px !important;
+            right: 10px !important;
+            left: auto !important;
+          }
+          .git-badge-anim {
+            bottom: 10px !important;
+            left: 10px !important;
+            right: auto !important;
+          }
         }
       `}</style>
 
@@ -2700,104 +2947,128 @@ function PortfolioApp() {
                     <p className="mono text-xs mt-1" style={{ color: "#00f5d4" }}>IT Student · Network Tech</p>
                   </div>
                 </div>
-                <div
-                  className="code-card-anim absolute"
-                  style={{
-                    top: "-18px",
-                    right: "-28px",
-                    background: "rgba(8,8,20,0.92)",
-                    border: "1px solid rgba(123,47,255,0.4)",
-                    borderRadius: "12px",
-                    padding: "10px 14px",
-                    fontFamily: "'DM Mono', monospace",
-                    fontSize: "10px",
-                    lineHeight: "1.7",
-                    zIndex: 30,
-                    transform: "rotate(-2deg)",
-                    backdropFilter: "blur(10px)",
-                  }}
-                >
-                  <div><span style={{ color: "#7b2fff" }}>const</span> <span style={{ color: "#00f5d4" }}>kim</span> = {'{'} </div>
-                  <div style={{ paddingLeft: "10px" }}><span style={{ color: "#f72585" }}>&quot;role&quot;</span>: <span style={{ color: "#00f5d4" }}>&quot;dev&quot;</span>,</div>
-                  <div style={{ paddingLeft: "10px" }}><span style={{ color: "#f72585" }}>&quot;passion&quot;</span>: <span style={{ color: "#00f5d4" }}>&quot;build&quot;</span></div>
-                  <div>{'}'}</div>
-                  <div style={{ color: "rgba(255,255,255,0.25)", marginTop: "3px" }}>// always learning</div>
-                </div>
 
-                <div
-                  className="tech-badge-item tech-b1 absolute flex items-center gap-2"
-                  style={{
-                    top: "40px", left: "-44px",
-                    background: "rgba(8,8,20,0.92)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "10px", padding: "6px 12px",
-                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-                  }}
-                >
-                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#61dafb", display: "inline-block", flexShrink: 0 }} />
-                  React.js
-                </div>
+                {/* TOP RIGHT — studying card */}
+<div
+  className="code-card-anim absolute"
+  style={{
+    top: "-18px",
+    right: "-34px",
+    background: "rgba(8,8,20,0.92)",
+    border: "1px solid rgba(0,245,212,0.35)",
+    borderRadius: "12px",
+    padding: "9px 13px",
+    fontFamily: "'DM Mono', monospace",
+    fontSize: "10px",
+    lineHeight: "1.65",
+    zIndex: 30,
+    transform: "rotate(-2deg)",
+    backdropFilter: "blur(10px)",
+    minWidth: "145px",
+  }}
+>
+  <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
+    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00f5d4", display: "inline-block", animation: "blink-cursor 2s step-end infinite" }} />
+    <span style={{ color: "rgba(255,255,255,0.38)", fontSize: "9px", letterSpacing: "1px" }}>STATUS</span>
+  </div>
+  <div style={{ color: "#fff", fontWeight: 600, fontSize: "11px" }}>IT Graduate</div>
+  <div style={{ color: "rgba(0,245,212,0.7)", fontSize: "9px", marginTop: "1px" }}>Network Technology</div>
+</div>
 
-                <div
-                  className="tech-badge-item tech-b2 absolute flex items-center gap-2"
-                  style={{
-                    top: "100px", right: "-48px",
-                    background: "rgba(8,8,20,0.92)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "10px", padding: "6px 12px",
-                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-                  }}
-                >
-                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#f72585", display: "inline-block", flexShrink: 0 }} />
-                  Laravel
-                </div>
+{/* TOP LEFT — available for hire */}
+<div
+  className="tech-badge-item tech-b1 absolute flex items-center gap-2"
+  style={{
+    top: "36px", left: "-60px",
+    background: "rgba(8,8,20,0.92)",
+    border: "1px solid rgba(34,197,94,0.3)",
+    borderRadius: "10px", padding: "7px 12px",
+    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+  }}
+>
+  <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22c55e", display: "inline-block", flexShrink: 0, animation: "blink-cursor 2s step-end infinite" }} />
+  Looking for opportunities
+</div>
 
-                <div
-                  className="tech-badge-item tech-b3 absolute flex items-center gap-2"
-                  style={{
-                    bottom: "110px", left: "-52px",
-                    background: "rgba(8,8,20,0.92)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "10px", padding: "6px 12px",
-                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-                  }}
-                >
-                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#68a063", display: "inline-block", flexShrink: 0 }} />
-                  Node.js
-                </div>
+{/* MID RIGHT — location */}
+<div
+  className="tech-badge-item tech-b2 absolute flex items-center gap-2"
+  style={{
+    top: "105px", right: "-54px",
+    background: "rgba(8,8,20,0.92)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: "10px", padding: "7px 12px",
+    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+  }}
+>
+  <span style={{ fontSize: "12px" }}>📍</span>
+  Batangas City, PH
+</div>
 
-                <div
-                  className="tech-badge-item tech-b4 absolute flex items-center gap-2"
-                  style={{
-                    bottom: "60px", right: "-44px",
-                    background: "rgba(8,8,20,0.92)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "10px", padding: "6px 12px",
-                    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-                    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-                  }}
-                >
-                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#7b2fff", display: "inline-block", flexShrink: 0 }} />
-                  PostgreSQL
-                </div>
+{/* BOTTOM LEFT — coffee */}
+<div
+  className="tech-badge-item tech-b3 absolute flex items-center gap-2"
+  onClick={() => setActiveModal("coffee")}
+  style={{
+    bottom: "115px", left: "-58px",
+    background: "rgba(8,8,20,0.92)",
+    border: "1px solid rgba(200,149,108,0.35)",
+    borderRadius: "10px", padding: "7px 12px",
+    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+    cursor: "pointer",
+    transition: "transform 0.18s, border-color 0.18s, box-shadow 0.18s",
+  }}
+  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 0 16px rgba(200,149,108,0.3)"; }}
+  onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
+>
+  <span style={{ fontSize: "12px" }}>☕</span>
+  Fueled by coffee
+</div>
 
-                <div
-                  className="git-badge-anim absolute flex items-center gap-2"
-                  style={{
-                    bottom: "-14px", left: "-20px",
-                    background: "rgba(8,8,20,0.92)",
-                    border: "1px solid rgba(0,245,212,0.3)",
-                    borderRadius: "10px", padding: "7px 12px",
-                    fontFamily: "'DM Mono', monospace", fontSize: "10px",
-                    color: "rgba(255,255,255,0.5)", backdropFilter: "blur(10px)", zIndex: 30,
-                    transform: "rotate(1deg)",
-                  }}
-                >
-                  <span style={{ color: "#00f5d4" }}>✓</span> git push · done
-                </div>
+{/* BOTTOM RIGHT — remote work */}
+<div
+  className="tech-badge-item tech-b4 absolute flex items-center gap-2"
+  onClick={() => setActiveModal("remote")}
+  style={{
+    bottom: "62px", right: "-54px",
+    background: "rgba(8,8,20,0.92)",
+    border: "1px solid rgba(123,47,255,0.35)",
+    borderRadius: "10px", padding: "7px 12px",
+    fontFamily: "'DM Mono', monospace", fontSize: "11px",
+    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
+    cursor: "pointer",
+    transition: "transform 0.18s, border-color 0.18s, box-shadow 0.18s",
+  }}
+  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 0 16px rgba(123,47,255,0.4)"; }}
+  onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
+>
+  <span style={{ fontSize: "12px" }}>🌐</span>
+  Open to remote work
+</div>
+
+{/* BOTTOM — anime & games */}
+<div
+  className="git-badge-anim absolute flex items-center gap-2"
+  onClick={() => setActiveModal("anime")}
+  style={{
+    bottom: "-14px", left: "-20px",
+    background: "rgba(8,8,20,0.92)",
+    border: "1px solid rgba(247,37,133,0.4)",
+    borderRadius: "10px", padding: "7px 12px",
+    fontFamily: "'DM Mono', monospace", fontSize: "10px",
+    color: "rgba(255,255,255,0.5)", backdropFilter: "blur(10px)", zIndex: 30,
+    transform: "rotate(1deg)",
+    cursor: "pointer",
+    transition: "transform 0.18s, box-shadow 0.18s",
+  }}
+  onMouseEnter={e => { e.currentTarget.style.transform = "rotate(1deg) scale(1.08)"; e.currentTarget.style.boxShadow = "0 0 16px rgba(247,37,133,0.35)"; }}
+  onMouseLeave={e => { e.currentTarget.style.transform = "rotate(1deg)"; e.currentTarget.style.boxShadow = ""; }}
+>
+  <span style={{ color: "#f72585" }}>♥</span> anime &amp; games
+</div>
               </div>
             </div>
           </div>
