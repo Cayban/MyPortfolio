@@ -98,7 +98,7 @@ const PROJECTS = [
     desc: "Redesigned and modernized an existing business website for LAD Enterprises — transforming their outdated web presence into a clean, professional, and fully responsive site.",
     stack: ["PHP Blade", "Laravel"],
     lang: "Laravel",
-    color: "#00f5d4",
+    color: "#D71921",
     icon: "🏢",
     github: null,
     live: "https://lad-enterprises.com",
@@ -110,7 +110,7 @@ const PROJECTS = [
     desc: "An office records management system designed to replace manual paperwork and Google Sheets with a structured, reliable digital solution for handling day-to-day records efficiently.",
     stack: ["PHP Blade", "Laravel"],
     lang: "Laravel",
-    color: "#7b2fff",
+    color: "#9C9C97",
     icon: "📂",
     github: null,
     live: null,
@@ -122,7 +122,7 @@ const PROJECTS = [
     desc: "A full-featured clinic management system for a pediatric clinic, supporting appointment scheduling, patient record management, and real-time data handling via a smart kiosk integration.",
     stack: ["React.js", "Tailwind CSS", "Node.js"],
     lang: "React / Node",
-    color: "#f72585",
+    color: "#D71921",
     icon: "🏥",
     github: null,
     live: null,
@@ -188,10 +188,10 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
   }, [open]);
 
   const labelColor = {
-    "Proficient": "#00f5d4",
-    "Comfortable": "#7b2fff",
-    "Familiar": "#f72585",
-  }[label] || "#00f5d4";
+    "Proficient": "#D71921",
+    "Comfortable": "#8A8A85",
+    "Familiar": "#D71921",
+  }[label] || "#D71921";
 
   return (
     <div ref={ref} className="group relative">
@@ -207,7 +207,7 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
             <svg
               width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2"
               viewBox="0 0 24 24"
-              style={{ color: "rgba(255,255,255,0.25)", flexShrink: 0, transition: "color 0.2s" }}
+              style={{ color: "var(--text-muted)", flexShrink: 0, transition: "color 0.2s" }}
             >
               <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
             </svg>
@@ -219,18 +219,27 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
             >
               {label}
             </span>
-            <span className="text-xs font-mono text-cyan-400">{level}%</span>
+            <span className="text-xs font-mono text-[#D71921]">{level}%</span>
           </div>
         </div>
-        <div className="h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
-          <div
-            className="h-full rounded-full transition-all ease-out"
-            style={{
-              width: animated ? `${level}%` : "0%",
-              transitionDuration: "1.2s",
-              background: "linear-gradient(90deg, #00f5d4, #7b2fff)",
-            }}
-          />
+        <div className="flex gap-[3px]">
+          {Array.from({ length: 20 }).map((_, i) => {
+            const filled = animated && i < Math.round((level / 100) * 20);
+            return (
+              <span
+                key={i}
+                className="rounded-full transition-colors"
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  flexShrink: 0,
+                  background: filled ? labelColor : "var(--border)",
+                  transitionDuration: "0.5s",
+                  transitionDelay: `${i * 20}ms`,
+                }}
+              />
+            );
+          })}
         </div>
       </button>
 
@@ -239,7 +248,7 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
           ref={popupRef}
           className="absolute z-50 mt-3 rounded-2xl p-4"
           style={{
-            background: "rgba(8, 8, 22, 0.97)",
+            background: "rgba(18, 18, 18, 0.97)",
             border: `1px solid ${labelColor}40`,
             boxShadow: `0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px ${labelColor}18`,
             backdropFilter: "blur(16px)",
@@ -294,7 +303,7 @@ function ImageCarousel({ images, color, height = 220 }) {
         alt={`screenshot ${idx + 1}`}
         className="w-full h-full object-cover object-top transition-all duration-500"
       />
-      <div className="absolute inset-0" style={{ background: `linear-gradient(to top, #030712 0%, transparent 50%)` }} />
+      <div className="absolute inset-0" style={{ background: `linear-gradient(to top, #0A0A0A 0%, transparent 50%)` }} />
       {images.length > 1 && (
         <>
           <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 opacity-80 hover:opacity-100" style={{ background: "rgba(0,0,0,0.7)", border: `1px solid ${color}50` }}>
@@ -327,8 +336,8 @@ function FeaturedCard({ project }) {
     <div
       className="rounded-3xl border overflow-hidden transition-all duration-500 flex flex-col md:flex-row"
       style={{
-        borderColor: hovered ? project.color + "55" : "rgba(255,255,255,0.08)",
-        background: hovered ? `linear-gradient(135deg, ${project.color}0d, rgba(255,255,255,0.02))` : "rgba(255,255,255,0.02)",
+        borderColor: hovered ? project.color + "55" : "var(--border)",
+        background: hovered ? `linear-gradient(135deg, ${project.color}0d, var(--bg-elevated))` : "var(--bg-elevated)",
         boxShadow: hovered ? `0 30px 80px ${project.color}18` : "none",
         transform: hovered ? "translateY(-4px)" : "none",
       }}
@@ -343,11 +352,11 @@ function FeaturedCard({ project }) {
             <div className="absolute inset-0">
               <ImageCarousel images={project.images} color={project.color} height={280} />
             </div>
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #030712 0%, transparent 40%)` }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #0A0A0A 0%, transparent 40%)` }} />
             {project.live && (
               <div
                 className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
-                style={{ background: "rgba(3,7,18,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
+                style={{ background: "rgba(10,10,10,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
               >
                 <a
                   href={project.live}
@@ -355,7 +364,7 @@ function FeaturedCard({ project }) {
                   rel="noreferrer"
                   onClick={(e) => e.stopPropagation()}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
-                  style={{ background: `linear-gradient(135deg, ${project.color}, #7b2fff)`, color: "#000", pointerEvents: "auto" }}
+                  style={{ background: `linear-gradient(135deg, ${project.color}, #8A8A85)`, color: "#000", pointerEvents: "auto" }}
                 >
                   Visit Site
                   <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -371,11 +380,11 @@ function FeaturedCard({ project }) {
               className="w-full h-full object-cover object-top"
               style={{ display: "block", minHeight: "280px" }}
             />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #030712 0%, transparent 40%)` }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #0A0A0A 0%, transparent 40%)` }} />
             {project.live && (
               <div
                 className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
-                style={{ background: "rgba(3,7,18,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
+                style={{ background: "rgba(10,10,10,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
               >
                 <a
                   href={project.live}
@@ -383,7 +392,7 @@ function FeaturedCard({ project }) {
                   rel="noreferrer"
                   onClick={(e) => e.stopPropagation()}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
-                  style={{ background: `linear-gradient(135deg, ${project.color}, #7b2fff)`, color: "#000", pointerEvents: "auto" }}
+                  style={{ background: `linear-gradient(135deg, ${project.color}, #8A8A85)`, color: "#000", pointerEvents: "auto" }}
                 >
                   Visit Site
                   <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -393,7 +402,7 @@ function FeaturedCard({ project }) {
           </>
         ) : (
           <>
-            <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}18 0%, #030712 70%)` }} />
+            <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}18 0%, #0A0A0A 70%)` }} />
             <div className="absolute inset-0" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,0.015) 30px, rgba(255,255,255,0.015) 31px)" }} />
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
               <div className="text-6xl">{project.icon}</div>
@@ -403,7 +412,7 @@ function FeaturedCard({ project }) {
               {project.live && (
                 <a href={project.live} target="_blank" rel="noreferrer"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
-                  style={{ background: `linear-gradient(135deg, ${project.color}, #7b2fff)`, color: "#000" }}>
+                  style={{ background: `linear-gradient(135deg, ${project.color}, #8A8A85)`, color: "#000" }}>
                   Visit Site
                   <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </a>
@@ -449,8 +458,8 @@ function SmallCard({ project }) {
     <div
       className="rounded-2xl border overflow-hidden transition-all duration-500 flex flex-col"
       style={{
-        borderColor: hovered ? project.color + "55" : "rgba(255,255,255,0.08)",
-        background: hovered ? `linear-gradient(160deg, ${project.color}0d, rgba(255,255,255,0.02))` : "rgba(255,255,255,0.02)",
+        borderColor: hovered ? project.color + "55" : "var(--border)",
+        background: hovered ? `linear-gradient(160deg, ${project.color}0d, var(--bg-elevated))` : "var(--bg-elevated)",
         boxShadow: hovered ? `0 24px 60px ${project.color}18` : "none",
         transform: hovered ? "translateY(-5px)" : "none",
       }}
@@ -502,7 +511,7 @@ const WEBSITE_TYPES = [
     label: "Gym / Fitness Studio",
     icon: "💪",
     desc: "Class schedules, membership plans, trainer profiles & booking.",
-    color: "#f72585",
+    color: "#D71921",
     deliveryDays: "7–12",
   },
   {
@@ -510,7 +519,7 @@ const WEBSITE_TYPES = [
     label: "E-Commerce / Online Store",
     icon: "🛒",
     desc: "Product grids, cart, filters, and checkout — sell anything online.",
-    color: "#00f5d4",
+    color: "#D71921",
     deliveryDays: "14–21",
   },
   {
@@ -696,9 +705,9 @@ const TEMPLATES = {
         { icon: "📞", label: "Contact / CTA" },
       ],
       price: 5000,
-      accent: "#f72585",
+      accent: "#D71921",
       bg: "linear-gradient(135deg, #0d0005, #1a0010)",
-      preview: { palette: ["#f72585", "#ff6b9d", "#0d0005"], style: "Dark · High energy · Bold type", mockSections: ["💪 Hero", "💳 Plans", "📆 Schedule", "🏋️ Trainers"] },
+      preview: { palette: ["#D71921", "#ff6b9d", "#0d0005"], style: "Dark · High energy · Bold type", mockSections: ["💪 Hero", "💳 Plans", "📆 Schedule", "🏋️ Trainers"] },
     },
     {
       id: "gym-2",
@@ -715,9 +724,9 @@ const TEMPLATES = {
         { icon: "📞", label: "Contact / CTA" },
       ],
       price: 7500,
-      accent: "#f72585",
+      accent: "#D71921",
       bg: "linear-gradient(135deg, #05000a, #100018)",
-      preview: { palette: ["#f72585", "#a855f7", "#05000a"], style: "Boutique · Editorial · Full-featured", mockSections: ["🧘 Hero", "✅ Booking", "👥 Trainers", "🛒 Merch"] },
+      preview: { palette: ["#D71921", "#a855f7", "#05000a"], style: "Boutique · Editorial · Full-featured", mockSections: ["🧘 Hero", "✅ Booking", "👥 Trainers", "🛒 Merch"] },
     },
     {
       id: "gym-3",
@@ -732,9 +741,9 @@ const TEMPLATES = {
         { icon: "📞", label: "Contact / CTA" },
       ],
       price: 2800,
-      accent: "#f72585",
+      accent: "#D71921",
       bg: "linear-gradient(135deg, #0d0005, #0d0005)",
-      preview: { palette: ["#f72585", "#ff6b9d", "#111"], style: "Minimal · Fast delivery · Mobile-first", mockSections: ["💪 Hero", "💳 Plans", "📆 Schedule"] },
+      preview: { palette: ["#D71921", "#ff6b9d", "#111"], style: "Minimal · Fast delivery · Mobile-first", mockSections: ["💪 Hero", "💳 Plans", "📆 Schedule"] },
     },
   ],
   ecommerce: [
@@ -752,9 +761,9 @@ const TEMPLATES = {
         { icon: "📞", label: "Contact / CTA" },
       ],
       price: 8000,
-      accent: "#00f5d4",
+      accent: "#D71921",
       bg: "linear-gradient(135deg, #000d0b, #001a16)",
-      preview: { palette: ["#00f5d4", "#00b89c", "#000d0b"], style: "Dark · Clean grid · Minimal checkout", mockSections: ["🛍️ Hero", "🔍 Filter", "📄 Products", "🛒 Cart"] },
+      preview: { palette: ["#D71921", "#00b89c", "#000d0b"], style: "Dark · Clean grid · Minimal checkout", mockSections: ["🛍️ Hero", "🔍 Filter", "📄 Products", "🛒 Cart"] },
     },
     {
       id: "ec-2",
@@ -771,9 +780,9 @@ const TEMPLATES = {
         { icon: "📞", label: "Contact / CTA" },
       ],
       price: 12000,
-      accent: "#00f5d4",
+      accent: "#D71921",
       bg: "linear-gradient(135deg, #000a08, #001812)",
-      preview: { palette: ["#00f5d4", "#fff", "#000a08"], style: "Fashion · Editorial · Full-featured", mockSections: ["✨ Hero", "🛍️ Catalog", "❤️ Wishlist", "💳 Checkout"] },
+      preview: { palette: ["#D71921", "#fff", "#000a08"], style: "Fashion · Editorial · Full-featured", mockSections: ["✨ Hero", "🛍️ Catalog", "❤️ Wishlist", "💳 Checkout"] },
     },
     {
       id: "ec-3",
@@ -788,9 +797,9 @@ const TEMPLATES = {
         { icon: "📲", label: "Order via WhatsApp / Email CTA" },
       ],
       price: 3500,
-      accent: "#00f5d4",
+      accent: "#D71921",
       bg: "linear-gradient(135deg, #000d0b, #001209)",
-      preview: { palette: ["#00f5d4", "#00b89c", "#111"], style: "Minimal · Simple order flow · Starter", mockSections: ["🛍️ Hero", "📦 Products", "📲 Order CTA"] },
+      preview: { palette: ["#D71921", "#00b89c", "#111"], style: "Minimal · Simple order flow · Starter", mockSections: ["🛍️ Hero", "📦 Products", "📲 Order CTA"] },
     },
   ],
   events: [
@@ -1009,7 +1018,7 @@ const TEMPLATE_HTML = {
     .badge{font-size:6px;color:#3b82f6;background:#3b82f615;border:1px solid #3b82f625;border-radius:3px;padding:1px 4px;display:inline-block;margin-top:2px}
     .bottom{display:flex;align-items:center;justify-content:space-between;padding:6px 14px 0}
     .bottom p{font-size:7px;color:rgba(255,255,255,0.3)}
-    .bottom button{background:linear-gradient(135deg,#3b82f6,#7b2fff);color:#fff;font-size:7px;font-weight:700;padding:3px 9px;border-radius:5px;border:none;cursor:pointer}
+    .bottom button{background:linear-gradient(135deg,#3b82f6,#8A8A85);color:#fff;font-size:7px;font-weight:700;padding:3px 9px;border-radius:5px;border:none;cursor:pointer}
   </style></head><body>
     <nav><span class="logo">🏙️ APEX REALTY</span><div class="nav-links"><a href="#">Buy</a><a href="#">Rent</a><a href="#">Sell</a><a href="#">Agents</a></div></nav>
     <div class="search-bar"><span>🔍</span><input placeholder="Search by location, price, type..."><button>Search</button></div>
@@ -1120,29 +1129,29 @@ const TEMPLATE_HTML = {
   "gym-1": `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#090005;color:#fff;overflow:hidden;height:240px}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid #f7258525}
-    .logo{color:#f72585;font-weight:900;font-size:12px;letter-spacing:1px}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid #D7192125}
+    .logo{color:#D71921;font-weight:900;font-size:12px;letter-spacing:1px}
     .nav-links a{color:rgba(255,255,255,0.35);font-size:7.5px;text-decoration:none;margin-left:10px}
-    .hero{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px;background:linear-gradient(135deg,#f7258530,transparent);position:relative;overflow:hidden}
+    .hero{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px;background:linear-gradient(135deg,#D7192130,transparent);position:relative;overflow:hidden}
     .hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,0.02) 8px,rgba(255,255,255,0.02) 9px)}
     .hero-text{position:relative;z-index:1}
-    .eyebrow{font-size:7px;color:#f72585;letter-spacing:3px;margin-bottom:3px}
+    .eyebrow{font-size:7px;color:#D71921;letter-spacing:3px;margin-bottom:3px}
     h1{font-size:20px;font-weight:900;line-height:1;text-transform:uppercase;margin-bottom:6px}
     .btns{display:flex;gap:6px}
-    .btn-p{background:#f72585;color:#000;font-size:8px;font-weight:900;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.5px}
-    .btn-s{background:#f7258520;color:#f72585;font-size:8px;padding:5px 12px;border-radius:6px;border:1px solid #f7258540;cursor:pointer}
+    .btn-p{background:#D71921;color:#000;font-size:8px;font-weight:900;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.5px}
+    .btn-s{background:#D7192120;color:#D71921;font-size:8px;padding:5px 12px;border-radius:6px;border:1px solid #D7192140;cursor:pointer}
     .hero-emoji{font-size:52px;opacity:.7;position:relative;z-index:1}
     .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:7px 14px}
     .plan{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:6px 5px;text-align:center}
-    .plan.hot{background:#f7258520;border-color:#f7258550}
+    .plan.hot{background:#D7192120;border-color:#D7192150}
     .plan-name{font-size:7.5px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:2px}
-    .plan.hot .plan-name{color:#f72585}
+    .plan.hot .plan-name{color:#D71921}
     .plan-price{font-size:13px;font-weight:900;color:#fff}
-    .plan.hot .plan-price{color:#f72585}
+    .plan.hot .plan-price{color:#D71921}
     .plan-per{font-size:6px;color:rgba(255,255,255,0.3)}
     .schedule{display:flex;gap:4px;padding:0 14px}
     .day{flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:4px 3px;text-align:center}
-    .day-label{font-size:7px;font-weight:700;color:#f72585}
+    .day-label{font-size:7px;font-weight:700;color:#D71921}
     .day-class{font-size:6.5px;color:rgba(255,255,255,0.4)}
     .day-time{font-size:6px;color:rgba(255,255,255,0.25)}
   </style></head><body>
@@ -1150,7 +1159,7 @@ const TEMPLATE_HTML = {
     <div class="hero">
       <div class="hero-text">
         <p class="eyebrow">TRAIN · FORGE · CONQUER</p>
-        <h1>Build the<br>Body You<br><span style="color:#f72585">Deserve</span></h1>
+        <h1>Build the<br>Body You<br><span style="color:#D71921">Deserve</span></h1>
         <div class="btns"><button class="btn-p">Free Trial →</button><button class="btn-s">View Plans</button></div>
       </div>
       <div class="hero-emoji">🏋️</div>
@@ -1172,16 +1181,16 @@ const TEMPLATE_HTML = {
   "gym-2": `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#05000a;color:#fff;overflow:hidden;height:240px}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid #f7258520}
-    .logo{font-weight:900;font-size:11px;letter-spacing:2px;background:linear-gradient(135deg,#f72585,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid #D7192120}
+    .logo{font-weight:900;font-size:11px;letter-spacing:2px;background:linear-gradient(135deg,#D71921,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .nav-links a{color:rgba(255,255,255,0.35);font-size:7.5px;text-decoration:none;margin-left:10px}
     .hero{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 14px 6px;align-items:center}
     .eyebrow{font-size:7px;color:#a855f7;letter-spacing:2px;margin-bottom:3px}
     h1{font-size:16px;font-weight:900;line-height:1.1;margin-bottom:5px}
-    h1 em{color:#f72585;font-style:normal}
+    h1 em{color:#D71921;font-style:normal}
     .sub{font-size:7px;color:rgba(255,255,255,0.4);line-height:1.5;margin-bottom:7px}
     .btns{display:flex;gap:5px}
-    .btn-p{background:linear-gradient(135deg,#f72585,#a855f7);color:#fff;font-size:7.5px;font-weight:700;padding:4px 10px;border-radius:6px;border:none;cursor:pointer}
+    .btn-p{background:linear-gradient(135deg,#D71921,#a855f7);color:#fff;font-size:7.5px;font-weight:700;padding:4px 10px;border-radius:6px;border:none;cursor:pointer}
     .btn-s{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);font-size:7.5px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);cursor:pointer}
     .classes{background:rgba(255,255,255,0.03);border:1px solid #a855f720;border-radius:8px;padding:7px}
     .class-title{font-size:8px;font-weight:700;color:#a855f7;margin-bottom:5px}
@@ -1189,7 +1198,7 @@ const TEMPLATE_HTML = {
     .class-item:last-child{border-bottom:none}
     .class-name{font-size:7.5px;color:#fff}
     .class-time{font-size:6.5px;color:rgba(255,255,255,0.35)}
-    .class-slots{font-size:6px;color:#f72585;background:#f7258515;border:1px solid #f7258525;border-radius:3px;padding:1px 4px}
+    .class-slots{font-size:6px;color:#D71921;background:#D7192115;border:1px solid #D7192125;border-radius:3px;padding:1px 4px}
     .trainers{display:flex;gap:5px;padding:0 14px}
     .trainer{flex:1;background:rgba(255,255,255,0.03);border:1px solid #a855f720;border-radius:7px;padding:6px;text-align:center}
     .trainer-avatar{font-size:20px;margin-bottom:3px}
@@ -1222,31 +1231,31 @@ const TEMPLATE_HTML = {
   "gym-3": `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#0a0008;color:#fff;overflow:hidden;height:240px}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #f7258520}
-    .logo{color:#f72585;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:2px}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #D7192120}
+    .logo{color:#D71921;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:2px}
     .nav-links a{color:rgba(255,255,255,0.35);font-size:8px;text-decoration:none;margin-left:10px}
-    .hero{display:flex;align-items:center;gap:12px;padding:12px 14px 8px;background:linear-gradient(135deg,#f7258520,transparent)}
+    .hero{display:flex;align-items:center;gap:12px;padding:12px 14px 8px;background:linear-gradient(135deg,#D7192120,transparent)}
     .hero-text h1{font-size:22px;font-weight:900;text-transform:uppercase;line-height:1}
-    .hero-text h1 em{color:#f72585;font-style:normal;display:block}
+    .hero-text h1 em{color:#D71921;font-style:normal;display:block}
     .hero-text p{font-size:7.5px;color:rgba(255,255,255,0.4);margin:4px 0 8px}
-    .trial-btn{background:#f72585;color:#000;font-size:9px;font-weight:900;padding:6px 14px;border-radius:7px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:1px}
-    .hero-badge{background:#f7258515;border:1px solid #f7258530;border-radius:10px;padding:8px 10px;text-align:center;min-width:60px}
-    .hero-badge .big{font-size:20px;font-weight:900;color:#f72585;line-height:1}
+    .trial-btn{background:#D71921;color:#000;font-size:9px;font-weight:900;padding:6px 14px;border-radius:7px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:1px}
+    .hero-badge{background:#D7192115;border:1px solid #D7192130;border-radius:10px;padding:8px 10px;text-align:center;min-width:60px}
+    .hero-badge .big{font-size:20px;font-weight:900;color:#D71921;line-height:1}
     .hero-badge small{font-size:6px;color:rgba(255,255,255,0.4)}
     .plans{display:flex;gap:6px;padding:0 14px 8px}
     .plan{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 6px;text-align:center}
-    .plan.hot{background:#f7258520;border-color:#f72585}
+    .plan.hot{background:#D7192120;border-color:#D71921}
     .plan-name{font-size:7.5px;color:rgba(255,255,255,0.5);margin-bottom:3px;font-weight:700}
-    .plan.hot .plan-name{color:#f72585}
+    .plan.hot .plan-name{color:#D71921}
     .plan-price{font-size:16px;font-weight:900;color:#fff}
-    .plan.hot .plan-price{color:#f72585}
+    .plan.hot .plan-price{color:#D71921}
     .plan-price sub{font-size:8px;font-weight:400}
     .plan-perks{margin-top:4px}
     .plan-perks p{font-size:6px;color:rgba(255,255,255,0.35);margin-bottom:1px}
-    .cta-strip{background:linear-gradient(135deg,#f7258530,#f7258510);border-top:1px solid #f7258525;padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
+    .cta-strip{background:linear-gradient(135deg,#D7192130,#D7192110);border-top:1px solid #D7192125;padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
     .cta-strip p{font-size:8px;font-weight:700;color:#fff}
     .cta-strip small{font-size:6.5px;color:rgba(255,255,255,0.4)}
-    .cta-strip button{background:#f72585;color:#000;font-size:8px;font-weight:700;padding:5px 12px;border-radius:6px;border:none;cursor:pointer}
+    .cta-strip button{background:#D71921;color:#000;font-size:8px;font-weight:700;padding:5px 12px;border-radius:6px;border:none;cursor:pointer}
   </style></head><body>
     <nav><span class="logo">💪 PUMP GYM</span><div><a href="#">Plans</a><a href="#">Schedule</a><a href="#">Contact</a></div></nav>
     <div class="hero">
@@ -1270,28 +1279,28 @@ const TEMPLATE_HTML = {
   "ec-1": `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#000d0b;color:#fff;overflow:hidden;height:240px}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid #00f5d425}
-    .logo{color:#00f5d4;font-weight:900;font-size:12px;letter-spacing:2px}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:1px solid #D7192125}
+    .logo{color:#D71921;font-weight:900;font-size:12px;letter-spacing:2px}
     .nav-right{display:flex;align-items:center;gap:8px}
     .nav-right a{color:rgba(255,255,255,0.35);font-size:7.5px;text-decoration:none}
     .cart-btn{position:relative;cursor:pointer}
     .cart-btn span{font-size:14px}
-    .cart-count{position:absolute;top:-4px;right:-4px;background:#00f5d4;color:#000;font-size:7px;font-weight:900;width:12px;height:12px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-    .banner{padding:7px 14px;background:linear-gradient(135deg,#00f5d430,transparent);display:flex;align-items:center;justify-content:space-between}
+    .cart-count{position:absolute;top:-4px;right:-4px;background:#D71921;color:#000;font-size:7px;font-weight:900;width:12px;height:12px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .banner{padding:7px 14px;background:linear-gradient(135deg,#D7192130,transparent);display:flex;align-items:center;justify-content:space-between}
     .banner h2{font-size:16px;font-weight:900;line-height:1.1}
-    .banner h2 em{color:#00f5d4;font-style:normal}
-    .banner-badge{background:#00f5d4;color:#000;font-size:7px;font-weight:900;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:4px}
-    .banner-btn{background:#00f5d4;color:#000;font-size:8px;font-weight:700;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;margin-top:5px;display:block}
+    .banner h2 em{color:#D71921;font-style:normal}
+    .banner-badge{background:#D71921;color:#000;font-size:7px;font-weight:900;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:4px}
+    .banner-btn{background:#D71921;color:#000;font-size:8px;font-weight:700;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;margin-top:5px;display:block}
     .banner-img{font-size:48px;opacity:.8}
     .filters{display:flex;gap:5px;padding:5px 14px}
     .f-tag{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:2px 8px;font-size:7px;color:rgba(255,255,255,0.4);cursor:pointer}
-    .f-tag.active{background:#00f5d420;border-color:#00f5d440;color:#00f5d4;font-weight:700}
+    .f-tag.active{background:#D7192120;border-color:#D7192140;color:#D71921;font-weight:700}
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:5px 14px}
     .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:7px;overflow:hidden}
-    .card-img{height:44px;display:flex;align-items:center;justify-content:center;font-size:24px;background:linear-gradient(135deg,#00f5d415,rgba(255,255,255,0.02))}
+    .card-img{height:44px;display:flex;align-items:center;justify-content:center;font-size:24px;background:linear-gradient(135deg,#D7192115,rgba(255,255,255,0.02))}
     .card-body{padding:5px}
     .c-name{font-size:7px;color:rgba(255,255,255,0.55);margin-bottom:1px}
-    .c-price{font-size:9px;font-weight:800;color:#00f5d4}
+    .c-price{font-size:9px;font-weight:800;color:#D71921}
     .c-old{font-size:6.5px;color:rgba(255,255,255,0.25);text-decoration:line-through}
   </style></head><body>
     <nav>
@@ -1327,29 +1336,29 @@ const TEMPLATE_HTML = {
   "ec-2": `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#000a08;color:#fff;overflow:hidden;height:240px}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #00f5d420}
-    .logo{font-weight:900;font-size:12px;letter-spacing:3px;background:linear-gradient(135deg,#00f5d4,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #D7192120}
+    .logo{font-weight:900;font-size:12px;letter-spacing:3px;background:linear-gradient(135deg,#D71921,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .nav-mid{display:flex;gap:10px}
     .nav-mid a{color:rgba(255,255,255,0.4);font-size:7.5px;text-decoration:none;letter-spacing:.5px}
     .nav-right{display:flex;align-items:center;gap:8px}
     .nav-right span{font-size:12px;cursor:pointer}
     .hero{display:grid;grid-template-columns:1fr 1fr;height:110px}
-    .hero-left{padding:12px 14px;background:linear-gradient(135deg,#00f5d420,transparent);display:flex;flex-direction:column;justify-content:center}
-    .hero-left .tag{font-size:6.5px;color:#00f5d4;letter-spacing:2px;margin-bottom:4px}
+    .hero-left{padding:12px 14px;background:linear-gradient(135deg,#D7192120,transparent);display:flex;flex-direction:column;justify-content:center}
+    .hero-left .tag{font-size:6.5px;color:#D71921;letter-spacing:2px;margin-bottom:4px}
     .hero-left h1{font-size:18px;font-weight:900;line-height:1.05}
-    .hero-left h1 em{color:#00f5d4;font-style:normal}
+    .hero-left h1 em{color:#D71921;font-style:normal}
     .hero-left p{font-size:7px;color:rgba(255,255,255,0.4);margin:4px 0 6px}
-    .hero-left button{background:#00f5d4;color:#000;font-size:7.5px;font-weight:700;padding:4px 12px;border-radius:6px;border:none;cursor:pointer;align-self:flex-start}
-    .hero-right{background:#00f5d410;display:flex;align-items:center;justify-content:center;font-size:52px;border-left:1px solid #00f5d420}
+    .hero-left button{background:#D71921;color:#000;font-size:7.5px;font-weight:700;padding:4px 12px;border-radius:6px;border:none;cursor:pointer;align-self:flex-start}
+    .hero-right{background:#D7192110;display:flex;align-items:center;justify-content:center;font-size:52px;border-left:1px solid #D7192120}
     .products{display:flex;gap:5px;padding:6px 14px}
     .prod{flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden;position:relative}
-    .prod-img{height:42px;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,#00f5d412,rgba(255,255,255,0.02))}
+    .prod-img{height:42px;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,#D7192112,rgba(255,255,255,0.02))}
     .prod-body{padding:4px 5px}
     .prod-name{font-size:7px;color:rgba(255,255,255,0.5)}
-    .prod-price{font-size:9px;font-weight:800;color:#00f5d4}
+    .prod-price{font-size:9px;font-weight:800;color:#D71921}
     .wish{position:absolute;top:4px;right:4px;font-size:9px;cursor:pointer}
-    .sale-tag{position:absolute;top:4px;left:4px;background:#00f5d4;color:#000;font-size:6px;font-weight:700;padding:1px 4px;border-radius:3px}
-    .footer-strip{padding:5px 14px;background:rgba(0,245,212,0.05);border-top:1px solid #00f5d415;display:flex;gap:12px}
+    .sale-tag{position:absolute;top:4px;left:4px;background:#D71921;color:#000;font-size:6px;font-weight:700;padding:1px 4px;border-radius:3px}
+    .footer-strip{padding:5px 14px;background:rgba(215,25,33,0.05);border-top:1px solid #D7192115;display:flex;gap:12px}
     .f-item{display:flex;align-items:center;gap:4px}
     .f-item span{font-size:10px}
     .f-item p{font-size:7px;color:rgba(255,255,255,0.4)}
@@ -1384,26 +1393,26 @@ const TEMPLATE_HTML = {
   "ec-3": `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#000d0b;color:#fff;overflow:hidden;height:240px}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #00f5d420}
-    .logo{color:#00f5d4;font-weight:800;font-size:11px}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #D7192120}
+    .logo{color:#D71921;font-weight:800;font-size:11px}
     .nav-right{display:flex;gap:10px;align-items:center}
     .nav-right a{color:rgba(255,255,255,0.35);font-size:7.5px;text-decoration:none}
-    .hero{padding:12px 14px 8px;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#00f5d415,transparent)}
+    .hero{padding:12px 14px 8px;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#D7192115,transparent)}
     .hero-text h1{font-size:18px;font-weight:900;line-height:1.05;margin-bottom:5px}
-    .hero-text h1 em{color:#00f5d4;font-style:normal}
+    .hero-text h1 em{color:#D71921;font-style:normal}
     .hero-text p{font-size:7.5px;color:rgba(255,255,255,0.4);margin-bottom:8px}
     .order-options{display:flex;gap:5px}
     .wa-btn{background:#25d366;color:#fff;font-size:7.5px;font-weight:700;padding:5px 10px;border-radius:6px;border:none;cursor:pointer}
-    .em-btn{background:#00f5d420;color:#00f5d4;font-size:7.5px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid #00f5d430;cursor:pointer}
+    .em-btn{background:#D7192120;color:#D71921;font-size:7.5px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid #D7192130;cursor:pointer}
     .hero-img{font-size:50px;opacity:.7}
     .section-title{font-size:8px;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;padding:0 14px 5px}
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:0 14px}
     .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:7px;overflow:hidden;cursor:pointer}
-    .card:hover{border-color:#00f5d430}
-    .card-img{height:42px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#00f5d412}
+    .card:hover{border-color:#D7192130}
+    .card-img{height:42px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#D7192112}
     .card-body{padding:5px}
     .c-name{font-size:7px;color:rgba(255,255,255,0.5);margin-bottom:1px}
-    .c-price{font-size:9px;font-weight:800;color:#00f5d4}
+    .c-price{font-size:9px;font-weight:800;color:#D71921}
     .wa-mini{font-size:6px;color:#25d366;margin-top:2px}
   </style></head><body>
     <nav>
@@ -1784,7 +1793,7 @@ function FeaturePicker({ typeId, typeObj, template, onConfirm, onBack }) {
       </button>
 
       <div className="flex items-center gap-3 mb-2">
-        <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: `linear-gradient(135deg, ${typeObj.color}, #7b2fff)` }}>3</span>
+        <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: `linear-gradient(135deg, ${typeObj.color}, #8A8A85)` }}>3</span>
         <p className="mono text-xs text-white/30 uppercase tracking-widest">Customize Your Features</p>
       </div>
       <p className="text-xs text-white/25 mono mb-8 ml-9">
@@ -1854,9 +1863,9 @@ function FeaturePicker({ typeId, typeObj, template, onConfirm, onBack }) {
 
       {/* ── Email instead toggle ── */}
       <div className="mb-6 p-4 rounded-xl flex items-center gap-3 cursor-pointer transition-all duration-200"
-        style={{ background: contactOnly ? "rgba(123,47,255,0.1)" : "rgba(255,255,255,0.03)", border: `1px solid ${contactOnly ? "#7b2fff50" : "rgba(255,255,255,0.08)"}` }}
+        style={{ background: contactOnly ? "rgba(138,138,133,0.1)" : "rgba(255,255,255,0.03)", border: `1px solid ${contactOnly ? "#8A8A8550" : "rgba(255,255,255,0.08)"}` }}
         onClick={() => setContactOnly(!contactOnly)}>
-        <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-all" style={{ background: contactOnly ? "linear-gradient(135deg,#7b2fff,#00f5d4)" : "rgba(255,255,255,0.06)", border: contactOnly ? "none" : "1px solid rgba(255,255,255,0.15)" }}>
+        <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-all" style={{ background: contactOnly ? "linear-gradient(135deg,#8A8A85,#D71921)" : "rgba(255,255,255,0.06)", border: contactOnly ? "none" : "1px solid rgba(255,255,255,0.15)" }}>
           {contactOnly && <svg width="10" height="10" fill="none" stroke="#000" strokeWidth="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>}
         </div>
         <div>
@@ -1868,7 +1877,7 @@ function FeaturePicker({ typeId, typeObj, template, onConfirm, onBack }) {
       <button
         onClick={() => onConfirm([...selectedAddons], contactOnly)}
         className="w-full py-3.5 rounded-xl font-bold text-black text-sm transition-all duration-200 hover:scale-[1.01] hover:brightness-110"
-        style={{ background: `linear-gradient(135deg, ${typeObj.color}, #7b2fff)` }}>
+        style={{ background: `linear-gradient(135deg, ${typeObj.color}, #8A8A85)` }}>
         {contactOnly ? "Continue to Summary →" : selectedAddons.size > 0 ? `Continue with ${selectedAddons.size} Add-on${selectedAddons.size !== 1 ? "s" : ""} →` : "Continue with Base Package →"}
       </button>
     </motion.div>
@@ -1986,7 +1995,7 @@ function QuoteModal({ template, typeObj, selectedAddons, contactOnly, onClose })
           <a
             href={`mailto:kimiebora@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyLines)}`}
             className="w-full py-3.5 rounded-xl font-bold text-black text-sm text-center transition-all hover:scale-[1.02] block hover:brightness-110"
-            style={{ background: `linear-gradient(135deg, ${accent}, #7b2fff)` }}>
+            style={{ background: `linear-gradient(135deg, ${accent}, #8A8A85)` }}>
             Send Quote to Kim →
           </a>
           <p className="text-center text-xs text-white/20 mono mt-3">Opens your email client with everything pre-filled.</p>
@@ -2099,7 +2108,7 @@ function TemplateExplorer({ tmpl, allTemplates, onClose, onPick }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
       className="fixed inset-0 z-50 flex flex-col"
-      style={{ background: "rgba(3,7,18,0.97)", backdropFilter: "blur(12px)" }}
+      style={{ background: "rgba(10,10,10,0.97)", backdropFilter: "blur(12px)" }}
     >
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 py-3 flex-shrink-0"
@@ -2133,7 +2142,7 @@ function TemplateExplorer({ tmpl, allTemplates, onClose, onPick }) {
         <button
           onClick={() => { onClose(); onPick(currentTmpl); }}
           className="px-4 py-2 rounded-xl font-bold text-black text-xs transition-all hover:scale-105 hover:brightness-110"
-          style={{ background: `linear-gradient(135deg, ${accent}, #7b2fff)` }}>
+          style={{ background: `linear-gradient(135deg, ${accent}, #8A8A85)` }}>
           Pick This →
         </button>
       </div>
@@ -2301,30 +2310,30 @@ export function ServicesSection() {
               {/* ── STEP 1: Choose premade vs custom ── */}
               {step === "choose" && (
                 <motion.div key="choose" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }} className="grid md:grid-cols-2 gap-5">
-                  <button onClick={() => setStep("premade-type")} className="text-left rounded-2xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(0,245,212,0.25)", background: "linear-gradient(135deg, rgba(0,245,212,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(0,245,212,0.06)" }}>
+                  <button onClick={() => setStep("premade-type")} className="text-left rounded-2xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(215,25,33,0.25)", background: "linear-gradient(135deg, rgba(215,25,33,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(215,25,33,0.06)" }}>
                     <div className="text-4xl mb-4">🎨</div>
                     <p className="font-extrabold text-white text-xl mb-2">Premade Design</p>
                     <p className="text-sm text-white/45 leading-relaxed mb-5">Choose from 3 ready-made templates per website type. Fixed pricing, faster delivery.</p>
                     <div className="flex flex-wrap gap-2 mb-6">
                       {["Restaurant", "Real Estate", "Gym", "E-Commerce", "Events"].map((t) => (
-                        <span key={t} className="text-xs px-2.5 py-1 rounded-lg text-white/40 mono" style={{ background: "rgba(0,245,212,0.07)", border: "1px solid rgba(0,245,212,0.15)" }}>{t}</span>
+                        <span key={t} className="text-xs px-2.5 py-1 rounded-lg text-white/40 mono" style={{ background: "rgba(215,25,33,0.07)", border: "1px solid rgba(215,25,33,0.15)" }}>{t}</span>
                       ))}
                     </div>
-                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#00f5d4" }}>
+                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#D71921" }}>
                       Browse templates <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
                     </div>
                   </button>
 
-                  <button onClick={() => setStep("custom")} className="text-left rounded-2xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(123,47,255,0.25)", background: "linear-gradient(135deg, rgba(123,47,255,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(123,47,255,0.06)" }}>
+                  <button onClick={() => setStep("custom")} className="text-left rounded-2xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(138,138,133,0.25)", background: "linear-gradient(135deg, rgba(138,138,133,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(138,138,133,0.06)" }}>
                     <div className="text-4xl mb-4">⚡</div>
                     <p className="font-extrabold text-white text-xl mb-2">Custom Design</p>
                     <p className="text-sm text-white/45 leading-relaxed mb-5">Have a unique vision? Let's discuss your exact requirements and build something from scratch.</p>
                     <div className="flex flex-wrap gap-2 mb-6">
                       {["Unique layout", "Your branding", "Any feature"].map((t) => (
-                        <span key={t} className="text-xs px-2.5 py-1 rounded-lg text-white/40 mono" style={{ background: "rgba(123,47,255,0.07)", border: "1px solid rgba(123,47,255,0.15)" }}>{t}</span>
+                        <span key={t} className="text-xs px-2.5 py-1 rounded-lg text-white/40 mono" style={{ background: "rgba(138,138,133,0.07)", border: "1px solid rgba(138,138,133,0.15)" }}>{t}</span>
                       ))}
                     </div>
-                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#7b2fff" }}>
+                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#8A8A85" }}>
                       Get in touch <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
                     </div>
                   </button>
@@ -2335,10 +2344,10 @@ export function ServicesSection() {
               {step === "premade-type" && (
                 <motion.div key="premade-type" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }}>
                   <p className="mono text-xs text-white/30 uppercase tracking-widest mb-6 flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: "linear-gradient(135deg,#00f5d4,#7b2fff)" }}>1</span>
+                    <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: "linear-gradient(135deg,#D71921,#8A8A85)" }}>1</span>
                     What kind of website do you need?
                   </p>
-                  <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {WEBSITE_TYPES.map((t) => (
                       <button key={t.id}
                         onClick={() => { setSelectedWebType(t.id); setStep("premade-templates"); }}
@@ -2360,11 +2369,11 @@ export function ServicesSection() {
               {step === "premade-templates" && typeObj && (
                 <motion.div key="premade-templates" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }}>
                   <p className="mono text-xs text-white/30 uppercase tracking-widest mb-2 flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: "linear-gradient(135deg,#00f5d4,#7b2fff)" }}>2</span>
+                    <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: "linear-gradient(135deg,#D71921,#8A8A85)" }}>2</span>
                     {typeObj.icon} {typeObj.label} — Pick a Template
                   </p>
                   <p className="text-xs text-white/25 mono mb-8 ml-9">Choose the package that fits your needs and budget.</p>
-                  <div className="grid md:grid-cols-3 gap-5">
+                  <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
                     {templates.map((tmpl) => (
                       <motion.div key={tmpl.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}
                         className="rounded-2xl border overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
@@ -2414,7 +2423,7 @@ export function ServicesSection() {
                             <button
                               onClick={() => { setSelectedTemplate(tmpl); setStep("feature-picker"); }}
                               className="flex-1 py-3 rounded-xl font-bold text-black text-sm transition-all duration-200 hover:scale-[1.02] hover:brightness-110"
-                              style={{ background: `linear-gradient(135deg, ${tmpl.accent}, #7b2fff)` }}>
+                              style={{ background: `linear-gradient(135deg, ${tmpl.accent}, #8A8A85)` }}>
                               Pick This →
                             </button>
                           </div>
@@ -2444,13 +2453,13 @@ export function ServicesSection() {
               {/* ── Custom ── */}
               {step === "custom" && (
                 <motion.div key="custom" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }} className="max-w-xl mx-auto">
-                  <div className="rounded-3xl p-8 md:p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(123,47,255,0.08), rgba(0,245,212,0.04))", border: "1px solid rgba(123,47,255,0.25)" }}>
+                  <div className="rounded-3xl p-8 md:p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(138,138,133,0.08), rgba(215,25,33,0.04))", border: "1px solid rgba(138,138,133,0.25)" }}>
                     <div className="text-5xl mb-5">⚡</div>
                     <h3 className="text-2xl font-extrabold text-white mb-3">Let's Build Something Custom</h3>
                     <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-sm mx-auto">Have a unique idea or specific requirements? Send me an email and we'll discuss the details — layout, features, timeline, and pricing.</p>
                     <a href="mailto:kimiebora@gmail.com?subject=Custom Website Project"
                       className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-black text-sm transition-all duration-200 hover:scale-[1.02] hover:brightness-110"
-                      style={{ background: "linear-gradient(135deg, #7b2fff, #00f5d4)", boxShadow: "0 0 40px rgba(123,47,255,0.2)" }}>
+                      style={{ background: "linear-gradient(135deg, #8A8A85, #D71921)", boxShadow: "0 0 40px rgba(138,138,133,0.2)" }}>
                       ✉️ kimiebora@gmail.com
                     </a>
                     <p className="mt-6 text-xs text-white/25 mono">I'll get back to you within 24 hours.</p>
@@ -2499,9 +2508,9 @@ const PERSONALITY_DATA = {
   },
   anime: {
     title: "Anime & Games ♥",
-    accent: "#f72585",
-    accentGlow: "rgba(247,37,133,0.15)",
-    accentBorder: "rgba(247,37,133,0.35)",
+    accent: "#D71921",
+    accentGlow: "rgba(215,25,33,0.15)",
+    accentBorder: "rgba(215,25,33,0.35)",
     sections: [
       {
         heading: "Anime I've Watched & Loved",
@@ -2528,9 +2537,9 @@ const PERSONALITY_DATA = {
   },
   remote: {
     title: "Open for Remote Work 🌐",
-    accent: "#7b2fff",
-    accentGlow: "rgba(123,47,255,0.15)",
-    accentBorder: "rgba(123,47,255,0.35)",
+    accent: "#8A8A85",
+    accentGlow: "rgba(138,138,133,0.15)",
+    accentBorder: "rgba(138,138,133,0.35)",
     sections: [
       {
         heading: "What I Can Do Remotely",
@@ -2652,11 +2661,264 @@ function PersonalityModal({ modalKey, onClose }) {
   );
 }
 
-function HomePage() {
+function ThemeToggle({ theme, onToggle }) {
+  const options = [
+    { key: "system", label: "System", icon: (
+      <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
+    )},
+    { key: "light", label: "Light", icon: (
+      <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
+    )},
+    { key: "dark", label: "Dark", icon: (
+      <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+    )},
+  ];
+  return (
+    <div className="flex items-center gap-0.5 p-0.5" style={{ border: "1px solid var(--border-strong)", borderRadius: "8px", background: "var(--bg-elevated)" }}>
+      {options.map((o) => {
+        const active = theme === o.key;
+        return (
+          <button
+            key={o.key}
+            onClick={() => onToggle(o.key)}
+            aria-label={o.label}
+            title={o.label}
+            className="flex items-center justify-center transition-all duration-200"
+            style={{
+              width: 26, height: 26,
+              borderRadius: "6px",
+              background: active ? "#D71921" : "transparent",
+              color: active ? "#fff" : "var(--text-muted)",
+            }}
+          >
+            {o.icon}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function HalftonePhoto({ src, alt, size = 280 }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      const dim = size;
+      canvas.width = dim * dpr;
+      canvas.height = dim * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const off = document.createElement("canvas");
+      off.width = dim;
+      off.height = dim;
+      const octx = off.getContext("2d");
+      const scale = Math.max(dim / img.width, dim / img.height);
+      const w = img.width * scale, h = img.height * scale;
+      octx.drawImage(img, (dim - w) / 2, (dim - h) / 2, w, h);
+      const imageData = octx.getImageData(0, 0, dim, dim).data;
+
+      ctx.clearRect(0, 0, dim, dim);
+      const cell = 5;
+      for (let y = 0; y < dim; y += cell) {
+        for (let x = 0; x < dim; x += cell) {
+          let total = 0, count = 0;
+          for (let dy = 0; dy < cell; dy++) {
+            for (let dx = 0; dx < cell; dx++) {
+              const px = x + dx, py = y + dy;
+              if (px >= dim || py >= dim) continue;
+              const i = (py * dim + px) * 4;
+              total += 0.299 * imageData[i] + 0.587 * imageData[i + 1] + 0.114 * imageData[i + 2];
+              count++;
+            }
+          }
+          const avg = count ? total / count : 255;
+          const darkness = 1 - avg / 255;
+          const radius = (cell / 2) * Math.sqrt(darkness) * 1.05;
+          if (radius > 0.35) {
+            ctx.beginPath();
+            ctx.arc(x + cell / 2, y + cell / 2, radius, 0, Math.PI * 2);
+            ctx.fillStyle = "#0A0A0A";
+            ctx.fill();
+          }
+        }
+      }
+    };
+    img.src = src;
+  }, [src, size]);
+
+  return (
+    <div style={{ width: size, height: size, background: "#EDEDE6", borderRadius: "4px", overflow: "hidden", flexShrink: 0 }}>
+      <canvas ref={canvasRef} style={{ width: size, height: size, display: "block" }} role="img" aria-label={alt} />
+    </div>
+  );
+}
+
+function Lockscreen({ active, onFinish }) {
+  const [phase, setPhase] = useState("lock"); // lock -> corners -> warp
+  const [clock, setClock] = useState("");
+  const phaseTimerRef = useRef(null);
+  const finishTimerRef = useRef(null);
+  const containerRef = useRef(null);
+  const prefersReducedMotion = useRef(false);
+
+  useEffect(() => {
+    prefersReducedMotion.current = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  useEffect(() => {
+    if (active) setPhase("lock");
+  }, [active]);
+
+  // Lock background scroll while the lockscreen is showing
+  useEffect(() => {
+    if (!active) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prevOverflow; };
+  }, [active]);
+
+  // Move focus onto the lockscreen when it appears, restore it on dismiss
+  useEffect(() => {
+    if (!active) return;
+    const previouslyFocused = document.activeElement;
+    containerRef.current?.focus();
+    return () => { previouslyFocused?.focus?.(); };
+  }, [active]);
+
+  useEffect(() => {
+    if (!active) return;
+    const pad = (n) => n.toString().padStart(2, "0");
+    const update = () => {
+      const d = new Date();
+      setClock(`${pad(d.getHours())}:${pad(d.getMinutes())}`);
+    };
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, [active]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(phaseTimerRef.current);
+      clearTimeout(finishTimerRef.current);
+    };
+  }, []);
+
+  const triggerWarp = () => {
+    if (phase !== "lock") return;
+    if (prefersReducedMotion.current) {
+      // Skip the multi-stage animation entirely — straight fade
+      setPhase("warp");
+      finishTimerRef.current = setTimeout(() => onFinish?.(), 250);
+      return;
+    }
+    setPhase("corners");
+    phaseTimerRef.current = setTimeout(() => {
+      setPhase("warp");
+      finishTimerRef.current = setTimeout(() => onFinish?.(), 700);
+    }, 380);
+  };
+
+  if (!active) return null;
+
+  const reduced = prefersReducedMotion.current;
+  const cornerBase = { position: "absolute", width: "clamp(10px, 3vw, 16px)", height: "clamp(10px, 3vw, 16px)", transition: reduced ? "none" : "opacity 0.4s ease, transform 0.4s ease", opacity: phase === "corners" ? 1 : 0, transform: phase === "corners" ? "scale(1)" : "scale(0.5)" };
+  const cornerInset = "clamp(12px, 4vw, 20px)";
+
+  return (
+    <div
+      ref={containerRef}
+      onClick={triggerWarp}
+      role="button"
+      aria-label="Tap to enter site"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") triggerWarp(); }}
+      style={{
+        position: "fixed", inset: 0, zIndex: 200, background: "#0A0A0A",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        cursor: "pointer", opacity: phase === "warp" ? 0 : 1,
+        transition: reduced ? "opacity 0.25s ease" : "opacity 0.6s ease",
+        pointerEvents: phase === "warp" ? "none" : "auto",
+        outline: "none",
+      }}
+    >
+      {/* dot pattern — matches .dot-bg */}
+      <div
+        style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "radial-gradient(rgba(138,138,133,0.35) 1px, transparent 1px)",
+          backgroundSize: "16px 16px",
+          transform: !reduced && phase === "warp" ? "scale(2.4)" : "scale(1)",
+          opacity: phase === "warp" ? 0 : 1,
+          transition: reduced ? "opacity 0.25s ease" : "transform 1s cubic-bezier(0.7,0,0.3,1), opacity 1s ease",
+        }}
+      />
+      {/* grid lines — matches .grid-bg */}
+      <div
+        style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "linear-gradient(rgba(138,138,133,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(138,138,133,0.15) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          opacity: !reduced && phase === "corners" ? 1 : 0,
+          transition: reduced ? "none" : "opacity 0.6s ease",
+        }}
+      />
+      {/* corner brackets — matches .corner-tag accents */}
+      <div style={{ ...cornerBase, top: cornerInset, left: cornerInset, borderTop: "1.5px solid #D71921", borderLeft: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.05s" }} />
+      <div style={{ ...cornerBase, top: cornerInset, right: cornerInset, borderTop: "1.5px solid #D71921", borderRight: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.1s" }} />
+      <div style={{ ...cornerBase, bottom: cornerInset, left: cornerInset, borderBottom: "1.5px solid #D71921", borderLeft: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.15s" }} />
+      <div style={{ ...cornerBase, bottom: cornerInset, right: cornerInset, borderBottom: "1.5px solid #D71921", borderRight: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.2s" }} />
+
+      <div style={{ position: "relative", textAlign: "center", padding: "0 24px", opacity: phase === "lock" ? 1 : 0, transition: "opacity 0.4s ease" }}>
+        {/* Glyph light — pulsing dot row, nod to Nothing's Glyph interface */}
+        {!reduced && (
+          <div style={{ display: "flex", justifyContent: "center", gap: "5px", marginBottom: "clamp(10px, 2.5vh, 16px)" }}>
+            {[0, 1, 2, 3, 4].map((i) => (
+              <span
+                key={i}
+                style={{
+                  width: 5, height: 5, borderRadius: "50%", background: "#D71921",
+                  animation: "glyphPulse 1.6s ease-in-out infinite",
+                  animationDelay: `${i * 0.2}s`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+        <div style={{ color: "#F5F5F0", fontFamily: "'Space Mono', monospace", fontSize: "clamp(32px, min(11vw, 14vh), 72px)", fontWeight: 500, letterSpacing: "1px" }}>
+          {clock}
+        </div>
+        <div style={{ color: "#F5F5F0", fontSize: "clamp(13px, 2.5vh, 16px)", marginTop: "clamp(8px, 2vh, 14px)", fontWeight: 500 }}>Kim Ivan Ebora</div>
+        <div style={{ color: "#8A8A85", fontSize: "clamp(10px, 2vh, 12px)", marginTop: "2px", letterSpacing: "1px", textTransform: "uppercase" }}>
+          IT Graduate
+        </div>
+        <div style={{ color: "#5F5E5A", fontSize: "11px", marginTop: "clamp(12px, 4vh, 28px)", letterSpacing: "0.5px" }}>tap to enter</div>
+      </div>
+
+      <style>{`
+        @keyframes glyphPulse {
+          0%, 100% { opacity: 0.25; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.3); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function HomePage({ theme, resolvedTheme, onToggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [typedText, setTypedText] = useState("");
+  const [showLock, setShowLock] = useState(() => {
+    try { return !sessionStorage.getItem("lockscreen_shown"); } catch { return true; }
+  });
 
   // Close modal on Escape key
   useEffect(() => {
@@ -2708,8 +2970,36 @@ function HomePage() {
     setMenuOpen(false);
   };
 
+  // Monthly visit count — real, via a free public counter API.
+  // "Viewing now" is simulated (no backend/presence service wired up yet).
+  const [monthlyVisits, setMonthlyVisits] = useState(null);
+  const [viewingNow, setViewingNow] = useState(3);
+
+  useEffect(() => {
+    const monthKey = new Date().toISOString().slice(0, 7); // YYYY-MM
+    fetch(`https://api.counterapi.dev/v1/kim-ebora-portfolio/visits-${monthKey}/up`)
+      .then((r) => r.json())
+      .then((data) => setMonthlyVisits(data?.count ?? null))
+      .catch(() => setMonthlyVisits(null));
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setViewingNow((v) => Math.max(1, Math.min(9, v + (Math.random() > 0.5 ? 1 : -1))));
+    }, 9000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <div className="min-h-screen text-white selection:bg-cyan-400/30" style={{ background: "#030712", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div data-theme={resolvedTheme} className="min-h-screen selection:bg-[#D71921]/30" style={{ background: "var(--bg)", color: "var(--text)", fontFamily: "'Space Grotesk', sans-serif", transition: "background 0.4s ease, color 0.4s ease" }}>
+
+      <Lockscreen
+        active={showLock}
+        onFinish={() => {
+          setShowLock(false);
+          try { sessionStorage.setItem("lockscreen_shown", "1"); } catch {}
+        }}
+      />
 
       {/* Personality Modals */}
       <AnimatePresence>
@@ -2718,15 +3008,63 @@ function HomePage() {
         )}
       </AnimatePresence>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;500;700&family=DotGothic16&display=swap');
+        :root {
+          --bg: #0A0A0A;
+          --bg-elevated: #ffffff08;
+          --text: #F5F5F0;
+          --text-secondary: rgba(245,245,240,0.55);
+          --text-muted: #8A8A85;
+          --border: rgba(255,255,255,0.08);
+          --border-strong: rgba(255,255,255,0.15);
+          --dot-color: rgba(138,138,133,0.09);
+        }
+        [data-theme="light"] {
+          --bg: #F2F1EC;
+          --bg-elevated: #00000006;
+          --text: #0A0A0A;
+          --text-secondary: rgba(10,10,10,0.6);
+          --text-muted: #6B6B66;
+          --border: rgba(10,10,10,0.1);
+          --border-strong: rgba(10,10,10,0.2);
+          --dot-color: rgba(107,107,102,0.12);
+        }
+        [data-theme="light"] [class~="text-white"],
+        [data-theme="light"] [class*="text-white/80"] { color: rgba(10,10,10,0.85) !important; }
+        [data-theme="light"] [class*="text-white/75"] { color: rgba(10,10,10,0.8) !important; }
+        [data-theme="light"] [class*="text-white/70"] { color: rgba(10,10,10,0.75) !important; }
+        [data-theme="light"] [class*="text-white/60"] { color: rgba(10,10,10,0.68) !important; }
+        [data-theme="light"] [class*="text-white/55"] { color: rgba(10,10,10,0.6) !important; }
+        [data-theme="light"] [class*="text-white/50"] { color: rgba(10,10,10,0.56) !important; }
+        [data-theme="light"] [class*="text-white/45"] { color: rgba(10,10,10,0.52) !important; }
+        [data-theme="light"] [class*="text-white/40"] { color: rgba(10,10,10,0.48) !important; }
+        [data-theme="light"] [class*="text-white/35"] { color: rgba(10,10,10,0.44) !important; }
+        [data-theme="light"] [class*="text-white/30"] { color: rgba(10,10,10,0.4) !important; }
+        [data-theme="light"] [class*="text-white/25"] { color: rgba(10,10,10,0.36) !important; }
+        [data-theme="light"] [class*="text-white/20"] { color: rgba(10,10,10,0.32) !important; }
+        [data-theme="light"] [class~="hover:text-white"]:hover,
+        [data-theme="light"] [class*="hover:text-white/70"]:hover { color: rgba(10,10,10,0.85) !important; }
+        [data-theme="light"] [class*="bg-white/5"] { background: rgba(10,10,10,0.04) !important; }
+        [data-theme="light"] [class*="bg-white/10"] { background: rgba(10,10,10,0.06) !important; }
+        [data-theme="light"] [class*="bg-white/30"] { background: rgba(10,10,10,0.15) !important; }
+        [data-theme="light"] [class*="hover:bg-white/5"]:hover { background: rgba(10,10,10,0.05) !important; }
+        [data-theme="light"] [class*="hover:bg-white/10"]:hover { background: rgba(10,10,10,0.08) !important; }
+        [data-theme="light"] [class*="border-white/5"] { border-color: rgba(10,10,10,0.08) !important; }
+        [data-theme="light"] [class*="border-white/10"] { border-color: rgba(10,10,10,0.12) !important; }
+        [data-theme="light"] [class*="border-white/15"] { border-color: rgba(10,10,10,0.16) !important; }
+        [data-theme="light"] [class*="border-white/20"] { border-color: rgba(10,10,10,0.2) !important; }
         * { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #7b2fff50; border-radius: 2px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #8A8A8550; border-radius: 2px; }
+        .dot-bg {
+          background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+          background-size: 24px 24px;
+        }
         .grid-bg {
           background-image:
-            linear-gradient(rgba(0,245,212,0.025) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,245,212,0.025) 1px, transparent 1px);
+            linear-gradient(rgba(138,138,133,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(138,138,133,0.05) 1px, transparent 1px);
           background-size: 60px 60px;
         }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
@@ -2743,26 +3081,27 @@ function HomePage() {
         @keyframes git-badge-float { 0%,100%{transform:translate(0,0) rotate(1deg)} 50%{transform:translate(5px,6px) rotate(1deg)} }
         .float-anim { animation: float 7s ease-in-out infinite; }
         .gradient-text {
-          background: linear-gradient(135deg, #00f5d4, #7b2fff, #f72585);
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: gradient-x 5s ease infinite;
+          color: #D71921;
         }
         .glass {
-          background: rgba(255,255,255,0.04);
+          background: var(--bg-elevated);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid var(--border);
         }
         .glass-nav {
-          background: rgba(3,7,18,0.88);
+          background: color-mix(in srgb, var(--bg) 88%, transparent);
           backdrop-filter: blur(24px);
           -webkit-backdrop-filter: blur(24px);
-          border-bottom: 1px solid rgba(255,255,255,0.07);
+          border-bottom: 1px solid var(--border);
         }
-        .mono { font-family: 'DM Mono', monospace; }
+        .corner-tag { position: relative; }
+        .corner-tag::before, .corner-tag::after {
+          content: ''; position: absolute; width: 8px; height: 8px;
+        }
+        .corner-tag::before { top: -1px; left: -1px; border-top: 1px solid #D71921; border-left: 1px solid #D71921; }
+        .corner-tag::after { bottom: -1px; right: -1px; border-bottom: 1px solid #D71921; border-right: 1px solid #D71921; }
+        .mono { font-family: 'Space Mono', monospace; }
         .stagger-1 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.1s; }
         .stagger-2 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.3s; }
         .stagger-3 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.5s; }
@@ -2818,260 +3157,196 @@ function HomePage() {
 
       {/* Ambient orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(123,47,255,0.12), transparent)", top: "8%", left: "2%", filter: "blur(80px)" }} />
-        <div className="absolute w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle, rgba(0,245,212,0.1), transparent)", top: "55%", right: "3%", filter: "blur(80px)" }} />
-        <div className="absolute w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(247,37,133,0.08), transparent)", bottom: "15%", left: "38%", filter: "blur(60px)" }} />
+        <div className="absolute w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(138,138,133,0.12), transparent)", top: "8%", left: "2%", filter: "blur(80px)" }} />
+        <div className="absolute w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle, rgba(138,138,133,0.09), transparent)", top: "55%", right: "3%", filter: "blur(80px)" }} />
+        <div className="absolute w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(215,25,33,0.06), transparent)", bottom: "15%", left: "38%", filter: "blur(60px)" }} />
       </div>
 
-      {/* NAV */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass-nav" : ""}`}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="mono text-sm tracking-widest text-white/35 uppercase">kim.dev</span>
-          <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((l) => (
-              <button key={l} onClick={() => scrollTo(l)} className="px-4 py-2 text-sm rounded-lg transition-all duration-200 text-white/50 hover:text-white hover:bg-white/5 font-medium">
-                {l}
-              </button>
-            ))}
-            <a href="mailto:kimiebora@gmail.com" className="ml-3 px-5 py-2 text-sm rounded-lg font-semibold text-black transition-all duration-200 hover:scale-105 hover:brightness-110" style={{ background: "linear-gradient(135deg, #00f5d4, #7b2fff)" }}>
-              Get in Touch
-            </a>
+      {/* SIDEBAR (desktop) */}
+      <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 z-40" style={{ width: "248px", borderRight: "1px solid var(--border)", background: "var(--bg)", padding: "28px 20px" }}>
+        <span className="mono text-sm tracking-widest uppercase flex items-center gap-2 mb-8">
+          <span style={{ width: 10, height: 10, border: "2px solid #D71921", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
+          Kim Ivan Ebora
+        </span>
+
+        <nav className="flex flex-col gap-0.5">
+          {NAV_LINKS.map((l) => (
+            <button key={l} onClick={() => scrollTo(l)} className="mono text-left px-2.5 py-2 text-xs tracking-widest uppercase rounded-md transition-all duration-200 text-white/50 hover:text-white hover:bg-white/5">
+              {l}
+            </button>
+          ))}
+        </nav>
+
+        <div className="my-5" style={{ borderTop: "1px solid var(--border)" }} />
+
+        <Link to="/freelance" className="mono px-2.5 py-2 text-xs tracking-widest uppercase rounded-md transition-all duration-200 hover:bg-white/5" style={{ color: "#D71921" }}>
+          Freelance Work
+        </Link>
+
+        <div className="flex-1" />
+
+        {/* Visit stats */}
+        <div className="mono text-xs mb-4" style={{ color: "var(--text-muted)" }}>
+          <div className="flex items-center gap-2 mb-1">
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#D71921", display: "inline-block", animation: "blink-cursor 2s step-end infinite" }} />
+            <span>{viewingNow} viewing today</span>
           </div>
-          <button className="md:hidden text-white/70 hover:text-white" onClick={() => setMenuOpen(!menuOpen)}>
-            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              {menuOpen
-                ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
-                : <><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></>
-              }
-            </svg>
+          <div>{monthlyVisits !== null ? monthlyVisits.toLocaleString() : "—"} visits this month</div>
+        </div>
+
+        <div className="mb-4 flex items-center gap-2">
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+          <button
+            onClick={() => setShowLock(true)}
+            title="Replay lockscreen intro"
+            aria-label="Replay lockscreen intro"
+            className="flex items-center justify-center transition-all duration-200 hover:bg-white/5"
+            style={{ width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", color: "var(--text-muted)", background: "transparent", cursor: "pointer" }}
+          >
+            ⏱
           </button>
         </div>
+
+        <div className="mono text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
+          For work &amp; everything else, reach me at<br />
+          <a href="mailto:kimiebora@gmail.com" className="hover:text-[#D71921] transition-colors" style={{ color: "var(--text)" }}>kimiebora@gmail.com</a>
+        </div>
+      </aside>
+
+      {/* MOBILE TOP BAR */}
+      <nav className={`lg:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass-nav" : ""}`} style={{ borderBottom: scrolled ? undefined : "1px solid var(--border)" }}>
+        <div className="px-5 sm:px-8 py-4 max-w-3xl mx-auto flex items-center justify-between">
+          <span className="mono text-sm tracking-widest uppercase flex items-center gap-2">
+            <span style={{ width: 10, height: 10, border: "2px solid #D71921", borderRadius: "50%", display: "inline-block" }} />
+            kim.dev
+          </span>
+          <div className="flex items-center gap-2">
+            <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+            <button
+              onClick={() => setShowLock(true)}
+              title="Replay lockscreen intro"
+              aria-label="Replay lockscreen intro"
+              className="flex items-center justify-center transition-all duration-200 hover:bg-white/5"
+              style={{ width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", color: "var(--text-muted)", background: "transparent", cursor: "pointer" }}
+            >
+              ⏱
+            </button>
+            <button className="text-white/70 hover:text-white" onClick={() => setMenuOpen(!menuOpen)}>
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                {menuOpen
+                  ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
+                  : <><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></>
+                }
+              </svg>
+            </button>
+          </div>
+        </div>
         {menuOpen && (
-          <div className="glass-nav md:hidden px-6 pb-5 flex flex-col gap-1">
+          <div className="glass-nav px-5 sm:px-8 pb-5 max-w-3xl mx-auto flex flex-col gap-1">
             {NAV_LINKS.map((l) => (
-              <button key={l} onClick={() => scrollTo(l)} className="py-3 text-left text-sm text-white/60 hover:text-white border-b border-white/5 last:border-0">
+              <button key={l} onClick={() => scrollTo(l)} className="mono py-3 text-left text-xs tracking-widest uppercase text-white/60 hover:text-white border-b border-white/5 last:border-0">
                 {l}
               </button>
             ))}
-            <div className="flex gap-2 mt-3 pt-3 border-t border-white/5">
-              <a
-                href="mailto:kimiebora@gmail.com"
-                className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-black text-center transition-all hover:brightness-110"
-                style={{ background: "linear-gradient(135deg, #00f5d4, #7b2fff)" }}
-                onClick={() => setMenuOpen(false)}
-              >
-                Hire Me
-              </a>
+            <Link to="/freelance" onClick={() => setMenuOpen(false)} className="mono py-3 text-left text-xs tracking-widest uppercase border-b border-white/5" style={{ color: "#D71921" }}>
+              Freelance Work
+            </Link>
+            <div className="mono text-xs pt-3 flex items-center justify-between" style={{ color: "var(--text-muted)" }}>
+              <span>{viewingNow} viewing today</span>
+              <span>{monthlyVisits !== null ? monthlyVisits.toLocaleString() : "—"} this month</span>
             </div>
+            <a
+              href="mailto:kimiebora@gmail.com"
+              className="mono mt-3 py-2.5 text-xs tracking-widest uppercase text-center border transition-all hover:brightness-110"
+              style={{ color: "#D71921", borderColor: "#D71921" }}
+              onClick={() => setMenuOpen(false)}
+            >
+              Let's Talk
+            </a>
           </div>
         )}
       </nav>
 
+      {/* MAIN CONTENT (offset by sidebar on desktop, lg+) */}
+      <div className="lg:pl-[248px]">
+
       {/* ── HERO / ABOUT ── */}
-      <section id="about" className="relative min-h-screen grid-bg flex items-center pt-20 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 w-full py-20">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass mb-6 text-xs mono text-white/45">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Open to opportunities
-              </div>
+      <section id="about" className="relative dot-bg pt-24 md:pt-28 pb-16 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6 md:px-10 w-full">
+          <div className="flex flex-col md:flex-row gap-5 md:gap-10 md:items-start">
+            <div className="flex items-center gap-4 sm:gap-5 md:contents">
+              <img
+                src={myImage}
+                alt="Kim Ivan B. Ebora"
+                className="w-[130px] h-[130px] sm:w-[150px] sm:h-[150px] md:w-[190px] md:h-[190px] lg:w-[220px] lg:h-[220px] object-cover object-top shrink-0"
+                style={{ borderRadius: "4px", border: "1px solid var(--border)" }}
+              />
 
-              <p className="mono text-xs tracking-widest text-white/30 uppercase mb-3">IT Student · Network Technology</p>
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-2 text-white">
-                Hi, I'm
+              <h1 className="md:hidden mono text-2xl sm:text-3xl font-bold flex-1 min-w-0" style={{ letterSpacing: "0.5px" }}>
+                {typedText}<span className="cursor-blink inline-block" style={{ width: "3px", height: "0.9em", background: "#D71921", verticalAlign: "-0.1em", marginLeft: "2px" }} />
               </h1>
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6 flex items-center gap-2">
-                <span className="gradient-text">{typedText}</span>
-                <span className="cursor-blink inline-block" style={{ width: "3px", height: "52px", background: "#00f5d4" }} />
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <h1 className="hidden md:block mono text-3xl md:text-4xl font-bold mb-3" style={{ letterSpacing: "0.5px" }}>
+                {typedText}<span className="cursor-blink inline-block" style={{ width: "3px", height: "0.9em", background: "#D71921", verticalAlign: "-0.1em", marginLeft: "2px" }} />
               </h1>
 
-              <p className="text-white/55 leading-relaxed max-w-md text-base">
-                An aspiring IT professional passionate about learning, innovation, and web development — constantly exploring new technologies and sharpening his skills through hands-on experience and continuous research.
+              <p className="leading-relaxed max-w-xl text-[15px] mb-3 mt-4 md:mt-0" style={{ color: "var(--text-secondary)" }}>
+                An aspiring IT professional passionate about learning, innovation, and web development —
+                constantly exploring new technologies and sharpening his skills through hands-on
+                experience and continuous research.
+              </p>
+              <p className="leading-relaxed max-w-xl text-[15px] mb-5" style={{ color: "var(--text-secondary)" }}>
+                Based in Batangas City, Philippines. Currently open to opportunities and freelance work.
               </p>
 
-              <div className="flex items-center gap-2 mt-4 text-sm text-white/35">
-                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Malalim, Batangas City, Philippines</span>
+              <div className="mono text-xs flex flex-wrap items-center gap-x-1 gap-y-2 mb-5" style={{ color: "var(--text-muted)" }}>
+                <a href="https://github.com/Cayban" target="_blank" rel="noreferrer" className="hover:text-[#D71921] transition-colors px-1">github ↗</a>
+                <span>·</span>
+                <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="hover:text-[#D71921] transition-colors px-1">linkedin ↗</a>
+                <span>·</span>
+                <a href="mailto:kimiebora@gmail.com" className="hover:text-[#D71921] transition-colors px-1">email</a>
               </div>
 
-              <div className="flex flex-wrap gap-3 mt-8">
-                <button onClick={() => scrollTo("Projects")} className="px-6 py-3 rounded-xl font-semibold text-black text-sm transition-all duration-200 hover:scale-105" style={{ background: "linear-gradient(135deg, #00f5d4, #7b2fff)", boxShadow: "0 0 30px rgba(0,245,212,0.2)" }}>
-                  View Projects →
+              {/* Personality pills — click for a little extra */}
+              <div className="flex flex-wrap gap-2">
+                <span className="mono text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5" style={{ border: "1px solid rgba(34,197,94,0.3)", color: "var(--text-secondary)" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block", animation: "blink-cursor 2s step-end infinite" }} />
+                  Looking for opportunities
+                </span>
+                <button onClick={() => setActiveModal("coffee")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(200,149,108,0.35)", color: "var(--text-secondary)" }}>
+                  ☕ Fueled by coffee
                 </button>
-                <button onClick={() => scrollTo("Contact")} className="px-6 py-3 rounded-xl font-semibold text-white text-sm glass transition-all duration-200 hover:border-white/20">
-                  Get in Touch
+                <button onClick={() => setActiveModal("remote")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                  🌐 Open to remote work
                 </button>
-              </div>
-
-              <div className="flex gap-8 mt-12 pt-8 border-t border-white/5">
-                {[["3", "Projects Completed"], ["8", "Core Skills"], ["2+", "Years of Coding"]].map(([val, label]) => (
-                  <div key={label}>
-                    <div className="text-2xl font-black text-white">{val}</div>
-                    <div className="text-xs text-white/35 mt-1">{label}</div>
-                  </div>
-                ))}
+                <button onClick={() => setActiveModal("anime")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(215,25,33,0.4)", color: "var(--text-secondary)" }}>
+                  <span style={{ color: "#D71921" }}>♥</span> anime &amp; games
+                </button>
               </div>
             </div>
+          </div>
 
-            <div className="flex justify-center md:justify-end">
-              <div className="relative" style={{ width: "320px", height: "420px" }}>
-                <div
-                  className="photo-ring-spin absolute inset-0 rounded-3xl"
-                  style={{
-                    background: "conic-gradient(from 0deg, #00f5d4, #7b2fff, #f72585, #00f5d4)",
-                    padding: "2px",
-                    borderRadius: "28px",
-                    top: "10px",
-                    left: "10px",
-                    right: "10px",
-                    bottom: "10px",
-                  }}
-                />
-                <div
-                  className="photo-card absolute inset-0 rounded-3xl overflow-hidden"
-                  style={{
-                    margin: "12px",
-                    border: "2px solid rgba(0,245,212,0.25)",
-                    boxShadow: "0 0 60px rgba(123,47,255,0.2), 0 0 120px rgba(0,245,212,0.08)",
-                  }}
-                >
-                  <div className="absolute inset-0 z-10" style={{ background: "linear-gradient(to top, rgba(3,7,18,0.95) 0%, rgba(3,7,18,0.3) 40%, transparent 65%)" }} />
-                  <img
-                    src={myImage}
-                    alt="Kim Ivan B. Ebora"
-                    className="w-full h-full object-cover object-top"
-                    style={{ display: "block" }}
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 z-20 p-5">
-                    <p className="text-white font-bold text-sm leading-tight">Kim Ivan B. Ebora</p>
-                    <p className="mono text-xs mt-1" style={{ color: "#00f5d4" }}>IT Student · Network Tech</p>
-                  </div>
+          {/* STATS ROW */}
+          <div className="mt-14 pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6" style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", padding: "1.75rem 0" }}>
+              {[["3", "Projects Completed"], ["8", "Core Skills"], ["2+", "Years Coding"], ["100%", "Client Satisfaction"]].map(([val, label]) => (
+                <div key={label}>
+                  <div className="mono text-2xl font-bold">{val}</div>
+                  <div className="mono text-xs uppercase tracking-widest mt-1" style={{ color: "var(--text-muted)" }}>{label}</div>
                 </div>
-
-                {/* TOP RIGHT — studying card */}
-<div
-  className="code-card-anim absolute"
-  style={{
-    top: "-18px",
-    right: "-34px",
-    background: "rgba(8,8,20,0.92)",
-    border: "1px solid rgba(0,245,212,0.35)",
-    borderRadius: "12px",
-    padding: "9px 13px",
-    fontFamily: "'DM Mono', monospace",
-    fontSize: "10px",
-    lineHeight: "1.65",
-    zIndex: 30,
-    transform: "rotate(-2deg)",
-    backdropFilter: "blur(10px)",
-    minWidth: "145px",
-  }}
->
-  <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
-    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00f5d4", display: "inline-block", animation: "blink-cursor 2s step-end infinite" }} />
-    <span style={{ color: "rgba(255,255,255,0.38)", fontSize: "9px", letterSpacing: "1px" }}>STATUS</span>
-  </div>
-  <div style={{ color: "#fff", fontWeight: 600, fontSize: "11px" }}>IT Graduate</div>
-  <div style={{ color: "rgba(0,245,212,0.7)", fontSize: "9px", marginTop: "1px" }}>Network Technology</div>
-</div>
-
-{/* TOP LEFT — available for hire */}
-<div
-  className="tech-badge-item tech-b1 absolute flex items-center gap-2"
-  style={{
-    top: "36px", left: "-60px",
-    background: "rgba(8,8,20,0.92)",
-    border: "1px solid rgba(34,197,94,0.3)",
-    borderRadius: "10px", padding: "7px 12px",
-    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-  }}
->
-  <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22c55e", display: "inline-block", flexShrink: 0, animation: "blink-cursor 2s step-end infinite" }} />
-  Looking for opportunities
-</div>
-
-{/* MID RIGHT — location */}
-<div
-  className="tech-badge-item tech-b2 absolute flex items-center gap-2"
-  style={{
-    top: "105px", right: "-54px",
-    background: "rgba(8,8,20,0.92)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: "10px", padding: "7px 12px",
-    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-  }}
->
-  <span style={{ fontSize: "12px" }}>📍</span>
-  Batangas City, PH
-</div>
-
-{/* BOTTOM LEFT — coffee */}
-<div
-  className="tech-badge-item tech-b3 absolute flex items-center gap-2"
-  onClick={() => setActiveModal("coffee")}
-  style={{
-    bottom: "115px", left: "-58px",
-    background: "rgba(8,8,20,0.92)",
-    border: "1px solid rgba(200,149,108,0.35)",
-    borderRadius: "10px", padding: "7px 12px",
-    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-    cursor: "pointer",
-    transition: "transform 0.18s, border-color 0.18s, box-shadow 0.18s",
-  }}
-  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 0 16px rgba(200,149,108,0.3)"; }}
-  onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
->
-  <span style={{ fontSize: "12px" }}>☕</span>
-  Fueled by coffee
-</div>
-
-{/* BOTTOM RIGHT — remote work */}
-<div
-  className="tech-badge-item tech-b4 absolute flex items-center gap-2"
-  onClick={() => setActiveModal("remote")}
-  style={{
-    bottom: "62px", right: "-54px",
-    background: "rgba(8,8,20,0.92)",
-    border: "1px solid rgba(123,47,255,0.35)",
-    borderRadius: "10px", padding: "7px 12px",
-    fontFamily: "'DM Mono', monospace", fontSize: "11px",
-    color: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)", zIndex: 30,
-    cursor: "pointer",
-    transition: "transform 0.18s, border-color 0.18s, box-shadow 0.18s",
-  }}
-  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 0 16px rgba(123,47,255,0.4)"; }}
-  onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
->
-  <span style={{ fontSize: "12px" }}>🌐</span>
-  Open to remote work
-</div>
-
-{/* BOTTOM — anime & games */}
-<div
-  className="git-badge-anim absolute flex items-center gap-2"
-  onClick={() => setActiveModal("anime")}
-  style={{
-    bottom: "-14px", left: "-20px",
-    background: "rgba(8,8,20,0.92)",
-    border: "1px solid rgba(247,37,133,0.4)",
-    borderRadius: "10px", padding: "7px 12px",
-    fontFamily: "'DM Mono', monospace", fontSize: "10px",
-    color: "rgba(255,255,255,0.5)", backdropFilter: "blur(10px)", zIndex: 30,
-    transform: "rotate(1deg)",
-    cursor: "pointer",
-    transition: "transform 0.18s, box-shadow 0.18s",
-  }}
-  onMouseEnter={e => { e.currentTarget.style.transform = "rotate(1deg) scale(1.08)"; e.currentTarget.style.boxShadow = "0 0 16px rgba(247,37,133,0.35)"; }}
-  onMouseLeave={e => { e.currentTarget.style.transform = "rotate(1deg)"; e.currentTarget.style.boxShadow = ""; }}
->
-  <span style={{ color: "#f72585" }}>♥</span> anime &amp; games
-</div>
-              </div>
+              ))}
             </div>
+          </div>
+
+          <div className="flex flex-wrap gap-3 mt-8">
+            <button onClick={() => scrollTo("Projects")} className="mono px-6 py-3 text-xs uppercase tracking-widest transition-all duration-200 hover:brightness-110" style={{ background: "#D71921", color: "#fff" }}>
+              View Projects →
+            </button>
+            <button onClick={() => scrollTo("Contact")} className="mono px-6 py-3 text-xs uppercase tracking-widest transition-all duration-200 border hover:bg-white/5" style={{ borderColor: "var(--border-strong)" }}>
+              Get in Touch
+            </button>
           </div>
         </div>
       </section>
@@ -3080,7 +3355,7 @@ function HomePage() {
       <section id="skills" className="relative py-24">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-16">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">02 / Skills</span>
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">02 — Skills</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span className="text-white">What I </span>
               <span className="gradient-text">Can Do</span>
@@ -3091,7 +3366,7 @@ function HomePage() {
             {/* Proficiency bars */}
             <div>
               <h3 className="mono text-xs text-white/30 uppercase tracking-widest mb-8 flex items-center gap-3">
-                <span className="w-6 h-px bg-cyan-400/50" /> Current Skill Set
+                <span className="w-6 h-px bg-[#D71921]/50" /> Current Skill Set
               </h3>
               <div className="space-y-5">
                 {SKILLS_CAN_DO.map((s, i) => (
@@ -3115,7 +3390,7 @@ function HomePage() {
             {/* Learning next */}
             <div>
               <h3 className="mono text-xs text-white/30 uppercase tracking-widest mb-8 flex items-center gap-3">
-                <span className="w-6 h-px bg-purple-400/50" /> Currently Learning
+                <span className="w-6 h-px bg-[#8A8A85]/50" /> Currently Learning
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {SKILLS_LEARNING.map((s) => (
@@ -3129,7 +3404,7 @@ function HomePage() {
                 ))}
               </div>
 
-              <div className="mt-6 glass rounded-2xl p-6" style={{ border: "1px solid rgba(0,245,212,0.1)" }}>
+              <div className="mt-6 glass rounded-2xl p-6" style={{ border: "1px solid rgba(215,25,33,0.1)" }}>
                 <p className="text-sm text-white/45 leading-relaxed italic">
                   "I believe learning never stops. I actively explore new frameworks, tools, and best practices to stay current and deliver better solutions with every project."
                 </p>
@@ -3145,7 +3420,7 @@ function HomePage() {
         <div className="absolute inset-0 grid-bg opacity-40" />
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="mb-16">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">03 / Projects</span>
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">03 — Projects</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span className="text-white">Things I've </span>
               <span className="gradient-text">Built</span>
@@ -3171,7 +3446,7 @@ function HomePage() {
       <section id="contact" className="relative py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">04 / Contact</span>
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">04 — Contact</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span className="text-white">Let's </span>
               <span className="gradient-text">Connect</span>
@@ -3210,8 +3485,8 @@ function HomePage() {
             }
             .contact-left {
               padding: 2.5rem;
-              background: rgba(0,245,212,0.03);
-              border-right: 1px solid rgba(255,255,255,0.05);
+              background: rgba(215,25,33,0.04);
+              border-right: 1px solid var(--border);
               display: flex;
               flex-direction: column;
               justify-content: space-between;
@@ -3219,7 +3494,7 @@ function HomePage() {
             }
             .contact-right {
               padding: 2.5rem;
-              background: rgba(123,47,255,0.03);
+              background: var(--bg-elevated);
               display: flex;
               flex-direction: column;
               gap: 0.875rem;
@@ -3228,8 +3503,8 @@ function HomePage() {
               width: 64px;
               height: 64px;
               border-radius: 50%;
-              background: linear-gradient(135deg, rgba(0,245,212,0.2), rgba(123,47,255,0.2));
-              border: 1px solid rgba(0,245,212,0.2);
+              background: linear-gradient(135deg, rgba(215,25,33,0.2), rgba(138,138,133,0.2));
+              border: 1px solid rgba(215,25,33,0.2);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -3256,8 +3531,8 @@ function HomePage() {
               width: 32px;
               height: 32px;
               border-radius: 8px;
-              background: rgba(255,255,255,0.04);
-              border: 1px solid rgba(255,255,255,0.07);
+              background: var(--bg-elevated);
+              border: 1px solid var(--border);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -3270,8 +3545,8 @@ function HomePage() {
               gap: 1rem;
               padding: 1rem 1.125rem;
               border-radius: 1rem;
-              border: 1px solid rgba(255,255,255,0.07);
-              background: rgba(255,255,255,0.025);
+              border: 1px solid var(--border);
+              background: var(--bg-elevated);
               text-decoration: none;
               position: relative;
               overflow: hidden;
@@ -3284,15 +3559,15 @@ function HomePage() {
               left: 0; top: 0; bottom: 0;
               width: 3px;
               border-radius: 0 2px 2px 0;
-              background: var(--rc-accent, rgba(0,245,212,0.5));
+              background: var(--rc-accent, rgba(215,25,33,0.5));
               opacity: 0;
               transform: scaleY(0);
               transition: opacity 0.2s, transform 0.2s;
               transform-origin: center;
             }
             .reach-card:hover {
-              background: rgba(255,255,255,0.05);
-              border-color: rgba(255,255,255,0.13);
+              background: var(--border);
+              border-color: var(--border-strong);
               transform: translateX(4px);
             }
             .reach-card:hover::after {
@@ -3308,8 +3583,8 @@ function HomePage() {
               justify-content: center;
               font-size: 1.1rem;
               flex-shrink: 0;
-              background: var(--rc-logo-bg, rgba(0,245,212,0.08));
-              border: 1px solid var(--rc-logo-border, rgba(0,245,212,0.15));
+              background: var(--rc-logo-bg, rgba(215,25,33,0.08));
+              border: 1px solid var(--rc-logo-border, rgba(215,25,33,0.15));
               transition: transform 0.22s;
             }
             .reach-card:hover .reach-logo {
@@ -3332,8 +3607,8 @@ function HomePage() {
               text-transform: uppercase;
               padding: 2px 7px;
               border-radius: 99px;
-              background: rgba(0,245,212,0.12);
-              color: #00f5d4;
+              background: rgba(215,25,33,0.12);
+              color: #D71921;
               font-family: 'Courier New', monospace;
               line-height: 1.6;
             }
@@ -3348,7 +3623,7 @@ function HomePage() {
               content: '';
               flex: 1;
               height: 1px;
-              background: rgba(255,255,255,0.06);
+              background: var(--border);
             }
           `}</style>
 
@@ -3361,7 +3636,7 @@ function HomePage() {
                   <div className="status-dot" />
                 </div>
                 <p className="text-white font-bold text-xl leading-snug">Kim Ivan Ebora</p>
-                <p className="mono text-xs mt-1" style={{ color: "rgba(0,245,212,0.7)" }}>IT Student · Web Developer</p>
+                <p className="mono text-xs mt-1" style={{ color: "rgba(215,25,33,0.7)" }}>IT Student · Web Developer</p>
                 <p className="text-white/35 text-xs mt-3 leading-relaxed max-w-xs">
                   Open to freelance, collabs, internships, and full-time roles. Let's build something great together.
                 </p>
@@ -3396,9 +3671,9 @@ function HomePage() {
                   sub: "kimiebora@gmail.com",
                   icon: "✉️",
                   href: "mailto:kimiebora@gmail.com",
-                  accent: "rgba(0,245,212,0.5)",
-                  logoBg: "rgba(0,245,212,0.08)",
-                  logoBorder: "rgba(0,245,212,0.18)",
+                  accent: "rgba(215,25,33,0.5)",
+                  logoBg: "rgba(215,25,33,0.08)",
+                  logoBorder: "rgba(215,25,33,0.18)",
                   preferred: true,
                   delay: "0ms",
                 },
@@ -3439,16 +3714,16 @@ function HomePage() {
                   <div className="reach-logo">{p.icon}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                      <span className="text-white font-semibold text-sm">{p.label}</span>
+                      <span className="font-semibold text-sm" style={{ color: "var(--text)" }}>{p.label}</span>
                       {p.preferred && <span className="preferred-tag">preferred</span>}
                     </div>
-                    <p className="mono text-xs truncate mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>{p.sub}</p>
+                    <p className="mono text-xs truncate mt-0.5" style={{ color: "var(--text-muted)" }}>{p.sub}</p>
                   </div>
-                  <span className="reach-arrow text-white">→</span>
+                  <span className="reach-arrow" style={{ color: "var(--text)" }}>→</span>
                 </a>
               ))}
 
-              <p className="mono text-xs text-center mt-auto pt-3" style={{ color: "rgba(255,255,255,0.12)", borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+              <p className="mono text-xs text-center mt-auto pt-3" style={{ color: "var(--text-muted)", opacity: 0.5, borderTop: "1px solid var(--border)" }}>
                 All links open directly · No forms, no bots
               </p>
             </div>
@@ -3457,63 +3732,102 @@ function HomePage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-white/5 py-8">
+      <footer className="py-8" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="mono text-xs text-white/20">© 2026 · Kim Ivan B. Ebora · Built with React & Tailwind</span>
+          <span className="mono text-xs" style={{ color: "var(--text-muted)", opacity: 0.6 }}>© 2026 · Kim Ivan B. Ebora · Built with React &amp; Tailwind</span>
           <div className="flex items-center gap-1">
-            <a href="https://github.com/Cayban" target="_blank" rel="noreferrer" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">GitHub</a>
-            <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">LinkedIn</a>
-            <a href="mailto:kimiebora@gmail.com" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">Email</a>
-            <Link to="/freelance" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">Freelance work</Link>
+            <a href="https://github.com/Cayban" target="_blank" rel="noreferrer" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>GitHub</a>
+            <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>LinkedIn</a>
+            <a href="mailto:kimiebora@gmail.com" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>Email</a>
+            <Link to="/freelance" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "#D71921" }}>Freelance work</Link>
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 }
 
 /* ── FREELANCE (sideline) — separate page, not part of the main portfolio flow ── */
-function FreelancePage() {
+function FreelancePage({ theme, resolvedTheme, onToggleTheme }) {
   return (
-    <div className="min-h-screen text-white selection:bg-cyan-400/30" style={{ background: "#030712", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div data-theme={resolvedTheme} className="min-h-screen selection:bg-[#D71921]/30" style={{ background: "var(--bg)", color: "var(--text)", fontFamily: "'Space Grotesk', sans-serif", transition: "background 0.4s ease, color 0.4s ease" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;500;700&family=DotGothic16&display=swap');
+        :root {
+          --bg: #0A0A0A;
+          --bg-elevated: #ffffff08;
+          --text: #F5F5F0;
+          --text-secondary: rgba(245,245,240,0.55);
+          --text-muted: #8A8A85;
+          --border: rgba(255,255,255,0.08);
+          --border-strong: rgba(255,255,255,0.15);
+          --dot-color: rgba(138,138,133,0.09);
+        }
+        [data-theme="light"] {
+          --bg: #F2F1EC;
+          --bg-elevated: #00000006;
+          --text: #0A0A0A;
+          --text-secondary: rgba(10,10,10,0.6);
+          --text-muted: #6B6B66;
+          --border: rgba(10,10,10,0.1);
+          --border-strong: rgba(10,10,10,0.2);
+          --dot-color: rgba(107,107,102,0.12);
+        }
+        [data-theme="light"] [class~="text-white"],
+        [data-theme="light"] [class*="text-white/80"] { color: rgba(10,10,10,0.85) !important; }
+        [data-theme="light"] [class*="text-white/70"] { color: rgba(10,10,10,0.75) !important; }
+        [data-theme="light"] [class*="text-white/55"] { color: rgba(10,10,10,0.6) !important; }
+        [data-theme="light"] [class*="text-white/50"] { color: rgba(10,10,10,0.56) !important; }
+        [data-theme="light"] [class*="text-white/45"] { color: rgba(10,10,10,0.52) !important; }
+        [data-theme="light"] [class*="text-white/40"] { color: rgba(10,10,10,0.48) !important; }
+        [data-theme="light"] [class*="text-white/35"] { color: rgba(10,10,10,0.44) !important; }
+        [data-theme="light"] [class*="text-white/30"] { color: rgba(10,10,10,0.4) !important; }
+        [data-theme="light"] [class*="text-white/25"] { color: rgba(10,10,10,0.36) !important; }
+        [data-theme="light"] [class*="text-white/20"] { color: rgba(10,10,10,0.32) !important; }
+        [data-theme="light"] [class~="hover:text-white"]:hover { color: rgba(10,10,10,0.85) !important; }
+        [data-theme="light"] [class*="border-white/5"] { border-color: rgba(10,10,10,0.08) !important; }
+        [data-theme="light"] [class*="hover:bg-white/5"]:hover { background: rgba(10,10,10,0.05) !important; }
         * { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #7b2fff50; border-radius: 2px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #8A8A8550; border-radius: 2px; }
+        .dot-bg {
+          background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+          background-size: 24px 24px;
+        }
         .grid-bg {
           background-image:
-            linear-gradient(rgba(0,245,212,0.025) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,245,212,0.025) 1px, transparent 1px);
+            linear-gradient(rgba(138,138,133,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(138,138,133,0.05) 1px, transparent 1px);
           background-size: 60px 60px;
         }
         @keyframes gradient-x { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .gradient-text {
-          background: linear-gradient(135deg, #00f5d4, #7b2fff, #f72585);
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: gradient-x 5s ease infinite;
+        .gradient-text { color: #D71921; }
+        .glass-nav {
+          background: color-mix(in srgb, var(--bg) 88%, transparent);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border-bottom: 1px solid var(--border);
         }
-        .mono { font-family: 'DM Mono', monospace; }
+        .mono { font-family: 'Space Mono', monospace; }
       `}</style>
 
       {/* Ambient orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(123,47,255,0.12), transparent)", top: "8%", left: "2%", filter: "blur(80px)" }} />
-        <div className="absolute w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle, rgba(0,245,212,0.1), transparent)", top: "55%", right: "3%", filter: "blur(80px)" }} />
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 dot-bg">
+        <div className="absolute w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(138,138,133,0.12), transparent)", top: "8%", left: "2%", filter: "blur(80px)" }} />
+        <div className="absolute w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle, rgba(215,25,33,0.07), transparent)", top: "55%", right: "3%", filter: "blur(80px)" }} />
       </div>
 
       {/* Minimal top bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-nav" style={{ background: "rgba(3,7,18,0.88)", backdropFilter: "blur(24px)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+      <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors">
+          <Link to="/" className="mono flex items-center gap-2 text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors">
             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
             Back to Portfolio
           </Link>
-          <span className="mono text-sm tracking-widest text-white/35 uppercase">kim.dev / freelance</span>
+          <span className="mono text-sm tracking-widest text-white/35 uppercase hidden sm:block">kim.dev / freelance</span>
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         </div>
       </nav>
 
@@ -3521,10 +3835,10 @@ function FreelancePage() {
         <ServicesSection />
       </div>
 
-      <footer className="border-t border-white/5 py-8">
+      <footer className="py-8" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="mono text-xs text-white/20">© 2026 · Kim Ivan B. Ebora</span>
-          <Link to="/" className="px-3 py-1.5 text-xs text-white/30 hover:text-white/70 transition-colors rounded-lg hover:bg-white/5">← Back to Portfolio</Link>
+          <span className="mono text-xs" style={{ color: "var(--text-muted)", opacity: 0.6 }}>© 2026 · Kim Ivan B. Ebora</span>
+          <Link to="/" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>← Back to Portfolio</Link>
         </div>
       </footer>
     </div>
@@ -3532,10 +3846,44 @@ function FreelancePage() {
 }
 
 function PortfolioApp() {
+  const [themePref, setThemePref] = useState(() => {
+    try {
+      return localStorage.getItem("theme") || "system";
+    } catch {
+      return "system";
+    }
+  });
+  const [systemTheme, setSystemTheme] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
+    const handler = (e) => setSystemTheme(e.matches ? "light" : "dark");
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("theme", themePref);
+    } catch {}
+  }, [themePref]);
+
+  const resolvedTheme = themePref === "system" ? systemTheme : themePref;
+
+  const setThemeAnimated = (next) => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => setThemePref(next));
+    } else {
+      setThemePref(next);
+    }
+  };
+
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/freelance" element={<FreelancePage />} />
+      <Route path="/" element={<HomePage theme={themePref} resolvedTheme={resolvedTheme} onToggleTheme={setThemeAnimated} />} />
+      <Route path="/freelance" element={<FreelancePage theme={themePref} resolvedTheme={resolvedTheme} onToggleTheme={setThemeAnimated} />} />
     </Routes>
   );
 }
