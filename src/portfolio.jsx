@@ -16,61 +16,53 @@ import ladLoginSample from "./assets/ladloginSample.png";
 import ladSample2 from "./assets/ladSample2.png";
 import ladSample3 from "./assets/ladSample3.png";
 
-const NAV_LINKS = ["About", "Skills", "Projects", "Contact"];
+const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Contact"];
 
 const SKILLS_CAN_DO = [
   {
     name: "Web Development",
-    icon: "🌐",
     level: 55,
     label: "Comfortable",
     desc: "I can build functional, responsive websites using HTML, CSS, JavaScript, and React. I rely on documentation and research for advanced patterns, but I understand what I'm working with and can adapt code to fit the project.",
   },
   {
     name: "Backend Development",
-    icon: "⚙️",
     level: 45,
     label: "Familiar",
     desc: "I've worked with Laravel and Node.js to build basic server-side logic and REST APIs. I can follow and modify existing backend code, but I lean on guides and examples when building from scratch.",
   },
   {
     name: "Database Management",
-    icon: "🗄️",
     level: 45,
     label: "Familiar",
     desc: "I have hands-on experience handling basic data relationships and writing the queries around them setting up tables, defining relations, and working with PostgreSQL and Firebase. For complex queries or schema design decisions, I look things up, but I'm comfortable enough with the fundamentals to get things working.",
   },
   {
     name: "UI/UX Design",
-    icon: "🎨",
     level: 52,
     label: "Comfortable",
     desc: "I have a decent eye for layout, spacing, and color, mostly self-taught through building real projects. I use Tailwind CSS and reference design patterns. I'm not a formal designer, but I can produce clean, usable interfaces.",
   },
   {
     name: "System Integration",
-    icon: "🔗",
     level: 42,
     label: "Familiar",
     desc: "I've connected frontend and backend systems and integrated third-party services like Firebase. I approach integration tasks step by step, researching each connection point to make sure things work together properly.",
   },
   {
     name: "AI-Assisted Dev",
-    icon: "🤖",
     level: 70,
     label: "Proficient",
     desc: "This is genuinely one of my stronger skills. I know how to use AI tools effectively — writing clear prompts, reviewing and understanding generated code, spotting issues, and adapting outputs to fit what the project actually needs.",
   },
   {
     name: "Research & Problem Solving",
-    icon: "🔧",
     level: 72,
     label: "Proficient",
     desc: "When I hit something I don't know, I find the answer. I'm good at searching, reading docs, cross-referencing Stack Overflow, and applying solutions to my specific context — rather than just copying blindly.",
   },
   {
     name: "Business Web Dev",
-    icon: "💼",
     level: 58,
     label: "Comfortable",
     desc: "I've built and redesigned real websites for actual clients. I understand what small businesses need — clean presentation, contact flows, mobile-readiness — and I can deliver that within a reasonable scope.",
@@ -81,16 +73,43 @@ const TECH_TAGS = [
   "HTML", "CSS", "JavaScript", "Tailwind CSS",
   "Node.js", "Laravel", "PHP Blade",
   "React.js", "PostgreSQL", "Firebase",
+  "MS Word", "Canva", "Technical Documentation",
 ];
 
-const SKILLS_LEARNING = [
-  { name: "TypeScript", icon: "📘" },
-  { name: "Next.js", icon: "🔲" },
-  { name: "Docker", icon: "🐳" },
-  { name: "React Native", icon: "📱" },
-  { name: "GraphQL", icon: "◈" },
-  { name: "Cloud Services", icon: "☁️" },
+const SOFT_SKILLS = [
+  { name: "Communication", level: 70, label: "Proficient", desc: "I can clearly explain technical concepts to both technical and non-technical audiences — whether it's presenting project updates or walking a client through requirements." },
+  { name: "Time Management", level: 62, label: "Comfortable", desc: "I break projects into manageable tasks and generally meet deadlines, even while juggling coursework, freelance work, and personal projects at the same time." },
+  { name: "Adaptability", level: 65, label: "Comfortable", desc: "I've had to pick up new frameworks and tools quickly across different projects, and I'm comfortable adjusting my approach when requirements change mid-project." },
+  { name: "Team Collaboration", level: 60, label: "Comfortable", desc: "I've worked in group projects and with clients, coordinating on shared codebases, giving and receiving feedback, and aligning on project direction." },
+  { name: "Client Relations", level: 58, label: "Comfortable", desc: "Through freelance work, I've learned to manage client expectations, explain technical trade-offs in plain terms, and keep communication clear throughout a project." },
+  { name: "Attention to Detail", level: 66, label: "Comfortable", desc: "I catch inconsistencies in layouts, broken links, and edge cases before they become bigger issues, especially when testing across devices." },
+  { name: "Critical Thinking", level: 68, label: "Proficient", desc: "I approach problems by breaking them down, questioning assumptions, and weighing trade-offs rather than jumping to the first solution I find." },
+  { name: "Work Ethic", level: 72, label: "Proficient", desc: "I follow through on commitments and put in the extra effort needed to deliver quality work, even when working under tight timelines." },
 ];
+
+const EXPERIENCE = {
+  role: "OJT Intern",
+  org: "KTTM Office — Batangas State University",
+  duration: "500 Hours · On-the-Job Training",
+  summary: "500 hours immersed in real office operations — handling IP records, building the systems the office actually needed, providing tech support, and picking up my first freelance client along the way.",
+  highlights: [
+    {
+      title: "IP Records & Database System",
+      desc: "Assisted in processing and organizing copyright and intellectual property documents, then helped build the office a proper database system to replace their reliance on Google Sheets and Google Drive — later developed further into the KTTM Records System.",
+      tags: ["Records Management", "Database Design", "Laravel"],
+    },
+    {
+      title: "IT & Technical Support",
+      desc: "Handled day-to-day technical issues around the office — PC formatting, file backups, and troubleshooting software problems — plus produced graphic design work, infographics, and PPT presentations using Canva.",
+      tags: ["Troubleshooting", "Backup & Recovery", "Canva"],
+    },
+    {
+      title: "First Freelance Client",
+      desc: "Gained my first client during the internship — my supervisor's own business. I rebuilt his existing website using the same tech stack from the KTTM system, improved on the original design, and hosted it live as LAD Enterprises.",
+      tags: ["Web Development", "Client Work", "Laravel"],
+    },
+  ],
+};
 
 const PROJECTS = [
   {
@@ -99,7 +118,6 @@ const PROJECTS = [
     stack: ["PHP Blade", "Laravel"],
     lang: "Laravel",
     color: "#D71921",
-    icon: "🏢",
     github: null,
     live: "https://lad-enterprises.com",
     liveLabel: "lad-enterprises.com",
@@ -111,7 +129,6 @@ const PROJECTS = [
     stack: ["PHP Blade", "Laravel"],
     lang: "Laravel",
     color: "#9C9C97",
-    icon: "📂",
     github: null,
     live: null,
     liveLabel: null,
@@ -123,7 +140,6 @@ const PROJECTS = [
     stack: ["React.js", "Tailwind CSS", "Node.js"],
     lang: "React / Node",
     color: "#D71921",
-    icon: "🏥",
     github: null,
     live: null,
     liveLabel: null,
@@ -156,7 +172,7 @@ function AnimatedCounter({ target, duration = 1500 }) {
   return <span ref={ref}>{count}</span>;
 }
 
-function SkillBar({ name, icon, level, label, desc, delay }) {
+function SkillBar({ name, level, label, desc, delay }) {
   const [animated, setAnimated] = useState(false);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -203,7 +219,7 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
       >
         <div className="flex justify-between items-center mb-2">
           <span className="flex items-center gap-2 text-sm font-medium text-white/80 group-hover:text-white transition-colors">
-            <span>{icon}</span> {name}
+            {name}
             <svg
               width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2"
               viewBox="0 0 24 24"
@@ -219,10 +235,9 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
             >
               {label}
             </span>
-            <span className="text-xs font-mono text-[#D71921]">{level}%</span>
           </div>
         </div>
-        <div className="flex gap-[3px]">
+        <div className="flex gap-[2px]">
           {Array.from({ length: 20 }).map((_, i) => {
             const filled = animated && i < Math.round((level / 100) * 20);
             return (
@@ -230,8 +245,8 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
                 key={i}
                 className="rounded-full transition-colors"
                 style={{
-                  width: "6px",
-                  height: "6px",
+                  width: "4px",
+                  height: "4px",
                   flexShrink: 0,
                   background: filled ? labelColor : "var(--border)",
                   transitionDuration: "0.5s",
@@ -278,7 +293,7 @@ function SkillBar({ name, icon, level, label, desc, delay }) {
               className="mono text-xs px-2.5 py-1 rounded-full"
               style={{ background: `${labelColor}18`, color: labelColor, border: `1px solid ${labelColor}40` }}
             >
-              {label} · {level}%
+              {label}
             </span>
           </div>
           <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
@@ -325,6 +340,113 @@ function ImageCarousel({ images, color, height = 220 }) {
       <div className="absolute top-3 right-3 mono text-xs px-2 py-0.5 rounded-md" style={{ background: "rgba(0,0,0,0.65)", color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.1)" }}>
         {idx + 1} / {images.length}
       </div>
+    </div>
+  );
+}
+
+// Stacked project card carousel — click a background card to bring it forward,
+// click the front card again to expand it
+function ProjectStack({ projects }) {
+  const [order, setOrder] = useState(projects.map((_, i) => i));
+  const [expanded, setExpanded] = useState(false);
+
+  const handleClick = (pos) => {
+    if (pos === 0) {
+      setExpanded((e) => !e);
+    } else {
+      setOrder((prev) => {
+        const next = [...prev];
+        const [id] = next.splice(pos, 1);
+        next.unshift(id);
+        return next;
+      });
+      setExpanded(false);
+    }
+  };
+
+  return (
+    <div className="relative mx-auto" style={{ width: "100%", maxWidth: 440, height: expanded ? 360 : 300 }}>
+      {order.map((idx, pos) => {
+        const p = projects[idx];
+        const isFront = pos === 0;
+        const tx = pos === 0 ? 0 : pos === 1 ? 28 : -28;
+        const ty = pos === 0 ? 0 : pos === 1 ? 16 : 26;
+        const rot = pos === 0 ? 0 : pos === 1 ? 5 : -5;
+        const scale = isFront ? (expanded ? 1.02 : 1) : pos === 1 ? 0.93 : 0.87;
+        const op = isFront ? 1 : pos === 1 ? 0.75 : 0.55;
+        const z = 10 - pos;
+        return (
+          <div
+            key={idx}
+            onClick={() => handleClick(pos)}
+            role="button"
+            tabIndex={0}
+            aria-label={isFront ? `${p.title}, expand for details` : `${p.title}, bring to front`}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleClick(pos); }}
+            className="absolute top-0 left-0 w-full rounded-2xl cursor-pointer"
+            style={{
+              height: isFront ? (expanded ? 340 : 260) : 190,
+              transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${scale})`,
+              zIndex: z,
+              opacity: op,
+              transition: "transform 0.45s cubic-bezier(0.34,1.2,0.4,1), opacity 0.35s ease, height 0.3s ease",
+              background: "var(--surface-solid)",
+              border: "1px solid var(--border)",
+              padding: isFront ? "1.5rem" : "1.1rem",
+              boxSizing: "border-box",
+              overflow: "hidden",
+              outline: "none",
+            }}
+          >
+            {isFront ? (
+              <>
+                <p className="text-lg font-bold text-white mb-1.5">{p.title}</p>
+                <p
+                  className="text-sm leading-relaxed mb-3"
+                  style={{
+                    color: "var(--text-secondary)",
+                    display: expanded ? "block" : "-webkit-box",
+                    WebkitLineClamp: expanded ? "unset" : 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {p.desc}
+                </p>
+                {expanded ? (
+                  <>
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {p.stack.map((s) => (
+                        <span key={s} className="mono text-xs px-2.5 py-1 rounded-full" style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}>
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                    {p.live && (
+                      <a
+                        href={p.live}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="mono text-xs"
+                        style={{ color: p.color }}
+                      >
+                        {p.liveLabel} ↗
+                      </a>
+                    )}
+                  </>
+                ) : (
+                  <p className="mono text-xs" style={{ color: "var(--text-muted)" }}>tap to expand</p>
+                )}
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>{p.title}</p>
+              </>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -405,7 +527,6 @@ function FeaturedCard({ project }) {
             <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}18 0%, #0A0A0A 70%)` }} />
             <div className="absolute inset-0" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,0.015) 30px, rgba(255,255,255,0.015) 31px)" }} />
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-              <div className="text-6xl">{project.icon}</div>
               <div className="px-4 py-2 rounded-xl mono text-xs" style={{ background: `${project.color}15`, color: project.color, border: `1px solid ${project.color}30` }}>
                 Live Website
               </div>
@@ -427,7 +548,7 @@ function FeaturedCard({ project }) {
         <div>
           <div className="flex items-center gap-3 mb-4">
             <span className="mono text-xs px-2.5 py-1 rounded-full" style={{ background: `${project.color}15`, color: project.color, border: `1px solid ${project.color}30` }}>
-              ⭐ Featured Project
+              Featured Project
             </span>
             <span className="mono text-xs text-white/25">{project.lang}</span>
           </div>
@@ -435,7 +556,7 @@ function FeaturedCard({ project }) {
           <p className="text-white/55 leading-relaxed text-sm mb-6">{project.desc}</p>
           {project.live && (
             <p className="mono text-xs mb-6" style={{ color: project.color }}>
-              🔗 <a href={project.live} target="_blank" rel="noreferrer" className="hover:underline">{project.liveLabel}</a>
+              <a href={project.live} target="_blank" rel="noreferrer" className="hover:underline">{project.liveLabel}</a>
             </p>
           )}
         </div>
@@ -470,7 +591,6 @@ function SmallCard({ project }) {
 
       <div className="p-6 flex-1 flex flex-col">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-xl">{project.icon}</span>
           <span className="mono text-xs text-white/25">{project.lang}</span>
           <div className="ml-auto w-2 h-2 rounded-full flex-shrink-0" style={{ background: project.color, boxShadow: `0 0 8px ${project.color}` }} />
         </div>
@@ -2480,7 +2600,7 @@ export function ServicesSection() {
 // ─────────────────────────────────────────────
 const PERSONALITY_DATA = {
   coffee: {
-    title: "Coffee Lover ☕",
+    title: "Coffee Lover",
     accent: "#c8956c",
     accentGlow: "rgba(200,149,108,0.18)",
     accentBorder: "rgba(200,149,108,0.35)",
@@ -2488,26 +2608,26 @@ const PERSONALITY_DATA = {
       {
         heading: "My Go-To Drinks",
         items: [
-          { icon: "🥛", label: "Iced Oat Milk Latte", sub: "The everyday essential" },
-          { icon: "🧊", label: "Cold Brew", sub: "When I need max focus" },
-          { icon: "🍮", label: "Caramel Macchiato", sub: "Sweet treat mode" },
-          { icon: "☕", label: "Café Americano", sub: "Black, no sugar, deep work" },
+          { label: "Iced Oat Milk Latte", sub: "The everyday essential" },
+          { label: "Cold Brew", sub: "When I need max focus" },
+          { label: "Caramel Macchiato", sub: "Sweet treat mode" },
+          { label: "Café Americano", sub: "Black, no sugar, deep work" },
         ],
       },
       {
         heading: "Shops I Actually Buy From",
         items: [
-          { icon: "🟢", label: "Starbucks", sub: "Classic & consistent" },
-          { icon: "🟡", label: "Coffee Bean", sub: "Underrated, chill vibes" },
-          { icon: "🟤", label: "Figaro", sub: "Local fave, affordable" },
-          { icon: "🔵", label: "Bo's Coffee", sub: "Filipino pride ☕" },
-          { icon: "⬛", label: "Local Cafés in Batangas", sub: "Hidden gems > chains" },
+          { label: "Starbucks", sub: "Classic & consistent" },
+          { label: "Coffee Bean", sub: "Underrated, chill vibes" },
+          { label: "Figaro", sub: "Local fave, affordable" },
+          { label: "Bo's Coffee", sub: "Filipino pride" },
+          { label: "Local Cafés in Batangas", sub: "Hidden gems > chains" },
         ],
       },
     ],
   },
   anime: {
-    title: "Anime & Games ♥",
+    title: "Anime & Games",
     accent: "#D71921",
     accentGlow: "rgba(215,25,33,0.15)",
     accentBorder: "rgba(215,25,33,0.35)",
@@ -2515,28 +2635,28 @@ const PERSONALITY_DATA = {
       {
         heading: "Anime I've Watched & Loved",
         items: [
-          { icon: "⚔️", label: "Attack on Titan", sub: "Best ending in anime, period" },
-          { icon: "🧪", label: "Fullmetal Alchemist: Brotherhood", sub: "The GOAT, no debate" },
-          { icon: "🌀", label: "Jujutsu Kaisen", sub: "Animation that breaks the internet" },
-          { icon: "🌊", label: "Demon Slayer", sub: "Mugen Train arc destroyed me" },
-          { icon: "🎭", label: "Death Note", sub: "Changed how I think about smart characters" },
-          { icon: "🌸", label: "Your Lie in April", sub: "I was not emotionally prepared" },
+          { label: "Attack on Titan", sub: "Best ending in anime, period" },
+          { label: "Fullmetal Alchemist: Brotherhood", sub: "The GOAT, no debate" },
+          { label: "Jujutsu Kaisen", sub: "Animation that breaks the internet" },
+          { label: "Demon Slayer", sub: "Mugen Train arc destroyed me" },
+          { label: "Death Note", sub: "Changed how I think about smart characters" },
+          { label: "Your Lie in April", sub: "I was not emotionally prepared" },
         ],
       },
       {
         heading: "Games I Play",
         items: [
-          { icon: "🏆", label: "Valorant", sub: "FPS grind, occasional rage" },
-          { icon: "🗡️", label: "Genshin Impact", sub: "Gacha problem. Send help." },
-          { icon: "🌍", label: "GTA V / Online", sub: "Chaos, always chaos" },
-          { icon: "🧩", label: "Minecraft", sub: "Never stopped since 2013" },
-          { icon: "⚽", label: "EA FC / FIFA", sub: "Weekend tournament ritual" },
+          { label: "Valorant", sub: "FPS grind, occasional rage" },
+          { label: "Genshin Impact", sub: "Gacha problem. Send help." },
+          { label: "GTA V / Online", sub: "Chaos, always chaos" },
+          { label: "Minecraft", sub: "Never stopped since 2013" },
+          { label: "EA FC / FIFA", sub: "Weekend tournament ritual" },
         ],
       },
     ],
   },
   remote: {
-    title: "Open for Remote Work 🌐",
+    title: "Open for Remote Work",
     accent: "#8A8A85",
     accentGlow: "rgba(138,138,133,0.15)",
     accentBorder: "rgba(138,138,133,0.35)",
@@ -2544,21 +2664,69 @@ const PERSONALITY_DATA = {
       {
         heading: "What I Can Do Remotely",
         items: [
-          { icon: "🌐", label: "Frontend Development", sub: "React, Tailwind, responsive UI builds" },
-          { icon: "⚙️", label: "Backend & APIs", sub: "Laravel, Node.js, REST APIs" },
-          { icon: "🎨", label: "UI/UX Design + Dev", sub: "From Figma mockup to live site" },
-          { icon: "💼", label: "Business Websites", sub: "Restaurants, clinics, agencies" },
-          { icon: "🤖", label: "AI-Assisted Projects", sub: "Prompt engineering, LLM integration" },
-          { icon: "🔧", label: "Bug Fixes & Maintenance", sub: "Legacy code cleanup, feature additions" },
+          { label: "Frontend Development", sub: "React, Tailwind, responsive UI builds" },
+          { label: "Backend & APIs", sub: "Laravel, Node.js, REST APIs" },
+          { label: "UI/UX Design + Dev", sub: "From Figma mockup to live site" },
+          { label: "Business Websites", sub: "Restaurants, clinics, agencies" },
+          { label: "AI-Assisted Projects", sub: "Prompt engineering, LLM integration" },
+          { label: "Bug Fixes & Maintenance", sub: "Legacy code cleanup, feature additions" },
         ],
       },
       {
         heading: "Work Setup & Availability",
         items: [
-          { icon: "🕐", label: "Philippine Time (UTC+8)", sub: "Overlap-friendly with AU, SG, JP" },
-          { icon: "💬", label: "Async-first, always responsive", sub: "24-hr reply window max" },
-          { icon: "🛠️", label: "Tools: VS Code, Figma, GitHub, Notion", sub: "Standard modern stack" },
-          { icon: "🔗", label: "Available: Freelance · Internship · Part-time", sub: "Open to contract or long-term" },
+          { label: "Philippine Time (UTC+8)", sub: "Overlap-friendly with AU, SG, JP" },
+          { label: "Async-first, always responsive", sub: "24-hr reply window max" },
+          { label: "Tools: VS Code, Figma, GitHub, Notion", sub: "Standard modern stack" },
+          { label: "Available: Freelance · Internship · Part-time", sub: "Open to contract or long-term" },
+        ],
+      },
+    ],
+  },
+  aiAssisted: {
+    title: "AI-Assisted Dev",
+    accent: "#8A8A85",
+    accentGlow: "rgba(138,138,133,0.15)",
+    accentBorder: "rgba(138,138,133,0.35)",
+    sections: [
+      {
+        heading: "How I Use It",
+        items: [
+          { label: "Clear, structured prompts", sub: "Writing prompts that get usable output on the first try" },
+          { label: "Reviewing generated code", sub: "Reading it carefully, spotting issues, not copy-pasting blind" },
+          { label: "Adapting to the project", sub: "Reshaping AI output to fit what the project actually needs" },
+        ],
+      },
+    ],
+  },
+  problemSolver: {
+    title: "Problem Solver",
+    accent: "#8A8A85",
+    accentGlow: "rgba(138,138,133,0.15)",
+    accentBorder: "rgba(138,138,133,0.35)",
+    sections: [
+      {
+        heading: "How I Work Through Issues",
+        items: [
+          { label: "Docs first", sub: "Official documentation before anything else" },
+          { label: "Cross-referencing", sub: "Stack Overflow, GitHub issues, community threads" },
+          { label: "Context-fit solutions", sub: "Adapting answers to my specific setup, not copying blindly" },
+        ],
+      },
+    ],
+  },
+  clientReady: {
+    title: "Client-Ready Work",
+    accent: "#8A8A85",
+    accentGlow: "rgba(138,138,133,0.15)",
+    accentBorder: "rgba(138,138,133,0.35)",
+    sections: [
+      {
+        heading: "Real Client Work",
+        items: [
+          { label: "Small business sites", sub: "Restaurants, clinics, agencies — real deployments" },
+          { label: "Mobile-first delivery", sub: "Clean presentation, working contact flows" },
+          { label: "Scope-aware execution", sub: "Delivering within a reasonable, realistic scope" },
         ],
       },
     ],
@@ -2639,7 +2807,6 @@ function PersonalityModal({ modalKey, onClose }) {
                         border: `1px solid rgba(255,255,255,0.06)`,
                       }}
                     >
-                      <span className="text-lg flex-shrink-0 w-7 text-center">{item.icon}</span>
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-white leading-tight">{item.label}</p>
                         <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.38)" }}>{item.sub}</p>
@@ -2760,8 +2927,12 @@ function HalftonePhoto({ src, alt, size = 280 }) {
 }
 
 function Lockscreen({ active, onFinish }) {
-  const [phase, setPhase] = useState("lock"); // lock -> corners -> warp
-  const [clock, setClock] = useState("");
+  const [phase, setPhase] = useState("boot"); // boot -> lock -> corners -> warp
+  const [booted, setBooted] = useState(false);
+  const [highlightIdx, setHighlightIdx] = useState(0);
+  const [clock, setClock] = useState({ time: "", ampm: "", date: "", greeting: "" });
+  const bootTimerRef = useRef(null);
+  const highlightTimerRef = useRef(null);
   const phaseTimerRef = useRef(null);
   const finishTimerRef = useRef(null);
   const containerRef = useRef(null);
@@ -2771,8 +2942,26 @@ function Lockscreen({ active, onFinish }) {
     prefersReducedMotion.current = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }, []);
 
+  // Boot sequence: reveal terminal lines, then loop a red highlight across them, then settle into the clock
   useEffect(() => {
-    if (active) setPhase("lock");
+    if (!active) return;
+    setBooted(false);
+    setHighlightIdx(0);
+    if (prefersReducedMotion.current) {
+      setPhase("lock");
+      return;
+    }
+    setPhase("boot");
+    const raf = requestAnimationFrame(() => setBooted(true));
+    highlightTimerRef.current = setInterval(() => {
+      setHighlightIdx((i) => (i + 1) % 3);
+    }, 420);
+    bootTimerRef.current = setTimeout(() => setPhase("lock"), 2800);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearInterval(highlightTimerRef.current);
+      clearTimeout(bootTimerRef.current);
+    };
   }, [active]);
 
   // Lock background scroll while the lockscreen is showing
@@ -2796,7 +2985,15 @@ function Lockscreen({ active, onFinish }) {
     const pad = (n) => n.toString().padStart(2, "0");
     const update = () => {
       const d = new Date();
-      setClock(`${pad(d.getHours())}:${pad(d.getMinutes())}`);
+      const h24 = d.getHours();
+      const h12 = h24 % 12 || 12;
+      const greeting = h24 < 5 ? "Late night" : h24 < 12 ? "Good morning" : h24 < 18 ? "Good afternoon" : "Good evening";
+      setClock({
+        time: `${h12}:${pad(d.getMinutes())}`,
+        ampm: h24 >= 12 ? "PM" : "AM",
+        date: d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }).toUpperCase(),
+        greeting,
+      });
     };
     update();
     const id = setInterval(update, 1000);
@@ -2805,12 +3002,20 @@ function Lockscreen({ active, onFinish }) {
 
   useEffect(() => {
     return () => {
+      clearTimeout(bootTimerRef.current);
+      clearInterval(highlightTimerRef.current);
       clearTimeout(phaseTimerRef.current);
       clearTimeout(finishTimerRef.current);
     };
   }, []);
 
   const triggerWarp = () => {
+    if (phase === "boot") {
+      clearTimeout(bootTimerRef.current);
+      clearInterval(highlightTimerRef.current);
+      setPhase("lock");
+      return;
+    }
     if (phase !== "lock") return;
     if (prefersReducedMotion.current) {
       // Skip the multi-stage animation entirely — straight fade
@@ -2830,6 +3035,16 @@ function Lockscreen({ active, onFinish }) {
   const reduced = prefersReducedMotion.current;
   const cornerBase = { position: "absolute", width: "clamp(10px, 3vw, 16px)", height: "clamp(10px, 3vw, 16px)", transition: reduced ? "none" : "opacity 0.4s ease, transform 0.4s ease", opacity: phase === "corners" ? 1 : 0, transform: phase === "corners" ? "scale(1)" : "scale(0.5)" };
   const cornerInset = "clamp(12px, 4vw, 20px)";
+  const bootLine = (delay) => ({
+    opacity: booted ? 1 : 0,
+    transform: booted ? "translateY(0)" : "translateY(4px)",
+    transition: `opacity 0.4s ease ${delay}s, transform 0.4s ease ${delay}s, color 0.3s ease`,
+  });
+  const bootLines = [
+    "> loading portfolio_",
+    "> skills: react, laravel, ui/ux",
+    "> status: open_to_work",
+  ];
 
   return (
     <div
@@ -2869,11 +3084,39 @@ function Lockscreen({ active, onFinish }) {
           transition: reduced ? "none" : "opacity 0.6s ease",
         }}
       />
+      {/* vignette — subtle dark falloff toward the edges */}
+      <div
+        style={{
+          position: "absolute", inset: 0,
+          background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.65) 100%)",
+          opacity: phase === "warp" ? 0 : 1,
+          transition: reduced ? "none" : "opacity 0.6s ease",
+        }}
+      />
+
       {/* corner brackets — matches .corner-tag accents */}
       <div style={{ ...cornerBase, top: cornerInset, left: cornerInset, borderTop: "1.5px solid #D71921", borderLeft: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.05s" }} />
       <div style={{ ...cornerBase, top: cornerInset, right: cornerInset, borderTop: "1.5px solid #D71921", borderRight: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.1s" }} />
       <div style={{ ...cornerBase, bottom: cornerInset, left: cornerInset, borderBottom: "1.5px solid #D71921", borderLeft: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.15s" }} />
       <div style={{ ...cornerBase, bottom: cornerInset, right: cornerInset, borderBottom: "1.5px solid #D71921", borderRight: "1.5px solid #D71921", transitionDelay: reduced ? "0s" : "0.2s" }} />
+
+      {/* Boot sequence — terminal-style lines, with a red highlight looping across them */}
+      {phase === "boot" && (
+        <div style={{ position: "relative", textAlign: "left", fontFamily: "'Space Mono', monospace", fontSize: "clamp(11px, 2.6vw, 13px)" }}>
+          {bootLines.map((line, i) => (
+            <div
+              key={line}
+              style={{
+                color: highlightIdx === i ? "#D71921" : "#6B6B66",
+                marginTop: i === 0 ? 0 : "8px",
+                ...bootLine(0.1 + i * 0.4),
+              }}
+            >
+              {line}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div style={{ position: "relative", textAlign: "center", padding: "0 24px", opacity: phase === "lock" ? 1 : 0, transition: "opacity 0.4s ease" }}>
         {/* Glyph light — pulsing dot row, nod to Nothing's Glyph interface */}
@@ -2891,20 +3134,77 @@ function Lockscreen({ active, onFinish }) {
             ))}
           </div>
         )}
-        <div style={{ color: "#F5F5F0", fontFamily: "'Space Mono', monospace", fontSize: "clamp(32px, min(11vw, 14vh), 72px)", fontWeight: 500, letterSpacing: "1px" }}>
-          {clock}
+
+        <div style={{ color: "#5F5E5A", fontFamily: "'Space Mono', monospace", fontSize: "clamp(10px, 2vh, 11px)", letterSpacing: "2px", marginBottom: "clamp(6px, 1.5vh, 10px)" }}>
+          {clock.date}
         </div>
-        <div style={{ color: "#F5F5F0", fontSize: "clamp(13px, 2.5vh, 16px)", marginTop: "clamp(8px, 2vh, 14px)", fontWeight: 500 }}>Kim Ivan Ebora</div>
+
+        {/* Ambient glow behind the clock, looping regardless of tap state */}
+        <div style={{ position: "relative" }}>
+          {!reduced && (
+            <div
+              style={{
+                position: "absolute", inset: "-20% -10%", zIndex: -1,
+                background: "radial-gradient(ellipse at center, rgba(215,25,33,0.16), transparent 70%)",
+                filter: "blur(20px)",
+                animation: "ambientGlow 4s ease-in-out infinite",
+              }}
+            />
+          )}
+          <div style={{ color: "#F5F5F0", fontFamily: "'Space Mono', monospace", fontSize: "clamp(28px, min(9.5vw, 12vh), 60px)", fontWeight: 500, letterSpacing: "1px" }}>
+            {clock.time} <span style={{ fontSize: "0.4em", color: "#8A8A85", letterSpacing: "1px" }}>{clock.ampm}</span>
+          </div>
+        </div>
+
+        <div style={{ color: "#8A8A85", fontFamily: "'Space Mono', monospace", fontSize: "clamp(10px, 2vh, 11px)", marginTop: "clamp(6px, 1.5vh, 10px)" }}>
+          {clock.greeting}
+        </div>
+        <div style={{ color: "#F5F5F0", fontSize: "clamp(13px, 2.5vh, 16px)", marginTop: "clamp(6px, 1.5vh, 10px)", fontWeight: 500 }}>Kim Ivan Ebora</div>
         <div style={{ color: "#8A8A85", fontSize: "clamp(10px, 2vh, 12px)", marginTop: "2px", letterSpacing: "1px", textTransform: "uppercase" }}>
           IT Graduate
         </div>
-        <div style={{ color: "#5F5E5A", fontSize: "11px", marginTop: "clamp(12px, 4vh, 28px)", letterSpacing: "0.5px" }}>tap to enter</div>
+
+        {/* Stat widgets — quick-glance facts, like real lockscreen widgets */}
+        <div style={{ display: "flex", gap: "8px", marginTop: "clamp(12px, 2.5vh, 18px)", width: "min(260px, 70vw)" }}>
+          {[
+            { val: "3", label: "Projects" },
+            { val: "8", label: "Skills" },
+            { val: "Open", label: "To Work", accent: true },
+          ].map((s) => (
+            <div
+              key={s.label}
+              style={{
+                flex: 1, borderRadius: 6, padding: "6px 4px", textAlign: "center",
+                border: `1px solid ${s.accent ? "rgba(215,25,33,0.35)" : "rgba(255,255,255,0.12)"}`,
+              }}
+            >
+              <div style={{ color: s.accent ? "#D71921" : "#F5F5F0", fontFamily: "'Space Mono', monospace", fontSize: "clamp(11px, 1.8vh, 13px)", fontWeight: 500 }}>{s.val}</div>
+              <div style={{ color: "#5F5E5A", fontSize: "clamp(7px, 1.2vh, 8px)", textTransform: "uppercase", marginTop: 2, letterSpacing: "0.5px" }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ color: "#5F5E5A", fontSize: "clamp(9px, 1.6vh, 10px)", marginTop: "clamp(10px, 2vh, 14px)", letterSpacing: "0.5px" }}>
+          Batangas City · Available
+        </div>
+
+        <div style={{ color: "#8A8A85", fontSize: "11px", marginTop: "clamp(12px, 4vh, 24px)", letterSpacing: "0.5px", animation: reduced ? "none" : "breathe 2.2s ease-in-out infinite" }}>
+          tap to enter
+        </div>
       </div>
 
       <style>{`
         @keyframes glyphPulse {
           0%, 100% { opacity: 0.25; transform: scale(1); }
           50% { opacity: 1; transform: scale(1.3); }
+        }
+        @keyframes ambientGlow {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+        }
+        @keyframes breathe {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 0.95; }
         }
       `}</style>
     </div>
@@ -3012,6 +3312,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         :root {
           --bg: #0A0A0A;
           --bg-elevated: #ffffff08;
+          --surface-solid: #161616;
           --text: #F5F5F0;
           --text-secondary: rgba(245,245,240,0.55);
           --text-muted: #8A8A85;
@@ -3022,6 +3323,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         [data-theme="light"] {
           --bg: #F2F1EC;
           --bg-elevated: #00000006;
+          --surface-solid: #FAFAF7;
           --text: #0A0A0A;
           --text-secondary: rgba(10,10,10,0.6);
           --text-muted: #6B6B66;
@@ -3180,7 +3482,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         <div className="my-5" style={{ borderTop: "1px solid var(--border)" }} />
 
         <Link to="/freelance" className="mono px-2.5 py-2 text-xs tracking-widest uppercase rounded-md transition-all duration-200 hover:bg-white/5" style={{ color: "#D71921" }}>
-          Freelance Work
+          Let's Work Together
         </Link>
 
         <div className="flex-1" />
@@ -3249,7 +3551,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
               </button>
             ))}
             <Link to="/freelance" onClick={() => setMenuOpen(false)} className="mono py-3 text-left text-xs tracking-widest uppercase border-b border-white/5" style={{ color: "#D71921" }}>
-              Freelance Work
+              Let's Work Together
             </Link>
             <div className="mono text-xs pt-3 flex items-center justify-between" style={{ color: "var(--text-muted)" }}>
               <span>{viewingNow} viewing today</span>
@@ -3274,7 +3576,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
       <section id="about" className="relative dot-bg pt-24 md:pt-28 pb-16 overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 md:px-10 w-full">
           <div className="flex flex-col md:flex-row gap-5 md:gap-10 md:items-start">
-            <div className="flex items-center gap-4 sm:gap-5 md:contents">
+            <div className="flex items-center gap-4 sm:gap-5 md:shrink-0">
               <img
                 src={myImage}
                 alt="Kim Ivan B. Ebora"
@@ -3292,7 +3594,14 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
                 {typedText}<span className="cursor-blink inline-block" style={{ width: "3px", height: "0.9em", background: "#D71921", verticalAlign: "-0.1em", marginLeft: "2px" }} />
               </h1>
 
-              <p className="leading-relaxed max-w-xl text-[15px] mb-3 mt-4 md:mt-0" style={{ color: "var(--text-secondary)" }}>
+              {/* Degree badge — full-width inline credential, matches the pill language */}
+              <div className="mono text-xs rounded-lg px-3 py-2 inline-flex items-center gap-2 mb-4 mt-2 md:mt-0 flex-wrap" style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}>
+                <span style={{ color: "var(--text-secondary)" }}>BSIT – Network Technology</span>
+                <span style={{ color: "var(--border-strong)" }}>·</span>
+                <span style={{ color: "var(--text-muted)" }}>Batangas State University – Alangilan · 2026</span>
+              </div>
+
+              <p className="leading-relaxed max-w-xl text-[15px] mb-3" style={{ color: "var(--text-secondary)" }}>
                 An aspiring IT professional passionate about learning, innovation, and web development —
                 constantly exploring new technologies and sharpening his skills through hands-on
                 experience and continuous research.
@@ -3315,14 +3624,24 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block", animation: "blink-cursor 2s step-end infinite" }} />
                   Looking for opportunities
                 </span>
-                <button onClick={() => setActiveModal("coffee")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(200,149,108,0.35)", color: "var(--text-secondary)" }}>
-                  ☕ Fueled by coffee
-                </button>
                 <button onClick={() => setActiveModal("remote")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
-                  🌐 Open to remote work
+                  Open to remote work
                 </button>
                 <button onClick={() => setActiveModal("anime")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(215,25,33,0.4)", color: "var(--text-secondary)" }}>
-                  <span style={{ color: "#D71921" }}>♥</span> anime &amp; games
+                  anime &amp; games
+                </button>
+              </div>
+
+              {/* Skill-highlight pills — click for a little extra */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                <button onClick={() => setActiveModal("aiAssisted")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                  AI-assisted dev
+                </button>
+                <button onClick={() => setActiveModal("problemSolver")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                  Problem solver
+                </button>
+                <button onClick={() => setActiveModal("clientReady")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                  Client-ready work
                 </button>
               </div>
             </div>
@@ -3366,7 +3685,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
             {/* Proficiency bars */}
             <div>
               <h3 className="mono text-xs text-white/30 uppercase tracking-widest mb-8 flex items-center gap-3">
-                <span className="w-6 h-px bg-[#D71921]/50" /> Current Skill Set
+                <span className="w-6 h-px bg-[#D71921]/50" /> Technical Skills
               </h3>
               <div className="space-y-5">
                 {SKILLS_CAN_DO.map((s, i) => (
@@ -3376,7 +3695,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
 
               {/* Tech tags */}
               <div className="mt-8 pt-6 border-t border-white/5">
-                <p className="mono text-xs text-white/25 uppercase tracking-widest mb-4">Technologies</p>
+                <p className="mono text-xs text-white/25 uppercase tracking-widest mb-4">Technologies &amp; Tools</p>
                 <div className="flex flex-wrap gap-2">
                   {TECH_TAGS.map((t) => (
                     <span key={t} className="mono text-xs px-3 py-1.5 rounded-lg text-white/60 hover:text-white transition-colors" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
@@ -3387,29 +3706,88 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
               </div>
             </div>
 
-            {/* Learning next */}
+            {/* Non-technical skills */}
             <div>
               <h3 className="mono text-xs text-white/30 uppercase tracking-widest mb-8 flex items-center gap-3">
-                <span className="w-6 h-px bg-[#8A8A85]/50" /> Currently Learning
+                <span className="w-6 h-px bg-[#8A8A85]/50" /> Non-Technical Skills
               </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {SKILLS_LEARNING.map((s) => (
-                  <div key={s.name} className="glass rounded-xl p-4 flex items-center gap-3 hover:border-white/15 transition-all duration-300 hover:scale-105 group" style={{ cursor: "default" }}>
-                    <span className="text-xl">{s.icon}</span>
-                    <div>
-                      <p className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">{s.name}</p>
-                      <p className="mono text-xs text-white/25 mt-0.5">In progress</p>
-                    </div>
-                  </div>
+              <div className="space-y-5">
+                {SOFT_SKILLS.map((s, i) => (
+                  <SkillBar key={s.name} {...s} delay={i * 80} />
                 ))}
               </div>
 
-              <div className="mt-6 glass rounded-2xl p-6" style={{ border: "1px solid rgba(215,25,33,0.1)" }}>
-                <p className="text-sm text-white/45 leading-relaxed italic">
-                  "I believe learning never stops. I actively explore new frameworks, tools, and best practices to stay current and deliver better solutions with every project."
-                </p>
-                <p className="mt-3 mono text-xs text-white/25">— Kim Ivan Ebora</p>
+              {/* Quote — aligned with Technologies on the other column */}
+              <div className="mt-8 pt-6 border-t border-white/5">
+                <div className="glass rounded-2xl p-6" style={{ border: "1px solid rgba(215,25,33,0.1)" }}>
+                  <p className="text-sm text-white/45 leading-relaxed italic">
+                    "I believe learning never stops. I'm always open to learning new tools, improving my skills, and exploring better ways to grow and contribute to every project."
+                  </p>
+                  <p className="mt-3 mono text-xs text-white/25">— Kim Ivan Ebora</p>
+                </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── EXPERIENCE & CERTIFICATION ── */}
+      <section id="experience" className="relative py-24">
+        <div className="absolute inset-0 dot-bg opacity-40" />
+        <div className="max-w-6xl mx-auto px-6 relative">
+          <div className="mb-16">
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">03 — Experience &amp; Certification</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
+              <span className="text-white">Where I've </span>
+              <span className="gradient-text">Worked</span>
+            </h2>
+            <p className="text-white/40 mt-3 max-w-xl text-sm leading-relaxed">
+              {EXPERIENCE.summary}
+            </p>
+          </div>
+
+          <div className="max-w-3xl relative pl-9">
+            {/* Vertical line */}
+            <div className="absolute left-[7px] top-2 bottom-2 w-px" style={{ background: "var(--border)" }} />
+
+            {/* Milestone: OJT Internship */}
+            <div className="relative pb-14">
+              <span className="absolute -left-9 top-1.5 w-3.5 h-3.5 rounded-full" style={{ background: "#D71921", border: "3px solid var(--bg)" }} />
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  {EXPERIENCE.role}
+                </h3>
+                <span className="mono text-xs flex-shrink-0 flex flex-col sm:items-end" style={{ color: "#D71921" }}>
+                  {EXPERIENCE.duration}
+                  <span className="text-white/30 mt-0.5">Feb 2026 – May 2026</span>
+                </span>
+              </div>
+              <p className="text-sm text-white/40 mb-3">{EXPERIENCE.org}</p>
+              <ul className="space-y-2.5">
+                {EXPERIENCE.highlights.map((h) => (
+                  <li key={h.title} className="text-sm leading-relaxed flex items-start gap-2.5" style={{ color: "var(--text-secondary)" }}>
+                    <span className="flex-shrink-0 mt-2 w-1.5 h-1.5 rounded-full" style={{ background: "#D71921" }} />
+                    <span>
+                      <span className="text-white/80 font-medium">{h.title}.</span> {h.desc}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Milestone: Certification */}
+            <div className="relative pb-2">
+              <span className="absolute -left-9 top-1.5 w-3.5 h-3.5 rounded-full flex items-center justify-center" style={{ background: "#22c55e", border: "3px solid var(--bg)" }} />
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  NC II – Computer Systems Servicing
+                </h3>
+                <span className="mono text-xs flex-shrink-0 flex flex-col sm:items-end" style={{ color: "#22c55e" }}>
+                  Certified
+                  <span className="text-white/30 mt-0.5">July 2026 – September 2026</span>
+                </span>
+              </div>
+              <p className="text-sm text-white/40">TESDA National Certificate II · Computer Servicing</p>
             </div>
           </div>
         </div>
@@ -3420,7 +3798,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         <div className="absolute inset-0 grid-bg opacity-40" />
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="mb-16">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">03 — Projects</span>
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">04 — Projects</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span className="text-white">Things I've </span>
               <span className="gradient-text">Built</span>
@@ -3446,7 +3824,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
       <section id="contact" className="relative py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">04 — Contact</span>
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">05 — Contact</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span className="text-white">Let's </span>
               <span className="gradient-text">Connect</span>
@@ -3739,7 +4117,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
             <a href="https://github.com/Cayban" target="_blank" rel="noreferrer" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>GitHub</a>
             <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>LinkedIn</a>
             <a href="mailto:kimiebora@gmail.com" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>Email</a>
-            <Link to="/freelance" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "#D71921" }}>Freelance work</Link>
+            <Link to="/freelance" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "#D71921" }}>Let's Work Together</Link>
           </div>
         </div>
       </footer>
@@ -3757,6 +4135,7 @@ function FreelancePage({ theme, resolvedTheme, onToggleTheme }) {
         :root {
           --bg: #0A0A0A;
           --bg-elevated: #ffffff08;
+          --surface-solid: #161616;
           --text: #F5F5F0;
           --text-secondary: rgba(245,245,240,0.55);
           --text-muted: #8A8A85;
@@ -3767,6 +4146,7 @@ function FreelancePage({ theme, resolvedTheme, onToggleTheme }) {
         [data-theme="light"] {
           --bg: #F2F1EC;
           --bg-elevated: #00000006;
+          --surface-solid: #FAFAF7;
           --text: #0A0A0A;
           --text-secondary: rgba(10,10,10,0.6);
           --text-muted: #6B6B66;
@@ -3826,7 +4206,7 @@ function FreelancePage({ theme, resolvedTheme, onToggleTheme }) {
             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
             Back to Portfolio
           </Link>
-          <span className="mono text-sm tracking-widest text-white/35 uppercase hidden sm:block">kim.dev / freelance</span>
+          <span className="mono text-sm tracking-widest text-white/35 uppercase hidden sm:block">Kim Ivan Ebora / Services</span>
           <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         </div>
       </nav>
