@@ -3284,7 +3284,7 @@ function ReviewsSection() {
             <span className="gradient-text">Say</span>
           </h2>
           <p className="mt-3 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            Left a comment or worked with me? Leave a review below — it goes live right away.
+           Worked with me or have something to share? Leave a review below — I’d love to hear about your experience.
           </p>
           {reviews.length > 0 && (
             <div className="flex items-center gap-3 mt-5">
