@@ -1,6 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Routes, Route, Link } from "react-router-dom";
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+} from "firebase/firestore";
+
+// Firebase — used for the public reviews feature (Firestore only, no Analytics needed)
+const firebaseConfig = {
+  apiKey: "AIzaSyCicBy-bdCdORjwfKOos_3FIrsjge7_1hg",
+  authDomain: "kimebora-portfolio.firebaseapp.com",
+  projectId: "kimebora-portfolio",
+  storageBucket: "kimebora-portfolio.firebasestorage.app",
+  messagingSenderId: "214655007851",
+  appId: "1:214655007851:web:a011414ff70bec8203452e",
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 // KTTM screenshots
 import kttmHome from "./assets/kttmhomeSample3.png";
@@ -16,7 +38,7 @@ import ladLoginSample from "./assets/ladloginSample.png";
 import ladSample2 from "./assets/ladSample2.png";
 import ladSample3 from "./assets/ladSample3.png";
 
-const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Contact"];
+const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Reviews", "Contact"];
 
 const SKILLS_CAN_DO = [
   {
@@ -1989,7 +2011,7 @@ function FeaturePicker({ typeId, typeObj, template, onConfirm, onBack }) {
           {contactOnly && <svg width="10" height="10" fill="none" stroke="#000" strokeWidth="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>}
         </div>
         <div>
-          <p className="text-sm font-semibold text-white">Just email me instead</p>
+          <p className="text-sm font-semibold" style={{ color: "var(--text)" }}>Just email me instead</p>
           <p className="text-xs text-white/35 mt-0.5">Skip add-on selection — I'll discuss everything via email</p>
         </div>
       </div>
@@ -2043,7 +2065,7 @@ function QuoteModal({ template, typeObj, selectedAddons, contactOnly, onClose })
           <div className="flex items-center gap-3">
             <span className="text-3xl">{typeObj.icon}</span>
             <div>
-              <p className="text-xl font-extrabold text-white">{template.name} Template</p>
+              <p className="text-xl font-extrabold" style={{ color: "var(--text)" }}>{template.name} Template</p>
               <p className="text-sm text-white/40 mt-0.5">{typeObj.label}</p>
             </div>
           </div>
@@ -2113,7 +2135,7 @@ function QuoteModal({ template, typeObj, selectedAddons, contactOnly, onClose })
 
         <div className="px-8 pb-8 pt-4">
           <a
-            href={`mailto:kimiebora@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyLines)}`}
+            href={`mailto:ebora.kimivan@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyLines)}`}
             className="w-full py-3.5 rounded-xl font-bold text-black text-sm text-center transition-all hover:scale-[1.02] block hover:brightness-110"
             style={{ background: `linear-gradient(135deg, ${accent}, #8A8A85)` }}>
             Send Quote to Kim →
@@ -2408,7 +2430,7 @@ export function ServicesSection() {
           <div className="mb-14">
             <span className="mono text-xs text-white/25 tracking-widest uppercase">04 / Services</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
-              <span className="text-white">Get a </span>
+              <span style={{ color: "var(--text)" }}>Get a </span>
               <span className="gradient-text">Quote</span>
             </h2>
             <p className="text-white/40 mt-3 text-sm max-w-xl leading-relaxed">
@@ -2577,10 +2599,10 @@ export function ServicesSection() {
                     <div className="text-5xl mb-5">⚡</div>
                     <h3 className="text-2xl font-extrabold text-white mb-3">Let's Build Something Custom</h3>
                     <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-sm mx-auto">Have a unique idea or specific requirements? Send me an email and we'll discuss the details — layout, features, timeline, and pricing.</p>
-                    <a href="mailto:kimiebora@gmail.com?subject=Custom Website Project"
+                    <a href="mailto:ebora.kimivan@gmail.com?subject=Custom Website Project"
                       className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-black text-sm transition-all duration-200 hover:scale-[1.02] hover:brightness-110"
                       style={{ background: "linear-gradient(135deg, #8A8A85, #D71921)", boxShadow: "0 0 40px rgba(138,138,133,0.2)" }}>
-                      ✉️ kimiebora@gmail.com
+                      ✉️ ebora.kimivan@gmail.com
                     </a>
                     <p className="mt-6 text-xs text-white/25 mono">I'll get back to you within 24 hours.</p>
                   </div>
@@ -3211,6 +3233,242 @@ function Lockscreen({ active, onFinish }) {
   );
 }
 
+// ── Reviews — public star rating + comment, backed by Firestore ──
+function StarInput({ value, onChange }) {
+  const [hover, setHover] = useState(0);
+  return (
+    <div className="flex gap-1" onMouseLeave={() => setHover(0)}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <button
+          key={n}
+          type="button"
+          onClick={() => onChange(n)}
+          onMouseEnter={() => setHover(n)}
+          aria-label={`${n} star${n > 1 ? "s" : ""}`}
+          className="text-2xl leading-none transition-transform hover:scale-110"
+          style={{ color: (hover || value) >= n ? "#D71921" : "var(--border-strong)" }}
+        >
+          ★
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function StarDisplay({ rating, size = "text-sm" }) {
+  return (
+    <span className={`${size} leading-none`} aria-label={`${rating} out of 5 stars`}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <span key={n} style={{ color: n <= rating ? "#D71921" : "var(--border-strong)" }}>★</span>
+      ))}
+    </span>
+  );
+}
+
+function timeAgo(date) {
+  if (!date) return "";
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  const units = [
+    ["year", 31536000], ["month", 2592000], ["day", 86400],
+    ["hour", 3600], ["minute", 60],
+  ];
+  for (const [label, secs] of units) {
+    const n = Math.floor(seconds / secs);
+    if (n >= 1) return `${n} ${label}${n > 1 ? "s" : ""} ago`;
+  }
+  return "just now";
+}
+
+function ReviewsSection() {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [website, setWebsite] = useState(""); // honeypot — real users never fill this
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        // Pinned reviews float to the top; everything else stays newest-first
+        list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+        setReviews(list);
+        setLoading(false);
+      },
+      () => setLoading(false)
+    );
+    return () => unsub();
+  }, []);
+
+  const avg = reviews.length ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) : 0;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (website.trim() !== "") return; // honeypot tripped — silently drop
+    const trimmedName = name.trim();
+    const trimmedComment = comment.trim();
+
+    if (!trimmedName) return setError("Please enter your name.");
+    if (trimmedName.length > 50) return setError("Name is too long (max 50 characters).");
+    if (rating < 1 || rating > 5) return setError("Please select a star rating.");
+    if (!trimmedComment) return setError("Please write a short comment.");
+    if (trimmedComment.length > 300) return setError("Comment is too long (max 300 characters).");
+
+    setSubmitting(true);
+    try {
+      await addDoc(collection(db, "reviews"), {
+        name: trimmedName,
+        rating,
+        comment: trimmedComment,
+        createdAt: serverTimestamp(),
+      });
+      setName("");
+      setRating(0);
+      setComment("");
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (err) {
+      setError("Something went wrong submitting your review. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="reviews" className="relative py-24">
+      <div className="absolute inset-0 grid-bg opacity-30" />
+      <div className="max-w-6xl mx-auto px-6 relative">
+        <div className="mb-16">
+          <span className="mono text-xs tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>05 — Reviews</span>
+          <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
+            <span style={{ color: "var(--text)" }}>What People </span>
+            <span className="gradient-text">Say</span>
+          </h2>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            Left a comment or worked with me? Leave a review below — it goes live right away.
+          </p>
+          {reviews.length > 0 && (
+            <div className="flex items-center gap-3 mt-5">
+              <StarDisplay rating={Math.round(avg)} size="text-lg" />
+              <span className="mono text-sm" style={{ color: "var(--text-secondary)" }}>
+                {avg.toFixed(1)} average · {reviews.length} review{reviews.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-10">
+          {/* Form */}
+          <div>
+            <form onSubmit={handleSubmit} className="rounded-2xl p-6 md:p-7" style={{ background: "var(--surface-solid)", border: "1px solid var(--border)" }}>
+              {/* Honeypot — hidden from real users, bots tend to fill every field */}
+              <input
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+                aria-hidden="true"
+              />
+
+              <label className="block mb-4">
+                <span className="mono text-xs uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Your rating</span>
+                <div className="mt-2">
+                  <StarInput value={rating} onChange={setRating} />
+                </div>
+              </label>
+
+              <label className="block mb-4">
+                <span className="mono text-xs uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Name</span>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  maxLength={50}
+                  placeholder="Your name"
+                  className="mt-2 w-full rounded-lg px-3 py-2.5 text-sm outline-none"
+                  style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text)" }}
+                />
+              </label>
+
+              <label className="block mb-4">
+                <span className="mono text-xs uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Comment</span>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  maxLength={300}
+                  rows={4}
+                  placeholder="What was it like working with me?"
+                  className="mt-2 w-full rounded-lg px-3 py-2.5 text-sm outline-none resize-none"
+                  style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text)" }}
+                />
+                <span className="mono text-xs mt-1 block text-right" style={{ color: "var(--text-muted)" }}>{comment.length}/300</span>
+              </label>
+
+              {error && <p className="text-xs mb-3" style={{ color: "#D71921" }}>{error}</p>}
+              {submitted && <p className="text-xs mb-3" style={{ color: "#22c55e" }}>Thanks — your review is live!</p>}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="mono text-xs uppercase tracking-widest px-5 py-2.5 rounded-lg transition-all hover:brightness-110 disabled:opacity-50"
+                style={{ background: "#D71921", color: "#fff" }}
+              >
+                {submitting ? "Submitting…" : "Submit Review"}
+              </button>
+            </form>
+          </div>
+
+          {/* List */}
+          <div className="flex flex-col gap-4 max-h-[520px] overflow-y-auto pr-1">
+            {loading ? (
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>Loading reviews…</p>
+            ) : reviews.length === 0 ? (
+              <p className="text-sm" style={{ color: "var(--text-muted)" }}>No reviews yet — be the first to leave one.</p>
+            ) : (
+              reviews.map((r) => (
+                <div
+                  key={r.id}
+                  className="rounded-xl p-5"
+                  style={{
+                    background: "var(--surface-solid)",
+                    border: r.pinned ? "1px solid rgba(215,25,33,0.35)" : "1px solid var(--border)",
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold" style={{ color: "var(--text)" }}>{r.name}</span>
+                      {r.pinned && (
+                        <span className="mono text-xs uppercase tracking-widest px-2 py-0.5 rounded-full" style={{ color: "#D71921", border: "1px solid rgba(215,25,33,0.35)" }}>
+                          Featured
+                        </span>
+                      )}
+                    </div>
+                    <StarDisplay rating={r.rating} />
+                  </div>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{r.comment}</p>
+                  {r.createdAt?.toDate && (
+                    <p className="mono text-xs mt-2" style={{ color: "var(--text-muted)" }}>{timeAgo(r.createdAt.toDate())}</p>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePage({ theme, resolvedTheme, onToggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
@@ -3511,7 +3769,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
 
         <div className="mono text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
           For work &amp; everything else, reach me at<br />
-          <a href="mailto:kimiebora@gmail.com" className="hover:text-[#D71921] transition-colors" style={{ color: "var(--text)" }}>kimiebora@gmail.com</a>
+          <a href="mailto:ebora.kimivan@gmail.com" className="hover:text-[#D71921] transition-colors" style={{ color: "var(--text)" }}>ebora.kimivan@gmail.com</a>
         </div>
       </aside>
 
@@ -3558,7 +3816,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
               <span>{monthlyVisits !== null ? monthlyVisits.toLocaleString() : "—"} this month</span>
             </div>
             <a
-              href="mailto:kimiebora@gmail.com"
+              href="mailto:ebora.kimivan@gmail.com"
               className="mono mt-3 py-2.5 text-xs tracking-widest uppercase text-center border transition-all hover:brightness-110"
               style={{ color: "#D71921", borderColor: "#D71921" }}
               onClick={() => setMenuOpen(false)}
@@ -3615,7 +3873,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
                 <span>·</span>
                 <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="hover:text-[#D71921] transition-colors px-1">linkedin ↗</a>
                 <span>·</span>
-                <a href="mailto:kimiebora@gmail.com" className="hover:text-[#D71921] transition-colors px-1">email</a>
+                <a href="mailto:ebora.kimivan@gmail.com" className="hover:text-[#D71921] transition-colors px-1">email</a>
               </div>
 
               {/* Personality pills — click for a little extra */}
@@ -3676,7 +3934,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
           <div className="mb-16">
             <span className="mono text-xs text-white/25 tracking-widest uppercase">02 — Skills</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
-              <span className="text-white">What I </span>
+              <span style={{ color: "var(--text)" }}>What I </span>
               <span className="gradient-text">Can Do</span>
             </h2>
           </div>
@@ -3738,7 +3996,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
           <div className="mb-16">
             <span className="mono text-xs text-white/25 tracking-widest uppercase">03 — Experience &amp; Certification</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
-              <span className="text-white">Where I've </span>
+              <span style={{ color: "var(--text)" }}>Where I've </span>
               <span className="gradient-text">Worked</span>
             </h2>
             <p className="text-white/40 mt-3 max-w-xl text-sm leading-relaxed">
@@ -3800,7 +4058,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
           <div className="mb-16">
             <span className="mono text-xs text-white/25 tracking-widest uppercase">04 — Projects</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
-              <span className="text-white">Things I've </span>
+              <span style={{ color: "var(--text)" }}>Things I've </span>
               <span className="gradient-text">Built</span>
             </h2>
             <p className="text-white/40 mt-3 max-w-xl text-sm leading-relaxed">
@@ -3820,13 +4078,15 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         </div>
       </section>
 
+      <ReviewsSection />
+
       {/* ── CONTACT ── */}
       <section id="contact" className="relative py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">05 — Contact</span>
+            <span className="mono text-xs text-white/25 tracking-widest uppercase">06 — Contact</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
-              <span className="text-white">Let's </span>
+              <span style={{ color: "var(--text)" }}>Let's </span>
               <span className="gradient-text">Connect</span>
             </h2>
             <p className="text-white/40 mt-3 text-sm">Open to freelance projects, collaborations, internships, and full-time opportunities.</p>
@@ -4046,9 +4306,9 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
               {[
                 {
                   label: "Email",
-                  sub: "kimiebora@gmail.com",
+                  sub: "ebora.kimivan@gmail.com",
                   icon: "✉️",
-                  href: "mailto:kimiebora@gmail.com",
+                  href: "mailto:ebora.kimivan@gmail.com",
                   accent: "rgba(215,25,33,0.5)",
                   logoBg: "rgba(215,25,33,0.08)",
                   logoBorder: "rgba(215,25,33,0.18)",
@@ -4116,7 +4376,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
           <div className="flex items-center gap-1">
             <a href="https://github.com/Cayban" target="_blank" rel="noreferrer" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>GitHub</a>
             <a href="https://www.linkedin.com/in/kim-ivan-ebora-a44014405" target="_blank" rel="noreferrer" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>LinkedIn</a>
-            <a href="mailto:kimiebora@gmail.com" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>Email</a>
+            <a href="mailto:ebora.kimivan@gmail.com" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "var(--text-muted)" }}>Email</a>
             <Link to="/freelance" className="mono px-3 py-1.5 text-xs uppercase tracking-widest transition-colors rounded-lg hover:bg-white/5" style={{ color: "#D71921" }}>Let's Work Together</Link>
           </div>
         </div>
