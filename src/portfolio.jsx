@@ -196,9 +196,7 @@ function AnimatedCounter({ target, duration = 1500 }) {
 
 function SkillBar({ name, level, label, desc, delay }) {
   const [animated, setAnimated] = useState(false);
-  const [open, setOpen] = useState(false);
   const ref = useRef(null);
-  const popupRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -214,17 +212,6 @@ function SkillBar({ name, level, label, desc, delay }) {
     return () => observer.disconnect();
   }, [delay]);
 
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e) => {
-      if (popupRef.current && !popupRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
-
   const labelColor = {
     "Proficient": "#D71921",
     "Comfortable": "#8A8A85",
@@ -233,22 +220,10 @@ function SkillBar({ name, level, label, desc, delay }) {
 
   return (
     <div ref={ref} className="group relative">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full text-left focus:outline-none"
-        aria-expanded={open}
-        aria-label={`${name} — click for details`}
-      >
+      <div className="w-full text-left">
         <div className="flex justify-between items-center mb-2">
-          <span className="flex items-center gap-2 text-sm font-medium text-white/80 group-hover:text-white transition-colors">
+          <span className="flex items-center gap-2 text-sm font-medium text-white/80 transition-colors">
             {name}
-            <svg
-              width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2"
-              viewBox="0 0 24 24"
-              style={{ color: "var(--text-muted)", flexShrink: 0, transition: "color 0.2s" }}
-            >
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-            </svg>
           </span>
           <div className="flex items-center gap-2">
             <span
@@ -278,51 +253,7 @@ function SkillBar({ name, level, label, desc, delay }) {
             );
           })}
         </div>
-      </button>
-
-      {open && (
-        <div
-          ref={popupRef}
-          className="absolute z-50 mt-3 rounded-2xl p-4"
-          style={{
-            background: "rgba(18, 18, 18, 0.97)",
-            border: `1px solid ${labelColor}40`,
-            boxShadow: `0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px ${labelColor}18`,
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            width: "min(360px, calc(100vw - 48px))",
-            left: 0,
-            right: "auto",
-          }}
-        >
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <span className="text-base">{icon}</span>
-              <span className="font-semibold text-white text-sm">{name}</span>
-            </div>
-            <button
-              onClick={(e) => { e.stopPropagation(); setOpen(false); }}
-              className="text-white/30 hover:text-white/70 transition-colors"
-              aria-label="Close"
-            >
-              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
-            </button>
-          </div>
-          <div className="mb-3">
-            <span
-              className="mono text-xs px-2.5 py-1 rounded-full"
-              style={{ background: `${labelColor}18`, color: labelColor, border: `1px solid ${labelColor}40` }}
-            >
-              {label}
-            </span>
-          </div>
-          <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
-            {desc}
-          </p>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -3876,31 +3807,31 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
                 <a href="mailto:ebora.kimivan@gmail.com" className="hover:text-[#D71921] transition-colors px-1">email</a>
               </div>
 
-              {/* Personality pills — click for a little extra */}
+              {/* Personality pills */}
               <div className="flex flex-wrap gap-2">
-                <span className="mono text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5" style={{ border: "1px solid rgba(34,197,94,0.3)", color: "var(--text-secondary)" }}>
+                <span className="mono text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5 transition-transform hover:scale-105 hover:text-white" style={{ border: "1px solid rgba(34,197,94,0.3)", color: "var(--text-secondary)" }}>
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block", animation: "blink-cursor 2s step-end infinite" }} />
                   Looking for opportunities
                 </span>
-                <button onClick={() => setActiveModal("remote")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                <span className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105 hover:text-white" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
                   Open to remote work
-                </button>
-                <button onClick={() => setActiveModal("anime")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(215,25,33,0.4)", color: "var(--text-secondary)" }}>
+                </span>
+                <span className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105 hover:text-white" style={{ border: "1px solid rgba(215,25,33,0.4)", color: "var(--text-secondary)" }}>
                   anime &amp; games
-                </button>
+                </span>
               </div>
 
-              {/* Skill-highlight pills — click for a little extra */}
+              {/* Skill-highlight pills */}
               <div className="flex flex-wrap gap-2 mt-2">
-                <button onClick={() => setActiveModal("aiAssisted")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                <span className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105 hover:text-white" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
                   AI-assisted dev
-                </button>
-                <button onClick={() => setActiveModal("problemSolver")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                </span>
+                <span className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105 hover:text-white" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
                   Problem solver
-                </button>
-                <button onClick={() => setActiveModal("clientReady")} className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
+                </span>
+                <span className="mono text-xs px-2.5 py-1 rounded-full transition-transform hover:scale-105 hover:text-white" style={{ border: "1px solid rgba(138,138,133,0.35)", color: "var(--text-secondary)" }}>
                   Client-ready work
-                </button>
+                </span>
               </div>
             </div>
           </div>
