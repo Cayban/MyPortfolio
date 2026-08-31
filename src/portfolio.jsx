@@ -3971,9 +3971,9 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
                   NC II – Computer Systems Servicing
                 </h3>
-                <span className="mono text-xs flex-shrink-0 flex flex-col sm:items-end" style={{ color: "#22c55e" }}>
-                  Certified
-                  <span className="text-white/30 mt-0.5">July 2026 – September 2026</span>
+                <span className="mono text-xs flex-shrink-0 flex flex-col sm:items-end" style={{ color: "#f59e0b" }}>
+                  Taking
+                  <span className="text-white/30 mt-0.5">Estimated finish: Sept 2026</span>
                 </span>
               </div>
               <p className="text-sm text-white/40">TESDA National Certificate II · Computer Servicing</p>
