@@ -1,16 +1,25 @@
-# React + Vite
+# Kim Ivan Ebora — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Run locally
 
-Currently, two official plugins are available:
+Use Node.js 22.12+ (or 24 LTS). Extract this folder, open a terminal here, and run:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm install
+npm run dev
+```
 
-## React Compiler
+Production build: `npm run build`. Preview: `npm run preview`.
+Configure your web host to serve index.html for client-side routes such as /projects/realm-keeper.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## This update
 
-## Expanding the ESLint configuration
+- Removed the admin page, authentication helpers, and Firestore content editor connection.
+- Projects, experience, and certifications now come from src/content.js.
+- Existing experience and certification remain visible.
+- Added Realm Keeper as the first project with its own responsive detail page, five selectable feature previews, and itch.io links.
+- Realm Keeper screenshots are bundled locally from the owner's itch.io listing.
+- Kept visitor reviews and the freelance enquiry flow.
+- Updated firestore.rules to disable content-management writes. These rules are provided as source only; deploy them through your Firebase project if you want the hosted database rules updated. No remote rules were changed by this archive update.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The source archive excludes node_modules and Git history. Install dependencies once after extracting. The dist folder contains the production build.

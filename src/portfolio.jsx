@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Routes, Route, Link } from "react-router-dom";
-import { initializeApp } from "firebase/app";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import {
-  getFirestore,
   collection,
   addDoc,
   onSnapshot,
@@ -12,32 +10,12 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-// Firebase — used for the public reviews feature (Firestore only, no Analytics needed)
-const firebaseConfig = {
-  apiKey: "AIzaSyCicBy-bdCdORjwfKOos_3FIrsjge7_1hg",
-  authDomain: "kimebora-portfolio.firebaseapp.com",
-  projectId: "kimebora-portfolio",
-  storageBucket: "kimebora-portfolio.firebasestorage.app",
-  messagingSenderId: "214655007851",
-  appId: "1:214655007851:web:a011414ff70bec8203452e",
-};
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
+import { db } from "./firebase";
+import { ExperienceSection } from "./Timeline";
+import { ProjectsSection } from "./Projects";
+import ProjectDetail from "./ProjectDetail";
 
-// KTTM screenshots
-import kttmHome from "./assets/kttmhomeSample3.png";
-import kttmLogin from "./assets/kttmloginSample.png";
-import kttmLogin2 from "./assets/kttmloginSample2.png";
-
-// Castillo Clinic screenshots
-import pedHome from "./assets/pedatricsample.png";
-import pedHome2 from "./assets/pediatricSample2.png";
-import pedHome3 from "./assets/pediatricSample3.png";
 import myImage from "./assets/myimage.jpg";
-import ladLoginSample from "./assets/ladloginSample.png";
-import ladSample2 from "./assets/ladSample2.png";
-import ladSample3 from "./assets/ladSample3.png";
-
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Reviews", "Contact"];
 
 const SKILLS_CAN_DO = [
@@ -109,66 +87,6 @@ const SOFT_SKILLS = [
   { name: "Work Ethic", level: 72, label: "Proficient", desc: "I follow through on commitments and put in the extra effort needed to deliver quality work, even when working under tight timelines." },
 ];
 
-const EXPERIENCE = {
-  role: "OJT Intern",
-  org: "KTTM Office — Batangas State University",
-  duration: "500 Hours · On-the-Job Training",
-  summary: "500 hours immersed in real office operations — handling IP records, building the systems the office actually needed, providing tech support, and picking up my first freelance client along the way.",
-  highlights: [
-    {
-      title: "IP Records & Database System",
-      desc: "Assisted in processing and organizing copyright and intellectual property documents, then helped build the office a proper database system to replace their reliance on Google Sheets and Google Drive — later developed further into the KTTM Records System.",
-      tags: ["Records Management", "Database Design", "Laravel"],
-    },
-    {
-      title: "IT & Technical Support",
-      desc: "Handled day-to-day technical issues around the office — PC formatting, file backups, and troubleshooting software problems — plus produced graphic design work, infographics, and PPT presentations using Canva.",
-      tags: ["Troubleshooting", "Backup & Recovery", "Canva"],
-    },
-    {
-      title: "First Freelance Client",
-      desc: "Gained my first client during the internship — my supervisor's own business. I rebuilt his existing website using the same tech stack from the KTTM system, improved on the original design, and hosted it live as LAD Enterprises.",
-      tags: ["Web Development", "Client Work", "Laravel"],
-    },
-  ],
-};
-
-const PROJECTS = [
-  {
-    title: "LAD Enterprises",
-    desc: "Redesigned and modernized an existing business website for LAD Enterprises — transforming their outdated web presence into a clean, professional, and fully responsive site.",
-    stack: ["PHP Blade", "Laravel"],
-    lang: "Laravel",
-    color: "#D71921",
-    github: null,
-    live: "https://lad-enterprises.com",
-    liveLabel: "lad-enterprises.com",
-    images: [ladLoginSample, ladSample2, ladSample3],
-  },
-  {
-    title: "KTTM Records System",
-    desc: "An office records management system designed to replace manual paperwork and Google Sheets with a structured, reliable digital solution for handling day-to-day records efficiently.",
-    stack: ["PHP Blade", "Laravel"],
-    lang: "Laravel",
-    color: "#9C9C97",
-    github: null,
-    live: null,
-    liveLabel: null,
-    images: [kttmHome, kttmLogin, kttmLogin2],
-  },
-  {
-    title: "Castillo Children Clinic",
-    desc: "A full-featured clinic management system for a pediatric clinic, supporting appointment scheduling, patient record management, and real-time data handling via a smart kiosk integration.",
-    stack: ["React.js", "Tailwind CSS", "Node.js"],
-    lang: "React / Node",
-    color: "#D71921",
-    github: null,
-    live: null,
-    liveLabel: null,
-    images: [pedHome, pedHome2, pedHome3],
-  },
-];
-
 function AnimatedCounter({ target, duration = 1500 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -194,369 +112,15 @@ function AnimatedCounter({ target, duration = 1500 }) {
   return <span ref={ref}>{count}</span>;
 }
 
-function SkillBar({ name, level, label, desc, delay }) {
-  const [animated, setAnimated] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setTimeout(() => setAnimated(true), delay);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [delay]);
-
-  const labelColor = {
-    "Proficient": "#D71921",
-    "Comfortable": "#8A8A85",
-    "Familiar": "#D71921",
-  }[label] || "#D71921";
-
+function SkillBar({ name, label, desc }) {
+  const tone = { Proficient: ["#EDF3EC", "#346538"], Comfortable: ["#E1F3FE", "#1F6C9F"], Familiar: ["#FBF3DB", "#956400"] }[label] || ["#FBF3DB", "#956400"];
   return (
-    <div ref={ref} className="group relative">
-      <div className="w-full text-left">
-        <div className="flex justify-between items-center mb-2">
-          <span className="flex items-center gap-2 text-sm font-medium text-white/80 transition-colors">
-            {name}
-          </span>
-          <div className="flex items-center gap-2">
-            <span
-              className="mono text-xs px-2 py-0.5 rounded-full"
-              style={{ background: `${labelColor}18`, color: labelColor, border: `1px solid ${labelColor}35`, fontSize: "10px" }}
-            >
-              {label}
-            </span>
-          </div>
-        </div>
-        <div className="flex gap-[2px]">
-          {Array.from({ length: 20 }).map((_, i) => {
-            const filled = animated && i < Math.round((level / 100) * 20);
-            return (
-              <span
-                key={i}
-                className="rounded-full transition-colors"
-                style={{
-                  width: "4px",
-                  height: "4px",
-                  flexShrink: 0,
-                  background: filled ? labelColor : "var(--border)",
-                  transitionDuration: "0.5s",
-                  transitionDelay: `${i * 20}ms`,
-                }}
-              />
-            );
-          })}
-        </div>
+    <div className="py-4" style={{ borderBottom: "1px solid var(--border)" }}>
+      <div className="flex items-center justify-between gap-3 mb-1.5">
+        <span className="text-sm font-medium" style={{ color: "var(--text)" }}>{name}</span>
+        <span className="mono uppercase" style={{ background: tone[0], color: tone[1], fontSize: 10, letterSpacing: "0.05em", padding: "2px 8px", borderRadius: 9999 }}>{label}</span>
       </div>
-    </div>
-  );
-}
-
-// Reusable carousel for images
-function ImageCarousel({ images, color, height = 220 }) {
-  const [idx, setIdx] = useState(0);
-  if (!images || images.length === 0) return null;
-  const prev = (e) => { e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length); };
-  const next = (e) => { e.stopPropagation(); setIdx((i) => (i + 1) % images.length); };
-  return (
-    <div className="relative w-full overflow-hidden flex-shrink-0" style={{ height, background: "#07070f" }}>
-      <img
-        src={images[idx]}
-        alt={`screenshot ${idx + 1}`}
-        className="w-full h-full object-cover object-top transition-all duration-500"
-      />
-      <div className="absolute inset-0" style={{ background: `linear-gradient(to top, #0A0A0A 0%, transparent 50%)` }} />
-      {images.length > 1 && (
-        <>
-          <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 opacity-80 hover:opacity-100" style={{ background: "rgba(0,0,0,0.7)", border: `1px solid ${color}50` }}>
-            <svg width="13" height="13" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 opacity-80 hover:opacity-100" style={{ background: "rgba(0,0,0,0.7)", border: `1px solid ${color}50` }}>
-            <svg width="13" height="13" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
-            {images.map((_, i) => (
-              <button key={i} onClick={(e) => { e.stopPropagation(); setIdx(i); }}
-                className="rounded-full transition-all duration-300"
-                style={{ width: i === idx ? "20px" : "6px", height: "6px", background: i === idx ? color : "rgba(255,255,255,0.3)", boxShadow: i === idx ? `0 0 8px ${color}` : "none" }}
-              />
-            ))}
-          </div>
-        </>
-      )}
-      <div className="absolute top-3 right-3 mono text-xs px-2 py-0.5 rounded-md" style={{ background: "rgba(0,0,0,0.65)", color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.1)" }}>
-        {idx + 1} / {images.length}
-      </div>
-    </div>
-  );
-}
-
-// Stacked project card carousel — click a background card to bring it forward,
-// click the front card again to expand it
-function ProjectStack({ projects }) {
-  const [order, setOrder] = useState(projects.map((_, i) => i));
-  const [expanded, setExpanded] = useState(false);
-
-  const handleClick = (pos) => {
-    if (pos === 0) {
-      setExpanded((e) => !e);
-    } else {
-      setOrder((prev) => {
-        const next = [...prev];
-        const [id] = next.splice(pos, 1);
-        next.unshift(id);
-        return next;
-      });
-      setExpanded(false);
-    }
-  };
-
-  return (
-    <div className="relative mx-auto" style={{ width: "100%", maxWidth: 440, height: expanded ? 360 : 300 }}>
-      {order.map((idx, pos) => {
-        const p = projects[idx];
-        const isFront = pos === 0;
-        const tx = pos === 0 ? 0 : pos === 1 ? 28 : -28;
-        const ty = pos === 0 ? 0 : pos === 1 ? 16 : 26;
-        const rot = pos === 0 ? 0 : pos === 1 ? 5 : -5;
-        const scale = isFront ? (expanded ? 1.02 : 1) : pos === 1 ? 0.93 : 0.87;
-        const op = isFront ? 1 : pos === 1 ? 0.75 : 0.55;
-        const z = 10 - pos;
-        return (
-          <div
-            key={idx}
-            onClick={() => handleClick(pos)}
-            role="button"
-            tabIndex={0}
-            aria-label={isFront ? `${p.title}, expand for details` : `${p.title}, bring to front`}
-            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleClick(pos); }}
-            className="absolute top-0 left-0 w-full rounded-2xl cursor-pointer"
-            style={{
-              height: isFront ? (expanded ? 340 : 260) : 190,
-              transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${scale})`,
-              zIndex: z,
-              opacity: op,
-              transition: "transform 0.45s cubic-bezier(0.34,1.2,0.4,1), opacity 0.35s ease, height 0.3s ease",
-              background: "var(--surface-solid)",
-              border: "1px solid var(--border)",
-              padding: isFront ? "1.5rem" : "1.1rem",
-              boxSizing: "border-box",
-              overflow: "hidden",
-              outline: "none",
-            }}
-          >
-            {isFront ? (
-              <>
-                <p className="text-lg font-bold text-white mb-1.5">{p.title}</p>
-                <p
-                  className="text-sm leading-relaxed mb-3"
-                  style={{
-                    color: "var(--text-secondary)",
-                    display: expanded ? "block" : "-webkit-box",
-                    WebkitLineClamp: expanded ? "unset" : 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {p.desc}
-                </p>
-                {expanded ? (
-                  <>
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {p.stack.map((s) => (
-                        <span key={s} className="mono text-xs px-2.5 py-1 rounded-full" style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}>
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                    {p.live && (
-                      <a
-                        href={p.live}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="mono text-xs"
-                        style={{ color: p.color }}
-                      >
-                        {p.liveLabel} ↗
-                      </a>
-                    )}
-                  </>
-                ) : (
-                  <p className="mono text-xs" style={{ color: "var(--text-muted)" }}>tap to expand</p>
-                )}
-              </>
-            ) : (
-              <>
-                <p className="text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>{p.title}</p>
-              </>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-// Featured (large) project card — used for LAD Enterprises
-function FeaturedCard({ project }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      className="rounded-3xl border overflow-hidden transition-all duration-500 flex flex-col md:flex-row"
-      style={{
-        borderColor: hovered ? project.color + "55" : "var(--border)",
-        background: hovered ? `linear-gradient(135deg, ${project.color}0d, var(--bg-elevated))` : "var(--bg-elevated)",
-        boxShadow: hovered ? `0 30px 80px ${project.color}18` : "none",
-        transform: hovered ? "translateY(-4px)" : "none",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Left — carousel or decorative placeholder */}
-      <div className="md:w-1/2 relative overflow-hidden flex-shrink-0" style={{ minHeight: "280px", background: "#07070f" }}>
-        {project.images && project.images.length > 0 ? (
-          <>
-            {/* Fixed height so ImageCarousel gets a number, not "100%" */}
-            <div className="absolute inset-0">
-              <ImageCarousel images={project.images} color={project.color} height={280} />
-            </div>
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #0A0A0A 0%, transparent 40%)` }} />
-            {project.live && (
-              <div
-                className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
-                style={{ background: "rgba(10,10,10,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
-              >
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
-                  style={{ background: `linear-gradient(135deg, ${project.color}, #8A8A85)`, color: "#000", pointerEvents: "auto" }}
-                >
-                  Visit Site
-                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              </div>
-            )}
-          </>
-        ) : project.screenshot ? (
-          <>
-            <img
-              src={project.screenshot}
-              alt={`${project.title} screenshot`}
-              className="w-full h-full object-cover object-top"
-              style={{ display: "block", minHeight: "280px" }}
-            />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, #0A0A0A 0%, transparent 40%)` }} />
-            {project.live && (
-              <div
-                className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
-                style={{ background: "rgba(10,10,10,0.55)", opacity: hovered ? 1 : 0, pointerEvents: "none" }}
-              >
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
-                  style={{ background: `linear-gradient(135deg, ${project.color}, #8A8A85)`, color: "#000", pointerEvents: "auto" }}
-                >
-                  Visit Site
-                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}18 0%, #0A0A0A 70%)` }} />
-            <div className="absolute inset-0" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,0.015) 30px, rgba(255,255,255,0.015) 31px)" }} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-              <div className="px-4 py-2 rounded-xl mono text-xs" style={{ background: `${project.color}15`, color: project.color, border: `1px solid ${project.color}30` }}>
-                Live Website
-              </div>
-              {project.live && (
-                <a href={project.live} target="_blank" rel="noreferrer"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105"
-                  style={{ background: `linear-gradient(135deg, ${project.color}, #8A8A85)`, color: "#000" }}>
-                  Visit Site
-                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Right — content */}
-      <div className="flex-1 p-8 flex flex-col justify-between">
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <span className="mono text-xs px-2.5 py-1 rounded-full" style={{ background: `${project.color}15`, color: project.color, border: `1px solid ${project.color}30` }}>
-              Featured Project
-            </span>
-            <span className="mono text-xs text-white/25">{project.lang}</span>
-          </div>
-          <h3 className="text-2xl font-extrabold text-white mb-3">{project.title}</h3>
-          <p className="text-white/55 leading-relaxed text-sm mb-6">{project.desc}</p>
-          {project.live && (
-            <p className="mono text-xs mb-6" style={{ color: project.color }}>
-              <a href={project.live} target="_blank" rel="noreferrer" className="hover:underline">{project.liveLabel}</a>
-            </p>
-          )}
-        </div>
-        <div className="flex flex-wrap gap-2 mt-auto">
-          {project.stack.map((s) => (
-            <span key={s} className="mono text-xs px-3 py-1.5 rounded-lg" style={{ background: `${project.color}12`, color: project.color, border: `1px solid ${project.color}28` }}>
-              {s}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Smaller project card — for KTTM and Castillo
-function SmallCard({ project }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      className="rounded-2xl border overflow-hidden transition-all duration-500 flex flex-col"
-      style={{
-        borderColor: hovered ? project.color + "55" : "var(--border)",
-        background: hovered ? `linear-gradient(160deg, ${project.color}0d, var(--bg-elevated))` : "var(--bg-elevated)",
-        boxShadow: hovered ? `0 24px 60px ${project.color}18` : "none",
-        transform: hovered ? "translateY(-5px)" : "none",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <ImageCarousel images={project.images} color={project.color} height={200} />
-
-      <div className="p-6 flex-1 flex flex-col">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="mono text-xs text-white/25">{project.lang}</span>
-          <div className="ml-auto w-2 h-2 rounded-full flex-shrink-0" style={{ background: project.color, boxShadow: `0 0 8px ${project.color}` }} />
-        </div>
-        <h3 className="text-lg font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-sm text-white/50 leading-relaxed mb-5 flex-1">{project.desc}</p>
-        <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
-          {project.stack.map((s) => (
-            <span key={s} className="mono text-xs px-2.5 py-1 rounded-lg" style={{ background: `${project.color}12`, color: project.color, border: `1px solid ${project.color}28` }}>
-              {s}
-            </span>
-          ))}
-        </div>
-      </div>
+      <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{desc}</p>
     </div>
   );
 }
@@ -1867,16 +1431,16 @@ function FeaturePicker({ typeId, typeObj, template, onConfirm, onBack }) {
 
       <div className="flex items-center gap-3 mb-2">
         <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: `linear-gradient(135deg, ${typeObj.color}, #8A8A85)` }}>3</span>
-        <p className="mono text-xs text-white/30 uppercase tracking-widest">Customize Your Features</p>
+        <p className="mono text-xs text-white/50 uppercase tracking-widest">Customize Your Features</p>
       </div>
-      <p className="text-xs text-white/25 mono mb-8 ml-9">
+      <p className="text-xs text-white/45 mono mb-8 ml-9">
         {typeObj.icon} {typeObj.label} — <span style={{ color: typeObj.color }}>{template.name}</span> template
       </p>
 
       {/* ── BASE FEATURES (always included) ── */}
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-3">
-          <span className="mono text-xs uppercase tracking-widest text-white/30">Always Included</span>
+          <span className="mono text-xs uppercase tracking-widest text-white/50">Always Included</span>
           <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
           <span className="mono text-xs px-2 py-0.5 rounded-full" style={{ background: `${typeObj.color}15`, color: typeObj.color, border: `1px solid ${typeObj.color}25` }}>
             {template.baseFeatures.length} features
@@ -1900,9 +1464,9 @@ function FeaturePicker({ typeId, typeObj, template, onConfirm, onBack }) {
       {/* ── ADD-ON FEATURES (optional) ── */}
       <div className={`mb-6 transition-opacity duration-300 ${contactOnly ? "opacity-30 pointer-events-none" : ""}`}>
         <div className="flex items-center gap-2 mb-3">
-          <span className="mono text-xs uppercase tracking-widest text-white/30">Optional Add-ons</span>
+          <span className="mono text-xs uppercase tracking-widest text-white/50">Optional Add-ons</span>
           <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
-          <span className="mono text-xs text-white/25">{selectedAddons.size} selected</span>
+          <span className="mono text-xs text-white/45">{selectedAddons.size} selected</span>
         </div>
         <div className="grid md:grid-cols-2 gap-2.5">
           {addons.map((f) => {
@@ -1983,12 +1547,12 @@ function QuoteModal({ template, typeObj, selectedAddons, contactOnly, onClose })
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 30 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="w-full max-w-md rounded-3xl overflow-hidden"
+        className="w-full max-w-md rounded-xl overflow-hidden"
         style={{ background: "#0d0d1a", border: `1px solid ${accent}40` }}>
 
         <div className="px-8 pt-8 pb-6" style={{ background: `linear-gradient(135deg, ${accent}18, rgba(255,255,255,0.02))` }}>
           <div className="flex items-center justify-between mb-4">
-            <span className="mono text-xs text-white/30 uppercase tracking-widest">Quote Summary</span>
+            <span className="mono text-xs text-white/50 uppercase tracking-widest">Quote Summary</span>
             <button onClick={onClose} className="w-7 h-7 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all">
               <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -2015,13 +1579,13 @@ function QuoteModal({ template, typeObj, selectedAddons, contactOnly, onClose })
             <div className="text-center py-4">
               <p className="text-2xl mb-2">✉️</p>
               <p className="text-sm text-white/55">You've chosen to discuss features directly via email.</p>
-              <p className="text-xs text-white/30 mt-1 mono">Kim will get back to you within 24 hours.</p>
+              <p className="text-xs text-white/50 mt-1 mono">Kim will get back to you within 24 hours.</p>
             </div>
           ) : (
             <div className="space-y-5 max-h-52 overflow-y-auto pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: `${accent}40 transparent` }}>
               {/* Base features */}
               <div>
-                <p className="mono text-xs text-white/30 uppercase tracking-widest mb-2">Always Included</p>
+                <p className="mono text-xs text-white/50 uppercase tracking-widest mb-2">Always Included</p>
                 <div className="space-y-1.5">
                   {template.baseFeatures.map((f, i) => (
                     <div key={i} className="flex items-center gap-2 text-sm text-white/55">
@@ -2036,7 +1600,7 @@ function QuoteModal({ template, typeObj, selectedAddons, contactOnly, onClose })
               {/* Add-ons */}
               {addonLabels.length > 0 && (
                 <div>
-                  <p className="mono text-xs text-white/30 uppercase tracking-widest mb-2">Add-ons Selected</p>
+                  <p className="mono text-xs text-white/50 uppercase tracking-widest mb-2">Add-ons Selected</p>
                   <div className="space-y-1.5">
                     {addonLabels.map((label) => (
                       <div key={label} className="flex items-center gap-2 text-sm" style={{ color: accent }}>
@@ -2050,7 +1614,7 @@ function QuoteModal({ template, typeObj, selectedAddons, contactOnly, onClose })
                 </div>
               )}
               {addonLabels.length === 0 && (
-                <p className="text-xs text-white/25 mono italic">No add-ons selected — base package only.</p>
+                <p className="text-xs text-white/45 mono italic">No add-ons selected — base package only.</p>
               )}
             </div>
           )}
@@ -2289,7 +1853,7 @@ function TemplateExplorer({ tmpl, allTemplates, onClose, onPick }) {
       {/* Bottom bar — template name + index */}
       <div className="flex items-center justify-between px-5 py-3 flex-shrink-0"
         style={{ borderTop: "1px solid rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.4)" }}>
-        <p className="mono text-xs text-white/30">
+        <p className="mono text-xs text-white/50">
           {tmplIdx + 1} / {allTemplates.length} templates · Press ← → to navigate
         </p>
         <p className="mono text-xs font-semibold" style={{ color: accent }}>
@@ -2359,7 +1923,7 @@ export function ServicesSection() {
 
           {/* Header */}
           <div className="mb-14">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">04 / Services</span>
+            <span className="mono text-xs text-white/45 tracking-widest uppercase">04 / Services</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span style={{ color: "var(--text)" }}>Get a </span>
               <span className="gradient-text">Quote</span>
@@ -2383,7 +1947,7 @@ export function ServicesSection() {
               {/* ── STEP 1: Choose premade vs custom ── */}
               {step === "choose" && (
                 <motion.div key="choose" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }} className="grid md:grid-cols-2 gap-5">
-                  <button onClick={() => setStep("premade-type")} className="text-left rounded-2xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(215,25,33,0.25)", background: "linear-gradient(135deg, rgba(215,25,33,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(215,25,33,0.06)" }}>
+                  <button onClick={() => setStep("premade-type")} className="text-left rounded-xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(215,25,33,0.25)", background: "linear-gradient(135deg, rgba(215,25,33,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(215,25,33,0.06)" }}>
                     <div className="text-4xl mb-4">🎨</div>
                     <p className="font-extrabold text-white text-xl mb-2">Premade Design</p>
                     <p className="text-sm text-white/45 leading-relaxed mb-5">Choose from 3 ready-made templates per website type. Fixed pricing, faster delivery.</p>
@@ -2397,7 +1961,7 @@ export function ServicesSection() {
                     </div>
                   </button>
 
-                  <button onClick={() => setStep("custom")} className="text-left rounded-2xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(138,138,133,0.25)", background: "linear-gradient(135deg, rgba(138,138,133,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(138,138,133,0.06)" }}>
+                  <button onClick={() => setStep("custom")} className="text-left rounded-xl border p-8 transition-all duration-300 hover:scale-[1.01] group" style={{ borderColor: "rgba(138,138,133,0.25)", background: "linear-gradient(135deg, rgba(138,138,133,0.06), rgba(255,255,255,0.01))", boxShadow: "0 0 40px rgba(138,138,133,0.06)" }}>
                     <div className="text-4xl mb-4">⚡</div>
                     <p className="font-extrabold text-white text-xl mb-2">Custom Design</p>
                     <p className="text-sm text-white/45 leading-relaxed mb-5">Have a unique vision? Let's discuss your exact requirements and build something from scratch.</p>
@@ -2416,7 +1980,7 @@ export function ServicesSection() {
               {/* ── STEP 2: Pick website type ── */}
               {step === "premade-type" && (
                 <motion.div key="premade-type" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }}>
-                  <p className="mono text-xs text-white/30 uppercase tracking-widest mb-6 flex items-center gap-3">
+                  <p className="mono text-xs text-white/50 uppercase tracking-widest mb-6 flex items-center gap-3">
                     <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: "linear-gradient(135deg,#D71921,#8A8A85)" }}>1</span>
                     What kind of website do you need?
                   </p>
@@ -2424,7 +1988,7 @@ export function ServicesSection() {
                     {WEBSITE_TYPES.map((t) => (
                       <button key={t.id}
                         onClick={() => { setSelectedWebType(t.id); setStep("premade-templates"); }}
-                        className="text-left rounded-2xl border p-5 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1"
+                        className="text-left rounded-xl border p-5 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1"
                         style={{ borderColor: t.color + "35", background: `linear-gradient(135deg, ${t.color}08, rgba(255,255,255,0.01))` }}>
                         <div className="text-3xl mb-3">{t.icon}</div>
                         <p className="font-bold text-white text-sm mb-2 leading-tight">{t.label}</p>
@@ -2441,15 +2005,15 @@ export function ServicesSection() {
               {/* ── STEP 3: Pick template ── */}
               {step === "premade-templates" && typeObj && (
                 <motion.div key="premade-templates" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }}>
-                  <p className="mono text-xs text-white/30 uppercase tracking-widest mb-2 flex items-center gap-3">
+                  <p className="mono text-xs text-white/50 uppercase tracking-widest mb-2 flex items-center gap-3">
                     <span className="w-6 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs flex-shrink-0" style={{ background: "linear-gradient(135deg,#D71921,#8A8A85)" }}>2</span>
                     {typeObj.icon} {typeObj.label} — Pick a Template
                   </p>
-                  <p className="text-xs text-white/25 mono mb-8 ml-9">Choose the package that fits your needs and budget.</p>
+                  <p className="text-xs text-white/45 mono mb-8 ml-9">Choose the package that fits your needs and budget.</p>
                   <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
                     {templates.map((tmpl) => (
                       <motion.div key={tmpl.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}
-                        className="rounded-2xl border overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
+                        className="rounded-xl border overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
                         style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
                         <TemplatePreview tmpl={tmpl} />
 
@@ -2480,10 +2044,10 @@ export function ServicesSection() {
 
                           <div className="flex items-center justify-between mb-4 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
                             <div>
-                              <p className="mono text-xs text-white/25">Base price</p>
+                              <p className="mono text-xs text-white/45">Base price</p>
                               <p className="mono font-extrabold text-xl" style={{ color: tmpl.accent }}>₱{tmpl.price.toLocaleString()}</p>
                             </div>
-                            <p className="mono text-xs text-white/30">{typeObj.deliveryDays} days</p>
+                            <p className="mono text-xs text-white/50">{typeObj.deliveryDays} days</p>
                           </div>
 
                           <div className="flex gap-2">
@@ -2526,7 +2090,7 @@ export function ServicesSection() {
               {/* ── Custom ── */}
               {step === "custom" && (
                 <motion.div key="custom" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }} transition={{ duration: 0.45, ease: [0.4, 0.2, 0.2, 1] }} className="max-w-xl mx-auto">
-                  <div className="rounded-3xl p-8 md:p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(138,138,133,0.08), rgba(215,25,33,0.04))", border: "1px solid rgba(138,138,133,0.25)" }}>
+                  <div className="rounded-xl p-8 md:p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(138,138,133,0.08), rgba(215,25,33,0.04))", border: "1px solid rgba(138,138,133,0.25)" }}>
                     <div className="text-5xl mb-5">⚡</div>
                     <h3 className="text-2xl font-extrabold text-white mb-3">Let's Build Something Custom</h3>
                     <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-sm mx-auto">Have a unique idea or specific requirements? Send me an email and we'll discuss the details — layout, features, timeline, and pricing.</p>
@@ -2535,7 +2099,7 @@ export function ServicesSection() {
                       style={{ background: "linear-gradient(135deg, #8A8A85, #D71921)", boxShadow: "0 0 40px rgba(138,138,133,0.2)" }}>
                       ✉️ ebora.kimivan@gmail.com
                     </a>
-                    <p className="mt-6 text-xs text-white/25 mono">I'll get back to you within 24 hours.</p>
+                    <p className="mt-6 text-xs text-white/45 mono">I'll get back to you within 24 hours.</p>
                   </div>
                 </motion.div>
               )}
@@ -2711,7 +2275,7 @@ function PersonalityModal({ modalKey, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.88, y: 24 }}
           transition={{ type: "spring", stiffness: 320, damping: 28 }}
-          className="w-full max-w-lg rounded-3xl overflow-hidden"
+          className="w-full max-w-lg rounded-xl overflow-hidden"
           style={{
             background: "rgba(10, 10, 24, 0.98)",
             border: `1px solid ${data.accentBorder}`,
@@ -3299,7 +2863,7 @@ function ReviewsSection() {
         <div className="grid md:grid-cols-2 gap-10">
           {/* Form */}
           <div>
-            <form onSubmit={handleSubmit} className="rounded-2xl p-6 md:p-7" style={{ background: "var(--surface-solid)", border: "1px solid var(--border)" }}>
+            <form onSubmit={handleSubmit} className="rounded-xl p-6 md:p-7" style={{ background: "var(--surface-solid)", border: "1px solid var(--border)" }}>
               {/* Honeypot — hidden from real users, bots tend to fill every field */}
               <input
                 type="text"
@@ -3430,8 +2994,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
           index += 1;
           timeoutId = setTimeout(step, 90);
         } else {
-          deleting = true;
-          timeoutId = setTimeout(step, 1200);
+          
         }
       } else {
         if (index > 0) {
@@ -3462,7 +3025,6 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
   // Monthly visit count — real, via a free public counter API.
   // "Viewing now" is simulated (no backend/presence service wired up yet).
   const [monthlyVisits, setMonthlyVisits] = useState(null);
-  const [viewingNow, setViewingNow] = useState(3);
 
   useEffect(() => {
     const monthKey = new Date().toISOString().slice(0, 7); // YYYY-MM
@@ -3470,13 +3032,6 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
       .then((r) => r.json())
       .then((data) => setMonthlyVisits(data?.count ?? null))
       .catch(() => setMonthlyVisits(null));
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setViewingNow((v) => Math.max(1, Math.min(9, v + (Math.random() > 0.5 ? 1 : -1))));
-    }, 9000);
-    return () => clearInterval(id);
   }, []);
 
   return (
@@ -3570,7 +3125,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         @keyframes photo-ring { 0%,100%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
         @keyframes code-card-float { 0%,100%{transform:translate(0,0) rotate(-2deg)} 50%{transform:translate(-4px,-8px) rotate(-2deg)} }
         @keyframes git-badge-float { 0%,100%{transform:translate(0,0) rotate(1deg)} 50%{transform:translate(5px,6px) rotate(1deg)} }
-        .float-anim { animation: float 7s ease-in-out infinite; }
+        .float-anim { animation: none; }
         .gradient-text {
           color: #D71921;
         }
@@ -3593,6 +3148,8 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         .corner-tag::before { top: -1px; left: -1px; border-top: 1px solid #D71921; border-left: 1px solid #D71921; }
         .corner-tag::after { bottom: -1px; right: -1px; border-bottom: 1px solid #D71921; border-right: 1px solid #D71921; }
         .mono { font-family: 'Space Mono', monospace; }
+        h1, section h2 { font-family: 'DotGothic16', 'Space Grotesk', sans-serif; font-weight: 400 !important; letter-spacing: -0.01em; line-height: 1.1; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
         .stagger-1 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.1s; }
         .stagger-2 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.3s; }
         .stagger-3 { animation: fade-slide-up 0.55s ease both; animation-delay: 0.5s; }
@@ -3602,15 +3159,15 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
         .stagger-7 { animation: fade-slide-up 0.55s ease both; animation-delay: 1.3s; }
         .cursor-blink { animation: blink-cursor 1s step-end infinite; }
         .badge-float-in { animation: badge-float-in 0.5s ease forwards; }
-        .photo-ring-spin { animation: photo-ring 18s linear infinite; }
-        .photo-card { animation: float 6s ease-in-out infinite; }
-        .code-card-anim { animation: badge-float-in 0.5s ease forwards 1.1s, code-card-float 7s ease-in-out 2s infinite; opacity:0; }
-        .git-badge-anim { animation: badge-float-in 0.5s ease forwards 2.5s, git-badge-float 8s ease-in-out 3.3s infinite; opacity:0; }
+        .photo-ring-spin { animation: none; }
+        .photo-card { animation: none; }
+        .code-card-anim { animation: badge-float-in 0.5s ease forwards 1.1s; opacity:0; }
+        .git-badge-anim { animation: badge-float-in 0.5s ease forwards 2.5s; opacity:0; }
         .tech-badge-item { opacity: 0; }
-        .tech-b1 { animation: badge-float-in 0.5s ease forwards 0.4s, float-b1 6s ease-in-out 1.2s infinite; }
-        .tech-b2 { animation: badge-float-in 0.5s ease forwards 0.7s, float-b2 7s ease-in-out 1.5s infinite; }
-        .tech-b3 { animation: badge-float-in 0.5s ease forwards 1.0s, float-b3 8s ease-in-out 1.8s infinite; }
-        .tech-b4 { animation: badge-float-in 0.5s ease forwards 1.3s, float-b4 6.5s ease-in-out 2.1s infinite; }
+        .tech-b1 { animation: badge-float-in 0.5s ease forwards 0.4s; }
+        .tech-b2 { animation: badge-float-in 0.5s ease forwards 0.7s; }
+        .tech-b3 { animation: badge-float-in 0.5s ease forwards 1.0s; }
+        .tech-b4 { animation: badge-float-in 0.5s ease forwards 1.3s; }
         @media (max-width: 768px) {
           .code-card-anim {
             top: 10px !important;
@@ -3647,11 +3204,6 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
       `}</style>
 
       {/* Ambient orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(138,138,133,0.12), transparent)", top: "8%", left: "2%", filter: "blur(80px)" }} />
-        <div className="absolute w-80 h-80 rounded-full" style={{ background: "radial-gradient(circle, rgba(138,138,133,0.09), transparent)", top: "55%", right: "3%", filter: "blur(80px)" }} />
-        <div className="absolute w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(215,25,33,0.06), transparent)", bottom: "15%", left: "38%", filter: "blur(60px)" }} />
-      </div>
 
       {/* SIDEBAR (desktop) */}
       <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 z-40" style={{ width: "248px", borderRight: "1px solid var(--border)", background: "var(--bg)", padding: "28px 20px" }}>
@@ -3678,10 +3230,6 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
 
         {/* Visit stats */}
         <div className="mono text-xs mb-4" style={{ color: "var(--text-muted)" }}>
-          <div className="flex items-center gap-2 mb-1">
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#D71921", display: "inline-block", animation: "blink-cursor 2s step-end infinite" }} />
-            <span>{viewingNow} viewing today</span>
-          </div>
           <div>{monthlyVisits !== null ? monthlyVisits.toLocaleString() : "—"} visits this month</div>
         </div>
 
@@ -3694,7 +3242,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
             className="flex items-center justify-center transition-all duration-200 hover:bg-white/5"
             style={{ width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", color: "var(--text-muted)", background: "transparent", cursor: "pointer" }}
           >
-            ⏱
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>
           </button>
         </div>
 
@@ -3720,7 +3268,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
               className="flex items-center justify-center transition-all duration-200 hover:bg-white/5"
               style={{ width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", color: "var(--text-muted)", background: "transparent", cursor: "pointer" }}
             >
-              ⏱
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>
             </button>
             <button className="text-white/70 hover:text-white" onClick={() => setMenuOpen(!menuOpen)}>
               <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -3743,7 +3291,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
               Let's Work Together
             </Link>
             <div className="mono text-xs pt-3 flex items-center justify-between" style={{ color: "var(--text-muted)" }}>
-              <span>{viewingNow} viewing today</span>
+              <span>Monthly visits</span>
               <span>{monthlyVisits !== null ? monthlyVisits.toLocaleString() : "—"} this month</span>
             </div>
             <a
@@ -3863,7 +3411,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
       <section id="skills" className="relative py-24">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-16">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">02 — Skills</span>
+            <span className="mono text-xs text-white/45 tracking-widest uppercase">02 — Skills</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span style={{ color: "var(--text)" }}>What I </span>
               <span className="gradient-text">Can Do</span>
@@ -3873,7 +3421,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
           <div className="grid md:grid-cols-2 gap-14">
             {/* Proficiency bars */}
             <div>
-              <h3 className="mono text-xs text-white/30 uppercase tracking-widest mb-8 flex items-center gap-3">
+              <h3 className="mono text-xs text-white/50 uppercase tracking-widest mb-8 flex items-center gap-3">
                 <span className="w-6 h-px bg-[#D71921]/50" /> Technical Skills
               </h3>
               <div className="space-y-5">
@@ -3884,7 +3432,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
 
               {/* Tech tags */}
               <div className="mt-8 pt-6 border-t border-white/5">
-                <p className="mono text-xs text-white/25 uppercase tracking-widest mb-4">Technologies &amp; Tools</p>
+                <p className="mono text-xs text-white/45 uppercase tracking-widest mb-4">Technologies &amp; Tools</p>
                 <div className="flex flex-wrap gap-2">
                   {TECH_TAGS.map((t) => (
                     <span key={t} className="mono text-xs px-3 py-1.5 rounded-lg text-white/60 hover:text-white transition-colors" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
@@ -3897,7 +3445,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
 
             {/* Non-technical skills */}
             <div>
-              <h3 className="mono text-xs text-white/30 uppercase tracking-widest mb-8 flex items-center gap-3">
+              <h3 className="mono text-xs text-white/50 uppercase tracking-widest mb-8 flex items-center gap-3">
                 <span className="w-6 h-px bg-[#8A8A85]/50" /> Non-Technical Skills
               </h3>
               <div className="space-y-5">
@@ -3908,11 +3456,11 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
 
               {/* Quote — aligned with Technologies on the other column */}
               <div className="mt-8 pt-6 border-t border-white/5">
-                <div className="glass rounded-2xl p-6" style={{ border: "1px solid rgba(215,25,33,0.1)" }}>
+                <div className="glass rounded-xl p-6" style={{ border: "1px solid rgba(215,25,33,0.1)" }}>
                   <p className="text-sm text-white/45 leading-relaxed italic">
                     "I believe learning never stops. I'm always open to learning new tools, improving my skills, and exploring better ways to grow and contribute to every project."
                   </p>
-                  <p className="mt-3 mono text-xs text-white/25">— Kim Ivan Ebora</p>
+                  <p className="mt-3 mono text-xs text-white/45">— Kim Ivan Ebora</p>
                 </div>
               </div>
             </div>
@@ -3921,93 +3469,10 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
       </section>
 
       {/* ── EXPERIENCE & CERTIFICATION ── */}
-      <section id="experience" className="relative py-24">
-        <div className="absolute inset-0 dot-bg opacity-40" />
-        <div className="max-w-6xl mx-auto px-6 relative">
-          <div className="mb-16">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">03 — Experience &amp; Certification</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
-              <span style={{ color: "var(--text)" }}>Where I've </span>
-              <span className="gradient-text">Worked</span>
-            </h2>
-            <p className="text-white/40 mt-3 max-w-xl text-sm leading-relaxed">
-              {EXPERIENCE.summary}
-            </p>
-          </div>
-
-          <div className="max-w-3xl relative pl-9">
-            {/* Vertical line */}
-            <div className="absolute left-[7px] top-2 bottom-2 w-px" style={{ background: "var(--border)" }} />
-
-            {/* Milestone: OJT Internship */}
-            <div className="relative pb-14">
-              <span className="absolute -left-9 top-1.5 w-3.5 h-3.5 rounded-full" style={{ background: "#D71921", border: "3px solid var(--bg)" }} />
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  {EXPERIENCE.role}
-                </h3>
-                <span className="mono text-xs flex-shrink-0 flex flex-col sm:items-end" style={{ color: "#D71921" }}>
-                  {EXPERIENCE.duration}
-                  <span className="text-white/30 mt-0.5">Feb 2026 – May 2026</span>
-                </span>
-              </div>
-              <p className="text-sm text-white/40 mb-3">{EXPERIENCE.org}</p>
-              <ul className="space-y-2.5">
-                {EXPERIENCE.highlights.map((h) => (
-                  <li key={h.title} className="text-sm leading-relaxed flex items-start gap-2.5" style={{ color: "var(--text-secondary)" }}>
-                    <span className="flex-shrink-0 mt-2 w-1.5 h-1.5 rounded-full" style={{ background: "#D71921" }} />
-                    <span>
-                      <span className="text-white/80 font-medium">{h.title}.</span> {h.desc}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Milestone: Certification */}
-            <div className="relative pb-2">
-              <span className="absolute -left-9 top-1.5 w-3.5 h-3.5 rounded-full flex items-center justify-center" style={{ background: "#22c55e", border: "3px solid var(--bg)" }} />
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  NC II – Computer Systems Servicing
-                </h3>
-                <span className="mono text-xs flex-shrink-0 flex flex-col sm:items-end" style={{ color: "#22c55e" }}>
-                  Passed
-                  <span className="text-white/30 mt-0.5">September 2026</span>
-                </span>
-              </div>
-              <p className="text-sm text-white/40">TESDA National Certificate II · Computer Servicing</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ExperienceSection />
 
       {/* ── PROJECTS ── */}
-      <section id="projects" className="relative py-24">
-        <div className="absolute inset-0 grid-bg opacity-40" />
-        <div className="max-w-6xl mx-auto px-6 relative">
-          <div className="mb-16">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">04 — Projects</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
-              <span style={{ color: "var(--text)" }}>Things I've </span>
-              <span className="gradient-text">Built</span>
-            </h2>
-            <p className="text-white/40 mt-3 max-w-xl text-sm leading-relaxed">
-              A collection of real-world projects developed for businesses, offices, and clinics — each solving a genuine problem with practical technology.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-5">
-            {/* Featured card — LAD Enterprises */}
-            <FeaturedCard project={PROJECTS[0]} />
-            {/* Two smaller cards */}
-            <div className="grid md:grid-cols-2 gap-5">
-              <SmallCard project={PROJECTS[1]} />
-              <SmallCard project={PROJECTS[2]} />
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProjectsSection />
 
       <ReviewsSection />
 
@@ -4015,7 +3480,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
       <section id="contact" className="relative py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-16 text-center">
-            <span className="mono text-xs text-white/25 tracking-widest uppercase">06 — Contact</span>
+            <span className="mono text-xs text-white/45 tracking-widest uppercase">06 — Contact</span>
             <h2 className="text-4xl md:text-5xl font-extrabold mt-2">
               <span style={{ color: "var(--text)" }}>Let's </span>
               <span className="gradient-text">Connect</span>
@@ -4045,7 +3510,7 @@ function HomePage({ theme, resolvedTheme, onToggleTheme }) {
               display: grid;
               grid-template-columns: 1fr 1fr;
               gap: 0;
-              border-radius: 2rem;
+              border-radius: 12px;
               overflow: hidden;
               border: 1px solid rgba(255,255,255,0.07);
             }
@@ -4382,6 +3847,8 @@ function FreelancePage({ theme, resolvedTheme, onToggleTheme }) {
           border-bottom: 1px solid var(--border);
         }
         .mono { font-family: 'Space Mono', monospace; }
+        h1, section h2 { font-family: 'DotGothic16', 'Space Grotesk', sans-serif; font-weight: 400 !important; letter-spacing: -0.01em; line-height: 1.1; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
       `}</style>
 
       {/* Ambient orbs */}
@@ -4454,7 +3921,9 @@ function PortfolioApp() {
   return (
     <Routes>
       <Route path="/" element={<HomePage theme={themePref} resolvedTheme={resolvedTheme} onToggleTheme={setThemeAnimated} />} />
+      <Route path="/projects/:slug" element={<ProjectDetail theme={resolvedTheme} />} />
       <Route path="/freelance" element={<FreelancePage theme={themePref} resolvedTheme={resolvedTheme} onToggleTheme={setThemeAnimated} />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
